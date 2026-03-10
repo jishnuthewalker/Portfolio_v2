@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700;900&display=swap');
 @import "tailwindcss";
 
+/* Tailwind v4 CSS-first theme — overrides --font-mono, adds --font-display */
+@theme {
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+  --font-display: "Inter", sans-serif;
+}
+
 :root {
   /* Analogous palette: purple → pink */
   --ana-1:        hsl(277, 67.5%, 67%);

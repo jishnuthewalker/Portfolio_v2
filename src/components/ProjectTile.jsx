@@ -34,7 +34,6 @@ export function ProjectTile({ project, dimmed = false }) {
     <motion.div
       style={{
         background: c.bg,
-        borderColor: c.border,
         borderWidth: '1px',
         borderStyle: 'solid',
         '--tile-chrome': c.chrome,
@@ -45,11 +44,11 @@ export function ProjectTile({ project, dimmed = false }) {
       animate={{
         opacity: dimmed ? 0.2 : 1,
         filter: dimmed ? 'grayscale(1)' : 'grayscale(0)',
+        borderColor: hovered ? c.title : c.border,
       }}
       transition={{ duration: 0.25 }}
       onMouseEnter={() => { setHovered(true); handleMouseEnterScramble() }}
       onMouseLeave={() => setHovered(false)}
-      whileHover={{ borderColor: c.title }}
     >
       {/* Arrow — translates on hover */}
       <span

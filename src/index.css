@@ -90,3 +90,10 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Responsive: collapse 4-col to 2-col on small screens */
+@media (max-width: 640px) {
+  body {
+    padding: 16px;
+  }
+}

@@ -101,7 +101,7 @@ export function ProjectsSection() {
       </motion.div>
 
       {/* Featured row: large left + stacked right */}
-      <div className="grid gap-2.5 mb-2.5" style={{ gridTemplateColumns: '1.8fr 1fr' }}>
+      <div className="grid gap-2.5 mb-2.5 grid-cols-1 sm:grid-cols-[1.8fr_1fr]">
         {featured.map((p, i) => (
           <motion.div
             key={p.id}
@@ -127,7 +127,7 @@ export function ProjectsSection() {
       </div>
 
       {/* Small tiles */}
-      <div className="grid grid-cols-4 gap-2.5">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
         {small.map((p, i) => (
           <motion.div
             key={p.id}

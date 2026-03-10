@@ -1,68 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700;900&display=swap');
+@import "tailwindcss";
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* Analogous palette: purple → pink */
+  --ana-1:        hsl(277, 67.5%, 67%);
+  --ana-1-dark:   hsl(277, 65%, 32%);
+  --ana-1-chrome: hsl(277, 38%, 70%);
+  --ana-1-tag:    hsl(277, 33%, 56%);
+  --ana-1-bg:     hsl(277, 52%, 93%);
+  --ana-1-border: hsl(277, 42%, 80%);
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --ana-2:        hsl(258, 72.6%, 31.8%);
+  --ana-2-chrome: hsl(258, 32%, 62%);
+  --ana-2-tag:    hsl(258, 30%, 48%);
+  --ana-2-bg:     hsl(258, 38%, 93%);
+  --ana-2-border: hsl(258, 38%, 78%);
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --ana-3:        hsl(264, 45%, 41.1%);
+  --ana-3-chrome: hsl(264, 28%, 62%);
+  --ana-3-tag:    hsl(264, 26%, 48%);
+  --ana-3-bg:     hsl(264, 33%, 93%);
+  --ana-3-border: hsl(264, 33%, 78%);
+
+  --ana-4:        hsl(290, 42%, 49.8%);
+  --ana-4-dark:   hsl(290, 50%, 28%);
+  --ana-4-chrome: hsl(290, 26%, 64%);
+  --ana-4-tag:    hsl(290, 28%, 48%);
+  --ana-4-bg:     hsl(290, 30%, 93%);
+  --ana-4-border: hsl(290, 33%, 78%);
+
+  --ana-5:        hsl(307, 44.6%, 68.9%);
+  --ana-5-dark:   hsl(307, 52%, 32%);
+  --ana-5-chrome: hsl(307, 28%, 64%);
+  --ana-5-tag:    hsl(307, 30%, 50%);
+  --ana-5-bg:     hsl(307, 33%, 93%);
+  --ana-5-border: hsl(307, 36%, 80%);
+
+  --ana-6:        hsl(333, 75.4%, 92.1%);
+  --ana-6-dark:   hsl(333, 60%, 32%);
+  --ana-6-chrome: hsl(333, 34%, 68%);
+  --ana-6-tag:    hsl(333, 36%, 52%);
+  --ana-6-bg:     hsl(333, 52%, 95%);
+  --ana-6-border: hsl(333, 42%, 84%);
+
+  --ana-7:        hsl(320, 46%, 54%);
+  --ana-7-dark:   hsl(320, 52%, 28%);
+  --ana-7-chrome: hsl(320, 30%, 66%);
+  --ana-7-tag:    hsl(320, 32%, 50%);
+  --ana-7-bg:     hsl(320, 36%, 93%);
+  --ana-7-border: hsl(320, 38%, 80%);
+
+  --accent:          var(--ana-1-dark);
+  --accent-tint-04:  hsl(277, 65%, 32%, 0.04);
+  --accent-tint-08:  hsl(277, 65%, 32%, 0.08);
+  --accent-tint-30:  hsl(277, 65%, 32%, 0.30);
+  --accent-tint-35:  hsl(277, 65%, 32%, 0.35);
+  --terminal-green:  #28c840;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  background-color: #F7F4EE;
+  background-image:
+    linear-gradient(#e0ddd6 1px, transparent 1px),
+    linear-gradient(90deg, #e0ddd6 1px, transparent 1px);
+  background-size: 20px 20px;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #1a1a1a;
   min-height: 100vh;
+  padding: 34px;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+@keyframes statusPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(40, 200, 64, 0.5); }
+  50%       { box-shadow: 0 0 0 5px rgba(40, 200, 64, 0); }
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

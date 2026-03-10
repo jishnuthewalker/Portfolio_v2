@@ -32,6 +32,10 @@ export function ProjectTile({ project, dimmed = false }) {
 
   return (
     <motion.div
+      role="button"
+      tabIndex={0}
+      aria-label={`View ${project.title} project`}
+      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { /* future: open project */ } }}
       style={{
         background: c.bg,
         borderWidth: '1px',
@@ -44,7 +48,7 @@ export function ProjectTile({ project, dimmed = false }) {
       animate={{
         opacity: dimmed ? 0.2 : 1,
         filter: dimmed ? 'grayscale(1)' : 'grayscale(0)',
-        borderColor: hovered ? c.title : c.border,
+        borderColor: hovered ? c.borderHover : c.borderRest,
       }}
       transition={{ duration: 0.25 }}
       onMouseEnter={() => { setHovered(true); handleMouseEnterScramble() }}
@@ -52,6 +56,7 @@ export function ProjectTile({ project, dimmed = false }) {
     >
       {/* Arrow — translates on hover */}
       <span
+        aria-hidden="true"
         className="absolute top-3 right-3.5 text-[11px] font-mono transition-all duration-200"
         style={{
           color: hovered ? c.title : 'var(--tile-chrome)',

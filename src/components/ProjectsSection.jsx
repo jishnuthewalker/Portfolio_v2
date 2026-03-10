@@ -12,6 +12,7 @@ export function ProjectsSection() {
   const CMD = 'ls ./projects --sort=featured'
 
   useEffect(() => {
+    let cancelled = false
     // Tiles + filter row start cascading 300ms after typewriter begins (500ms + 300ms = 800ms)
     const tileTimer = setTimeout(() => setTilesVisible(true), 800)
 
@@ -19,6 +20,7 @@ export function ProjectsSection() {
     const startTimer = setTimeout(() => {
       let i = 0
       function type() {
+        if (cancelled) return
         if (i < CMD.length) {
           setTypedCmd(CMD.slice(0, ++i))
           setTimeout(type, 18 + Math.random() * 16)
@@ -30,6 +32,7 @@ export function ProjectsSection() {
     }, 500)
 
     return () => {
+      cancelled = true
       clearTimeout(tileTimer)
       clearTimeout(startTimer)
     }
@@ -68,6 +71,7 @@ export function ProjectsSection() {
       >
         {FILTERS.map(f => (
           <button
+            type="button"
             key={f.value}
             onClick={() => toggleFilter(f.value)}
             className={[

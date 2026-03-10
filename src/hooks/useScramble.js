@@ -1,7 +1,6 @@
 import { useCallback, useRef } from 'react'
 
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*!?<>/\\[]{}'
-const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 // All 7 project hues — sweeps purple → pink-purple during name scramble
 const PALETTE_HSL = [
@@ -24,6 +23,7 @@ function lerpHSL(a, b, t) {
 // Core scramble — getColor(progress 0→1) returns a CSS color string
 function scrambleCore(el, target, duration, getColor, rafRef) {
   if (!el) return
+  const REDUCED = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
   if (REDUCED) { el.innerHTML = target.replace(/\n/g, '<br>'); return }
   if (rafRef.current) cancelAnimationFrame(rafRef.current)
 

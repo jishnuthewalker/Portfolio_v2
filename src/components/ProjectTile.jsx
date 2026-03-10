@@ -1,4 +1,6 @@
+import { useRef, useCallback } from 'react'
 import { COLOR_MAP } from '../data/projects'
+import { useScramble } from '../hooks/useScramble'
 
 function makeBox(num, category, size) {
   const prefix = `┌─ [${num}] ${category} `
@@ -15,6 +17,17 @@ export function ProjectTile({ project, dimmed = false }) {
   const { top, bot } = makeBox(project.num, project.category, project.size)
   const titleSize = project.size === 'featured' ? '20px' : project.size === 'half' ? '15px' : '12px'
 
+  const titleRef = useRef(null)
+  const { scrambleWithColor } = useScramble()
+  const running = useRef(false)
+
+  const handleMouseEnter = useCallback(() => {
+    if (running.current) return
+    running.current = true
+    scrambleWithColor(titleRef.current, project.title, c.title)
+    setTimeout(() => { running.current = false }, 500)
+  }, [scrambleWithColor, project.title, c.title])
+
   return (
     <div
       style={{
@@ -30,6 +43,7 @@ export function ProjectTile({ project, dimmed = false }) {
         'rounded-sm p-3.5 relative cursor-pointer transition-all duration-200',
         dimmed ? 'opacity-20 grayscale' : '',
       ].join(' ')}
+      onMouseEnter={handleMouseEnter}
     >
       <span
         className="absolute top-3 right-3.5 text-[11px] transition-transform duration-200"
@@ -41,6 +55,7 @@ export function ProjectTile({ project, dimmed = false }) {
         {top}
       </div>
       <span
+        ref={titleRef}
         className="block font-display font-black tracking-tight leading-tight mb-1"
         style={{ color: 'var(--tile-title)', fontSize: titleSize }}
       >

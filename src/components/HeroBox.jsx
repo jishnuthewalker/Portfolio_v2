@@ -1,3 +1,6 @@
+import { useRef, useCallback } from 'react'
+import { useScramble } from '../hooks/useScramble'
+
 export function HeroBox() {
   return (
     <div className="border border-[#d0cdc6] rounded-sm mb-6 overflow-hidden bg-[#FAF8F3]">
@@ -48,12 +51,24 @@ function HeroTitlebar() {
 }
 
 function BigName() {
+  const textRef = useRef(null)
+  const { scrambleName } = useScramble()
+  const running = useRef(false)
+
+  const handleMouseEnter = useCallback(() => {
+    if (running.current) return
+    running.current = true
+    scrambleName(textRef.current, 'JISHNU\nDIWAKAR')
+    setTimeout(() => { running.current = false }, 800)
+  }, [scrambleName])
+
   return (
     <div
       className="font-display font-black leading-[0.88] tracking-[-4px] text-[#1a1a1a] mb-4 cursor-default select-none inline-block"
       style={{ fontSize: 'clamp(50px, 7vw, 76px)' }}
+      onMouseEnter={handleMouseEnter}
     >
-      JISHNU<br />DIWAKAR
+      <span ref={textRef}>JISHNU<br />DIWAKAR</span>
     </div>
   )
 }

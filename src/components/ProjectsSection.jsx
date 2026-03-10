@@ -1,9 +1,39 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import { PROJECTS, FILTERS } from '../data/projects'
 import { ProjectTile } from './ProjectTile'
 
 export function ProjectsSection() {
   const [activeFilter, setActiveFilter] = useState(null)
+  const [typedCmd, setTypedCmd] = useState('')
+  const [showCursor, setShowCursor] = useState(true)
+  const [tilesVisible, setTilesVisible] = useState(false)
+
+  const CMD = 'ls ./projects --sort=featured'
+
+  useEffect(() => {
+    // Tiles + filter row start cascading 300ms after typewriter begins (500ms + 300ms = 800ms)
+    const tileTimer = setTimeout(() => setTilesVisible(true), 800)
+
+    // Typewriter starts at 500ms
+    const startTimer = setTimeout(() => {
+      let i = 0
+      function type() {
+        if (i < CMD.length) {
+          setTypedCmd(CMD.slice(0, ++i))
+          setTimeout(type, 18 + Math.random() * 16)
+        } else {
+          setShowCursor(false)
+        }
+      }
+      type()
+    }, 500)
+
+    return () => {
+      clearTimeout(tileTimer)
+      clearTimeout(startTimer)
+    }
+  }, [])
 
   function toggleFilter(value) {
     setActiveFilter(prev => prev === value ? null : value)
@@ -23,11 +53,19 @@ export function ProjectsSection() {
       {/* Typewriter header */}
       <div className="text-[9.5px] text-[#888] mb-3 whitespace-nowrap overflow-hidden font-mono">
         <span style={{ color: 'var(--terminal-green)' }}>❯</span>{' '}
-        <span>ls ./projects --sort=featured</span>
+        <span>{typedCmd}</span>
+        {showCursor && (
+          <span style={{ color: 'hsl(277,65%,32%)', animation: 'blink 1s step-end infinite' }}>█</span>
+        )}
       </div>
 
       {/* Filter tags */}
-      <div className="flex gap-1.5 flex-wrap mb-3">
+      <motion.div
+        className="flex gap-1.5 flex-wrap mb-3"
+        initial={{ opacity: 0 }}
+        animate={tilesVisible ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.3 }}
+      >
         {FILTERS.map(f => (
           <button
             key={f.value}
@@ -60,24 +98,45 @@ export function ProjectsSection() {
             {f.label}
           </button>
         ))}
-      </div>
+      </motion.div>
 
       {/* Featured row: large left + stacked right */}
       <div className="grid gap-2.5 mb-2.5" style={{ gridTemplateColumns: '1.8fr 1fr' }}>
-        {featured.map(p => (
-          <ProjectTile key={p.id} project={p} dimmed={isDimmed(p)} />
+        {featured.map((p, i) => (
+          <motion.div
+            key={p.id}
+            initial={{ opacity: 0, y: 8 }}
+            animate={tilesVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+            transition={{ duration: 0.35, delay: i * 0.07 }}
+          >
+            <ProjectTile project={p} dimmed={isDimmed(p)} />
+          </motion.div>
         ))}
         <div className="flex flex-col gap-2.5">
-          {half.map(p => (
-            <ProjectTile key={p.id} project={p} dimmed={isDimmed(p)} />
+          {half.map((p, i) => (
+            <motion.div
+              key={p.id}
+              initial={{ opacity: 0, y: 8 }}
+              animate={tilesVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+              transition={{ duration: 0.35, delay: (featured.length + i) * 0.07 }}
+            >
+              <ProjectTile project={p} dimmed={isDimmed(p)} />
+            </motion.div>
           ))}
         </div>
       </div>
 
       {/* Small tiles */}
       <div className="grid grid-cols-4 gap-2.5">
-        {small.map(p => (
-          <ProjectTile key={p.id} project={p} dimmed={isDimmed(p)} />
+        {small.map((p, i) => (
+          <motion.div
+            key={p.id}
+            initial={{ opacity: 0, y: 8 }}
+            animate={tilesVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+            transition={{ duration: 0.35, delay: (featured.length + half.length + i) * 0.07 }}
+          >
+            <ProjectTile project={p} dimmed={isDimmed(p)} />
+          </motion.div>
         ))}
       </div>
     </section>

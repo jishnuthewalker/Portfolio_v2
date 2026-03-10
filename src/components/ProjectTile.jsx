@@ -1,4 +1,5 @@
-import { useRef, useCallback } from 'react'
+import { useState, useRef, useCallback } from 'react'
+import { motion } from 'framer-motion'
 import { COLOR_MAP } from '../data/projects'
 import { useScramble } from '../hooks/useScramble'
 
@@ -20,8 +21,9 @@ export function ProjectTile({ project, dimmed = false }) {
   const titleRef = useRef(null)
   const { scrambleWithColor } = useScramble()
   const running = useRef(false)
+  const [hovered, setHovered] = useState(false)
 
-  const handleMouseEnter = useCallback(() => {
+  const handleMouseEnterScramble = useCallback(() => {
     if (running.current) return
     running.current = true
     scrambleWithColor(titleRef.current, project.title, c.title)
@@ -29,7 +31,7 @@ export function ProjectTile({ project, dimmed = false }) {
   }, [scrambleWithColor, project.title, c.title])
 
   return (
-    <div
+    <motion.div
       style={{
         background: c.bg,
         borderColor: c.border,
@@ -39,21 +41,31 @@ export function ProjectTile({ project, dimmed = false }) {
         '--tile-tag': c.tag,
         '--tile-title': c.title,
       }}
-      className={[
-        'rounded-sm p-3.5 relative cursor-pointer transition-all duration-200',
-        dimmed ? 'opacity-20 grayscale' : '',
-      ].join(' ')}
-      onMouseEnter={handleMouseEnter}
+      className="rounded-sm p-3.5 relative cursor-pointer"
+      animate={{
+        opacity: dimmed ? 0.2 : 1,
+        filter: dimmed ? 'grayscale(1)' : 'grayscale(0)',
+      }}
+      transition={{ duration: 0.25 }}
+      onMouseEnter={() => { setHovered(true); handleMouseEnterScramble() }}
+      onMouseLeave={() => setHovered(false)}
+      whileHover={{ borderColor: c.title }}
     >
+      {/* Arrow — translates on hover */}
       <span
-        className="absolute top-3 right-3.5 text-[11px] transition-transform duration-200"
-        style={{ color: 'var(--tile-chrome)' }}
+        className="absolute top-3 right-3.5 text-[11px] font-mono transition-all duration-200"
+        style={{
+          color: hovered ? c.title : 'var(--tile-chrome)',
+          transform: hovered ? 'translate(2px, -2px)' : 'translate(0, 0)',
+        }}
       >
         ↗
       </span>
-      <div className="text-[8px] leading-none mb-2 font-mono" style={{ color: 'var(--tile-chrome)' }}>
-        {top}
-      </div>
+
+      {/* box top */}
+      <div className="text-[8px] leading-none mb-2 font-mono" style={{ color: 'var(--tile-chrome)' }}>{top}</div>
+
+      {/* title */}
       <span
         ref={titleRef}
         className="block font-display font-black tracking-tight leading-tight mb-1"
@@ -61,15 +73,14 @@ export function ProjectTile({ project, dimmed = false }) {
       >
         {project.title}
       </span>
+
       {project.desc && (
         <div className="text-[8.5px] text-[#888] leading-relaxed mb-1.5 font-mono">{project.desc}</div>
       )}
       <div className="text-[8px] mt-1.5 font-mono" style={{ color: 'var(--tile-tag)' }}>
         {project.tags.join(' · ')}
       </div>
-      <div className="text-[8px] leading-none mt-2 font-mono" style={{ color: 'var(--tile-chrome)' }}>
-        {bot}
-      </div>
-    </div>
+      <div className="text-[8px] leading-none mt-2 font-mono" style={{ color: 'var(--tile-chrome)' }}>{bot}</div>
+    </motion.div>
   )
 }

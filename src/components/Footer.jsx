@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'
+
 const LINKS = [
   { label: 'linkedin',   href: 'https://linkedin.com/in/jishnu-diwakar-b02a37160' },
   { label: 'behance',    href: 'https://behance.net/jishnuthewalker' },
@@ -7,7 +9,12 @@ const LINKS = [
 
 export function Footer() {
   return (
-    <footer className="mt-8 pt-4 border-t border-[#d0cdc6] flex justify-between items-center text-[8.5px] text-[#bbb] font-mono">
+    <motion.footer
+      className="mt-8 pt-4 border-t border-[#d0cdc6] flex justify-between items-center text-[8.5px] text-[#bbb] font-mono"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4, delay: 1.2 }}
+    >
       <span>
         {'© 2026 Jishnu Diwakar · '}
         <span style={{ color: 'var(--terminal-green)' }}>जेदी</span>
@@ -35,6 +42,6 @@ export function Footer() {
           </a>
         ))}
       </div>
-    </footer>
+    </motion.footer>
   )
 }

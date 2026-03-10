@@ -1,4 +1,5 @@
-import { useRef, useCallback } from 'react'
+import { useRef, useCallback, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import { useScramble } from '../hooks/useScramble'
 
 export function HeroBox() {
@@ -52,8 +53,22 @@ function HeroTitlebar() {
 
 function BigName() {
   const textRef = useRef(null)
+  const cursorRef = useRef(null)
   const { scrambleName } = useScramble()
   const running = useRef(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (cursorRef.current) {
+        cursorRef.current.style.transition = 'opacity 0.4s'
+        cursorRef.current.style.opacity = '0'
+        setTimeout(() => {
+          if (cursorRef.current) cursorRef.current.style.display = 'none'
+        }, 400)
+      }
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleMouseEnter = useCallback(() => {
     if (running.current) return
@@ -64,30 +79,50 @@ function BigName() {
 
   return (
     <div
-      className="font-display font-black leading-[0.88] tracking-[-4px] text-[#1a1a1a] mb-4 cursor-default select-none inline-block"
+      className="font-display font-black leading-[0.88] tracking-[-4px] text-[#1a1a1a] mb-4 cursor-default select-none inline-flex items-end"
       style={{ fontSize: 'clamp(50px, 7vw, 76px)' }}
       onMouseEnter={handleMouseEnter}
     >
       <span ref={textRef}>JISHNU<br />DIWAKAR</span>
+      <span
+        ref={cursorRef}
+        className="inline-block ml-1 align-bottom"
+        style={{
+          width: 'clamp(3px, 0.4vw, 5px)',
+          height: 'clamp(30px, 4.3vw, 46px)',
+          background: 'var(--accent)',
+          animation: 'blink 1.1s step-end infinite',
+        }}
+      />
     </div>
   )
 }
 
 function RoleLine() {
   return (
-    <div className="flex items-center gap-2.5 mb-3.5">
+    <motion.div
+      className="flex items-center gap-2.5 mb-3.5"
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: 0.3 }}
+    >
       <span className="text-[12px] font-bold font-mono" style={{ color: 'var(--accent)' }}>
         Founding Designer
       </span>
       <span className="text-[#ddd]">·</span>
       <span className="text-[9.5px] text-[#888] font-mono">Nudge · IIT Bombay · Bangalore</span>
-    </div>
+    </motion.div>
   )
 }
 
 function HeroFooter() {
   return (
-    <div className="border-t border-[#e0ddd6] pt-3 flex items-center gap-3 text-[9px] text-[#bbb] font-mono">
+    <motion.div
+      className="border-t border-[#e0ddd6] pt-3 flex items-center gap-3 text-[9px] text-[#bbb] font-mono"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4, delay: 0.45 }}
+    >
       <span style={{ color: 'var(--terminal-green)' }}>❯</span>
       <span>crafting experiences that just feel right</span>
       <a
@@ -108,6 +143,6 @@ function HeroFooter() {
       >
         let's chat ↗
       </a>
-    </div>
+    </motion.div>
   )
 }

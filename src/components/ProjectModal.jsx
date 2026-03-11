@@ -1,4 +1,3 @@
-import { useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PROJECTS, COLOR_MAP } from '../data/projects'
 import { useModal } from '../hooks/useModal'
@@ -17,30 +16,32 @@ export function ProjectModal({ projectId, onClose }) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            className="fixed inset-0 z-40"
-            style={{ background: 'rgba(26,26,26,0.6)', backdropFilter: 'blur(4px)' }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            onClick={onClose}
-          />
-
-          {/* Modal panel */}
-          <motion.div
-            role="dialog"
-            aria-modal="true"
-            aria-label={`${project.title} case study`}
-            className="fixed inset-x-4 top-8 bottom-8 z-50 overflow-y-auto rounded-sm md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-full md:max-w-2xl"
-            style={{ background: '#FAF8F3', border: `1px solid ${c.borderHover}` }}
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 12 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          >
+        /* Backdrop */
+        <motion.div
+          key="backdrop"
+          className="fixed inset-0 z-40"
+          style={{ background: 'rgba(26,26,26,0.6)', backdropFilter: 'blur(4px)' }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          onClick={onClose}
+        />
+      )}
+      {isOpen && (
+        /* Modal panel */
+        <motion.div
+          key="panel"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${project.title} case study`}
+          className="fixed inset-x-4 top-8 bottom-8 z-50 overflow-y-auto rounded-sm md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-full md:max-w-2xl"
+          style={{ background: '#FAF8F3', border: `1px solid ${c.borderHover}` }}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 12 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        >
             <div className="p-6">
               {/* Header */}
               <div className="flex items-start justify-between mb-5">
@@ -120,7 +121,6 @@ export function ProjectModal({ projectId, onClose }) {
               </div>
             </div>
           </motion.div>
-        </>
       )}
     </AnimatePresence>
   )

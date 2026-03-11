@@ -35,7 +35,7 @@ export function ProjectTile({ project, dimmed = false, onOpen }) {
       role="button"
       tabIndex={0}
       aria-label={`View ${project.title} project`}
-      onClick={onOpen}
+      onClick={() => onOpen?.()}
       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') onOpen?.() }}
       style={{
         background: c.bg,

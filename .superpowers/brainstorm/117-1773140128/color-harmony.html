@@ -1,0 +1,192 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body { background: #F7F4EE; font-family: 'JetBrains Mono', monospace; padding: 28px; }
+
+  h2 { font-family: 'Inter', sans-serif; font-size: 20px; letter-spacing: -1px; color: #1a1a1a; margin-bottom: 6px; }
+  .sub { font-size: 9px; color: #888; margin-bottom: 28px; }
+
+  .palette-row { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+  .swatch { width: 22px; height: 22px; border-radius: 3px; flex-shrink: 0; }
+  .swatch-label { font-size: 8px; color: #888; }
+
+  .set { margin-bottom: 36px; }
+  .set-label {
+    font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: #aaa; margin-bottom: 14px; padding-bottom: 8px;
+    border-bottom: 1px solid #e0ddd6;
+  }
+  .set-label span { color: #1a1a1a; font-weight: 700; }
+
+  /* Tile grid */
+  .tile-grid {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .tile-grid-bottom {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .tile {
+    border-radius: 4px;
+    padding: 11px 13px;
+    position: relative;
+    cursor: pointer;
+  }
+  .tile-box-top { font-size: 7.5px; color: #ccc; margin-bottom: 6px; line-height: 1; }
+  .tile-box-bot { font-size: 7.5px; color: #ccc; margin-top: 6px; line-height: 1; }
+  .tile-title { font-family: 'Inter', sans-serif; font-weight: 900; letter-spacing: -0.3px; margin-bottom: 3px; }
+  .tile-tags { font-size: 7.5px; color: #bbb; }
+  .tile-arrow { position: absolute; top: 11px; right: 12px; font-size: 10px; color: #ccc; }
+
+  /* ── SET A: Current ── */
+  .a1 { border: 1px solid rgba(123,47,247,0.2); background: rgba(123,47,247,0.03); }
+  .a1 .tile-title { color: #7B2FF7; font-size: 18px; }
+  .a2 { border: 1px solid rgba(192,128,0,0.2); background: rgba(192,128,0,0.03); }
+  .a2 .tile-title { color: #C08000; font-size: 14px; }
+  .a3 { border: 1px solid rgba(26,158,63,0.2); background: rgba(26,158,63,0.03); }
+  .a3 .tile-title { color: #1a9e3f; font-size: 14px; }
+  .a4 { border: 1px solid rgba(192,57,43,0.2); background: rgba(192,57,43,0.03); }
+  .a4 .tile-title { color: #C0392B; font-size: 12px; }
+  .a5 { border: 1px solid rgba(59,91,219,0.2); background: rgba(59,91,219,0.03); }
+  .a5 .tile-title { color: #3B5BDB; font-size: 12px; }
+  .a6 { border: 1px solid rgba(180,83,9,0.2); background: rgba(180,83,9,0.03); }
+  .a6 .tile-title { color: #B45309; font-size: 12px; }
+  .a7 { border: 1px solid rgba(13,148,136,0.2); background: rgba(13,148,136,0.03); }
+  .a7 .tile-title { color: #0D9488; font-size: 12px; }
+
+  /* ── SET B: Normalized — same S/L, tuned for equal perceived weight ── */
+  .b1 { border: 1px solid rgba(109,48,240,0.2); background: rgba(109,48,240,0.03); }
+  .b1 .tile-title { color: #6D30F0; font-size: 18px; }
+  .b2 { border: 1px solid rgba(186,125,0,0.2); background: rgba(186,125,0,0.03); }
+  .b2 .tile-title { color: #BA7D00; font-size: 14px; }
+  .b3 { border: 1px solid rgba(15,140,68,0.2); background: rgba(15,140,68,0.03); }
+  .b3 .tile-title { color: #0F8C44; font-size: 14px; }
+  .b4 { border: 1px solid rgba(200,50,38,0.2); background: rgba(200,50,38,0.03); }
+  .b4 .tile-title { color: #C83226; font-size: 12px; }
+  .b5 { border: 1px solid rgba(67,96,210,0.2); background: rgba(67,96,210,0.03); }
+  .b5 .tile-title { color: #4360D2; font-size: 12px; }
+  .b6 { border: 1px solid rgba(175,96,10,0.2); background: rgba(175,96,10,0.03); }
+  .b6 .tile-title { color: #AF600A; font-size: 12px; }
+  .b7 { border: 1px solid rgba(8,138,124,0.2); background: rgba(8,138,124,0.03); }
+  .b7 .tile-title { color: #088A7C; font-size: 12px; }
+
+  /* ── SET C: Muted / editorial — lower saturation, more sophisticated ── */
+  .c1 { border: 1px solid rgba(118,80,210,0.2); background: rgba(118,80,210,0.03); }
+  .c1 .tile-title { color: #7650D2; font-size: 18px; }
+  .c2 { border: 1px solid rgba(168,116,10,0.2); background: rgba(168,116,10,0.03); }
+  .c2 .tile-title { color: #A8740A; font-size: 14px; }
+  .c3 { border: 1px solid rgba(32,128,74,0.2); background: rgba(32,128,74,0.03); }
+  .c3 .tile-title { color: #20804A; font-size: 14px; }
+  .c4 { border: 1px solid rgba(180,68,58,0.2); background: rgba(180,68,58,0.03); }
+  .c4 .tile-title { color: #B4443A; font-size: 12px; }
+  .c5 { border: 1px solid rgba(82,106,192,0.2); background: rgba(82,106,192,0.03); }
+  .c5 .tile-title { color: #526AC0; font-size: 12px; }
+  .c6 { border: 1px solid rgba(160,98,30,0.2); background: rgba(160,98,30,0.03); }
+  .c6 .tile-title { color: #A0621E; font-size: 12px; }
+  .c7 { border: 1px solid rgba(22,128,116,0.2); background: rgba(22,128,116,0.03); }
+  .c7 .tile-title { color: #168074; font-size: 12px; }
+</style>
+
+<h2>Color harmony options</h2>
+<p class="sub">Same hues, different saturation/lightness tuning. Click a set to select it.</p>
+
+<!-- SET A: Current -->
+<div class="set options" data-multiselect>
+  <div class="set-label"><span>A — Current</span> · raw project colors, untuned</div>
+
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+    <div class="palette-row">
+      <div class="swatch" style="background:#7B2FF7;"></div>
+      <div class="swatch" style="background:#C08000;"></div>
+      <div class="swatch" style="background:#1a9e3f;"></div>
+      <div class="swatch" style="background:#C0392B;"></div>
+      <div class="swatch" style="background:#3B5BDB;"></div>
+      <div class="swatch" style="background:#B45309;"></div>
+      <div class="swatch" style="background:#0D9488;"></div>
+    </div>
+    <span class="swatch-label">S varies wildly · some look heavier than others</span>
+  </div>
+
+  <div class="tile-grid">
+    <div class="tile a1"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [01] ui/ux ────────────────────────┐</div><div class="tile-title">रीView</div><div class="tile-tags">research · rapid proto</div><div class="tile-box-bot">└─────────────────────────────────────┘</div></div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="tile a2"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [02] 3d ───────────┐</div><div class="tile-title">CSK Fanzone</div><div class="tile-tags">3d · game design</div><div class="tile-box-bot">└─────────────────────┘</div></div>
+      <div class="tile a3"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [03] brand ────────┐</div><div class="tile-title">Mood Indigo</div><div class="tile-tags">identity · system</div><div class="tile-box-bot">└─────────────────────┘</div></div>
+    </div>
+  </div>
+  <div class="tile-grid-bottom">
+    <div class="tile a4"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [04] ux ──┐</div><div class="tile-title">BookMyShow</div><div class="tile-box-bot">└────────────┘</div></div>
+    <div class="tile a5"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [05] vr ──┐</div><div class="tile-title">Multus</div><div class="tile-box-bot">└────────────┘</div></div>
+    <div class="tile a6"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [06] game ┐</div><div class="tile-title">Seven Sands</div><div class="tile-box-bot">└────────────┘</div></div>
+    <div class="tile a7"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [07] hci ─┐</div><div class="tile-title">GrooveGlove</div><div class="tile-box-bot">└────────────┘</div></div>
+  </div>
+</div>
+
+<!-- SET B: Normalized -->
+<div class="set options" data-multiselect>
+  <div class="set-label"><span>B — Normalized</span> · same hues, equalized S + perceptual L so all colors carry equal visual weight</div>
+
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+    <div class="palette-row">
+      <div class="swatch" style="background:#6D30F0;"></div>
+      <div class="swatch" style="background:#BA7D00;"></div>
+      <div class="swatch" style="background:#0F8C44;"></div>
+      <div class="swatch" style="background:#C83226;"></div>
+      <div class="swatch" style="background:#4360D2;"></div>
+      <div class="swatch" style="background:#AF600A;"></div>
+      <div class="swatch" style="background:#088A7C;"></div>
+    </div>
+    <span class="swatch-label">Balanced — none dominates</span>
+  </div>
+
+  <div class="tile-grid">
+    <div class="tile b1"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [01] ui/ux ────────────────────────┐</div><div class="tile-title">रीView</div><div class="tile-tags">research · rapid proto</div><div class="tile-box-bot">└─────────────────────────────────────┘</div></div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="tile b2"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [02] 3d ───────────┐</div><div class="tile-title">CSK Fanzone</div><div class="tile-tags">3d · game design</div><div class="tile-box-bot">└─────────────────────┘</div></div>
+      <div class="tile b3"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [03] brand ────────┐</div><div class="tile-title">Mood Indigo</div><div class="tile-tags">identity · system</div><div class="tile-box-bot">└─────────────────────┘</div></div>
+    </div>
+  </div>
+  <div class="tile-grid-bottom">
+    <div class="tile b4"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [04] ux ──┐</div><div class="tile-title">BookMyShow</div><div class="tile-box-bot">└────────────┘</div></div>
+    <div class="tile b5"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [05] vr ──┐</div><div class="tile-title">Multus</div><div class="tile-box-bot">└────────────┘</div></div>
+    <div class="tile b6"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [06] game ┐</div><div class="tile-title">Seven Sands</div><div class="tile-box-bot">└────────────┘</div></div>
+    <div class="tile b7"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [07] hci ─┐</div><div class="tile-title">GrooveGlove</div><div class="tile-box-bot">└────────────┘</div></div>
+  </div>
+</div>
+
+<!-- SET C: Muted -->
+<div class="set options" data-multiselect>
+  <div class="set-label"><span>C — Muted</span> · desaturated ~15%, warmer overall — feels editorial, more grown-up</div>
+
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+    <div class="palette-row">
+      <div class="swatch" style="background:#7650D2;"></div>
+      <div class="swatch" style="background:#A8740A;"></div>
+      <div class="swatch" style="background:#20804A;"></div>
+      <div class="swatch" style="background:#B4443A;"></div>
+      <div class="swatch" style="background:#526AC0;"></div>
+      <div class="swatch" style="background:#A0621E;"></div>
+      <div class="swatch" style="background:#168074;"></div>
+    </div>
+    <span class="swatch-label">Softer — harmonises easily with the warm bg</span>
+  </div>
+
+  <div class="tile-grid">
+    <div class="tile c1"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [01] ui/ux ────────────────────────┐</div><div class="tile-title">रीView</div><div class="tile-tags">research · rapid proto</div><div class="tile-box-bot">└─────────────────────────────────────┘</div></div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="tile c2"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [02] 3d ───────────┐</div><div class="tile-title">CSK Fanzone</div><div class="tile-tags">3d · game design</div><div class="tile-box-bot">└─────────────────────┘</div></div>
+      <div class="tile c3"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [03] brand ────────┐</div><div class="tile-title">Mood Indigo</div><div class="tile-tags">identity · system</div><div class="tile-box-bot">└─────────────────────┘</div></div>
+    </div>
+  </div>
+  <div class="tile-grid-bottom">
+    <div class="tile c4"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [04] ux ──┐</div><div class="tile-title">BookMyShow</div><div class="tile-box-bot">└────────────┘</div></div>
+    <div class="tile c5"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [05] vr ──┐</div><div class="tile-title">Multus</div><div class="tile-box-bot">└────────────┘</div></div>
+    <div class="tile c6"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [06] game ┐</div><div class="tile-title">Seven Sands</div><div class="tile-box-bot">└────────────┘</div></div>
+    <div class="tile c7"><span class="tile-arrow">↗</span><div class="tile-box-top">┌─ [07] hci ─┐</div><div class="tile-title">GrooveGlove</div><div class="tile-box-bot">└────────────┘</div></div>
+  </div>
+</div>

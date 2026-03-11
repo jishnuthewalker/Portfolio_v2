@@ -1,0 +1,238 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #F7F4EE; background-image: linear-gradient(#e0ddd6 1px,transparent 1px),linear-gradient(90deg,#e0ddd6 1px,transparent 1px); background-size:20px 20px; font-family:'JetBrains Mono',monospace; padding:28px; }
+
+  .palette-strip { display:flex; gap:6px; margin-bottom:28px; align-items:flex-end; }
+  .swatch-block { display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .swatch { width:44px; height:44px; border-radius:4px; border:1px solid rgba(0,0,0,0.1); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; }
+  .swatch-val { font-size:7px; color:#888; text-align:center; width:60px; line-height:1.5; }
+
+  .grid-main { display:grid; grid-template-columns:1.8fr 1fr; gap:8px; margin-bottom:8px; }
+  .grid-bottom { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+
+  .section-label { font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:#aaa; margin-bottom:14px; }
+  .section-label strong { color:#1a1a1a; }
+
+  /* ── tile base ── */
+  .tile { border-radius:4px; padding:11px 13px; position:relative; }
+
+  /* each tile: bg = hue@12%, border = hue@25%, box-lines = hue@35%, arrow = hue@40%, tags = hue@55%, title = hue darkened */
+
+  /* ana-1  h277 */
+  .t1 {
+    background: hsl(277,55%,93%);
+    border: 1px solid hsl(277,45%,80%);
+    --chrome: hsl(277,40%,68%);
+    --tag: hsl(277,35%,55%);
+    --title: hsl(277,65%,28%);
+    --arrow: hsl(277,45%,72%);
+  }
+  /* ana-2  h258 */
+  .t2 {
+    background: hsl(258,40%,93%);
+    border: 1px solid hsl(258,40%,78%);
+    --chrome: hsl(258,35%,62%);
+    --tag: hsl(258,35%,50%);
+    --title: hsl(258,72%,28%);
+    --arrow: hsl(258,40%,68%);
+  }
+  /* ana-3  h264 */
+  .t3 {
+    background: hsl(264,35%,93%);
+    border: 1px solid hsl(264,35%,78%);
+    --chrome: hsl(264,30%,62%);
+    --tag: hsl(264,30%,50%);
+    --title: hsl(264,45%,30%);
+    --arrow: hsl(264,35%,68%);
+  }
+  /* ana-4  h290 */
+  .t4 {
+    background: hsl(290,32%,93%);
+    border: 1px solid hsl(290,35%,78%);
+    --chrome: hsl(290,28%,62%);
+    --tag: hsl(290,30%,48%);
+    --title: hsl(290,48%,28%);
+    --arrow: hsl(290,32%,68%);
+  }
+  /* ana-5  h307 */
+  .t5 {
+    background: hsl(307,35%,93%);
+    border: 1px solid hsl(307,38%,80%);
+    --chrome: hsl(307,30%,64%);
+    --tag: hsl(307,32%,48%);
+    --title: hsl(307,52%,30%);
+    --arrow: hsl(307,35%,70%);
+  }
+  /* ana-6  h333 */
+  .t6 {
+    background: hsl(333,55%,95%);
+    border: 1px solid hsl(333,45%,84%);
+    --chrome: hsl(333,35%,68%);
+    --tag: hsl(333,38%,52%);
+    --title: hsl(333,60%,32%);
+    --arrow: hsl(333,40%,72%);
+  }
+
+  .tile-box-top {
+    font-size:7.5px;
+    margin-bottom:6px;
+    line-height:1;
+    color: var(--chrome);
+  }
+  .tile-box-bot {
+    font-size:7.5px;
+    margin-top:6px;
+    line-height:1;
+    color: var(--chrome);
+  }
+  .tile-title {
+    font-family:'Inter',sans-serif;
+    font-weight:900;
+    letter-spacing:-0.3px;
+    margin-bottom:4px;
+    color: var(--title);
+  }
+  .tile-tags {
+    font-size:7.5px;
+    color: var(--tag);
+  }
+  /* tag chips */
+  .chip {
+    display: inline-block;
+    font-size: 7px;
+    padding: 1px 5px;
+    border-radius: 2px;
+    border: 1px solid var(--chrome);
+    color: var(--tag);
+    margin-right: 3px;
+    line-height: 1.6;
+  }
+  .tile-arrow {
+    position:absolute;
+    top:11px;
+    right:12px;
+    font-size:10px;
+    color: var(--arrow);
+  }
+</style>
+
+<!-- Palette strip -->
+<div class="palette-strip">
+  <div class="swatch-block">
+    <div class="swatch" style="background:hsl(277,67.5%,67%);color:#000;">Aa</div>
+    <div class="swatch-val">ana-1<br>h277</div>
+  </div>
+  <div class="swatch-block">
+    <div class="swatch" style="background:hsl(258,72.6%,31.8%);color:#fff;">Aa</div>
+    <div class="swatch-val">ana-2<br>h258</div>
+  </div>
+  <div class="swatch-block">
+    <div class="swatch" style="background:hsl(264,45%,41.1%);color:#fff;">Aa</div>
+    <div class="swatch-val">ana-3<br>h264</div>
+  </div>
+  <div class="swatch-block">
+    <div class="swatch" style="background:hsl(290,42%,49.8%);color:#fff;">Aa</div>
+    <div class="swatch-val">ana-4<br>h290</div>
+  </div>
+  <div class="swatch-block">
+    <div class="swatch" style="background:hsl(307,44.6%,68.9%);color:#000;">Aa</div>
+    <div class="swatch-val">ana-5<br>h307</div>
+  </div>
+  <div class="swatch-block">
+    <div class="swatch" style="background:hsl(333,75.4%,92.1%);color:#000;border:1px solid rgba(0,0,0,0.1);">Aa</div>
+    <div class="swatch-val">ana-6<br>h333</div>
+  </div>
+</div>
+
+<div class="section-label"><strong>Tinted tiles</strong> · all chrome (lines · chips · arrows) derives from tile hue</div>
+
+<div class="grid-main">
+  <!-- tile 01 — रीView -->
+  <div class="tile t1">
+    <span class="tile-arrow">↗</span>
+    <div class="tile-box-top">┌─ [01] ui/ux ─────────────────────────┐</div>
+    <div class="tile-title" style="font-size:18px;">रीView</div>
+    <div class="tile-tags">
+      <span class="chip">research</span>
+      <span class="chip">rapid proto</span>
+    </div>
+    <div class="tile-box-bot">└──────────────────────────────────────┘</div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:8px;">
+    <!-- tile 02 — CSK -->
+    <div class="tile t2">
+      <span class="tile-arrow">↗</span>
+      <div class="tile-box-top">┌─ [02] 3d ────────────┐</div>
+      <div class="tile-title" style="font-size:14px;">CSK Fanzone</div>
+      <div class="tile-tags">
+        <span class="chip">3d</span>
+        <span class="chip">game</span>
+      </div>
+      <div class="tile-box-bot">└──────────────────────┘</div>
+    </div>
+
+    <!-- tile 03 — Mood Indigo -->
+    <div class="tile t3">
+      <span class="tile-arrow">↗</span>
+      <div class="tile-box-top">┌─ [03] brand ─────────┐</div>
+      <div class="tile-title" style="font-size:14px;">Mood Indigo</div>
+      <div class="tile-tags">
+        <span class="chip">identity</span>
+        <span class="chip">system</span>
+      </div>
+      <div class="tile-box-bot">└──────────────────────┘</div>
+    </div>
+  </div>
+</div>
+
+<div class="grid-bottom" style="margin-top:8px;">
+  <!-- tile 04 — BookMyShow -->
+  <div class="tile t4">
+    <span class="tile-arrow">↗</span>
+    <div class="tile-box-top">┌─ [04] ux ──┐</div>
+    <div class="tile-title" style="font-size:12px;">BookMyShow</div>
+    <div class="tile-tags">
+      <span class="chip">ux</span>
+    </div>
+    <div class="tile-box-bot">└────────────┘</div>
+  </div>
+
+  <!-- tile 05 — Multus -->
+  <div class="tile t5">
+    <span class="tile-arrow">↗</span>
+    <div class="tile-box-top">┌─ [05] vr ──┐</div>
+    <div class="tile-title" style="font-size:12px;">Multus</div>
+    <div class="tile-tags">
+      <span class="chip">vr</span>
+    </div>
+    <div class="tile-box-bot">└────────────┘</div>
+  </div>
+
+  <!-- tile 06 — Seven Sands -->
+  <div class="tile t6">
+    <span class="tile-arrow">↗</span>
+    <div class="tile-box-top">┌─ [06] game ┐</div>
+    <div class="tile-title" style="font-size:12px;">Seven Sands</div>
+    <div class="tile-tags">
+      <span class="chip">game</span>
+    </div>
+    <div class="tile-box-bot">└────────────┘</div>
+  </div>
+
+  <!-- tile 07 — GrooveGlove (reuses ana-1 as placeholder) -->
+  <div class="tile t1" style="opacity:0.7;">
+    <span class="tile-arrow">↗</span>
+    <div class="tile-box-top">┌─ [07] hci ─┐</div>
+    <div class="tile-title" style="font-size:12px;">GrooveGlove</div>
+    <div class="tile-tags">
+      <span class="chip">hci</span>
+    </div>
+    <div class="tile-box-bot">└────────────┘</div>
+  </div>
+</div>
+
+<div style="font-size:7.5px;color:#aaa;margin-top:12px;letter-spacing:0.4px;">
+  GrooveGlove shown at 0.7 opacity reusing ana-1 — do you have a 7th hue, or should it wrap/repeat?
+</div>

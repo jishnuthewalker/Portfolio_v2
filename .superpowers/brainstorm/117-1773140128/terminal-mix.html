@@ -1,0 +1,174 @@
+<h2>Expressive-Lean × Terminal/CLI</h2>
+<p class="subtitle">Three ways to blend your bento grid personality with CLI aesthetics — from a light hybrid to fully committed dark terminal.</p>
+
+<div class="cards" style="grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 28px;">
+
+  <!-- Option A: Light base + CLI accents -->
+  <div class="card" data-choice="light-cli" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#F7F4EE; padding:0; height:300px; position:relative; overflow:hidden; font-family:'Courier New',monospace;">
+      <div style="position:absolute;inset:0;background-image:linear-gradient(#e0ddd6 1px,transparent 1px),linear-gradient(90deg,#e0ddd6 1px,transparent 1px);background-size:18px 18px;opacity:0.5;"></div>
+      <div style="position:relative;padding:16px;height:100%;display:flex;flex-direction:column;box-sizing:border-box;">
+
+        <!-- CLI-style top bar -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+          <div style="display:flex;gap:4px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:#ff5f57;"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:#febc2e;"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:#28c840;"></div>
+          </div>
+          <div style="font-size:7px;color:#999;letter-spacing:1px;">~/jishnu/portfolio</div>
+          <div style="margin-left:auto;font-size:7px;color:#7B2FF7;font-weight:700;">● available</div>
+        </div>
+
+        <!-- Prompt-style hero -->
+        <div style="margin-bottom:12px;">
+          <div style="font-size:7px;color:#999;margin-bottom:2px;">~ <span style="color:#7B2FF7;">jishnu</span> $ whoami</div>
+          <div style="font-size:20px;font-weight:900;color:#1a1a1a;line-height:1.1;letter-spacing:-0.5px;">Interaction<br>Designer</div>
+          <div style="font-size:7px;color:#888;margin-top:3px;">> motion graphics · 3d · ux · games</div>
+        </div>
+
+        <!-- Divider -->
+        <div style="font-size:7px;color:#bbb;letter-spacing:1px;margin-bottom:8px;">── projects ──────────────────</div>
+
+        <!-- Bento grid — colorful tiles preserved -->
+        <div style="display:grid;grid-template-columns:1.8fr 1fr;gap:5px;flex:1;">
+          <div style="background:linear-gradient(135deg,#7B2FF7,#C62A88);border-radius:6px;padding:9px;display:flex;flex-direction:column;justify-content:space-between;">
+            <div style="font-size:6px;color:rgba(255,255,255,0.6);letter-spacing:1px;">[01] UI/UX</div>
+            <div>
+              <div style="font-size:9px;color:white;font-weight:900;letter-spacing:-0.3px;">रीView</div>
+              <div style="font-size:6px;color:rgba(255,255,255,0.6);">cricket assistant ↗</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="background:#FFB800;border-radius:6px;padding:7px;flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+              <div style="font-size:6px;color:rgba(0,0,0,0.5);letter-spacing:1px;">[02] 3D</div>
+              <div style="font-size:8px;font-weight:900;">CSK ↗</div>
+            </div>
+            <div style="background:#1a1a1a;border-radius:6px;padding:7px;flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+              <div style="font-size:6px;color:rgba(255,255,255,0.4);letter-spacing:1px;">[03] Brand</div>
+              <div style="font-size:8px;color:white;font-weight:900;">Mood ↗</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Light CLI Hybrid</h3>
+      <p>Warm grid base stays. CLI elements injected as flavor — terminal titlebar, prompt-style nav, bracket notation. Color tiles intact.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Full dark terminal -->
+  <div class="card" data-choice="dark-terminal" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0D0D0D; padding:0; height:300px; position:relative; overflow:hidden; font-family:'Courier New',monospace;">
+      <!-- Scanline effect -->
+      <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,0.015) 2px,rgba(255,255,255,0.015) 4px);pointer-events:none;z-index:1;"></div>
+
+      <div style="position:relative;z-index:2;padding:16px;height:100%;display:flex;flex-direction:column;box-sizing:border-box;">
+
+        <!-- Terminal window bar -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+          <div style="display:flex;gap:4px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:#ff5f57;"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:#febc2e;"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:#28c840;"></div>
+          </div>
+          <div style="font-size:7px;color:#555;flex:1;text-align:center;letter-spacing:1px;">jishnu — bash — 80×24</div>
+        </div>
+
+        <!-- Prompt output style hero -->
+        <div style="margin-bottom:10px;">
+          <div style="font-size:7px;color:#555;margin-bottom:1px;"><span style="color:#28c840;">✓</span> jishnu@portfolio <span style="color:#7B2FF7;">~/work</span> $</div>
+          <div style="font-size:7px;color:#888;margin-bottom:6px;">./introduce.sh</div>
+          <div style="font-size:19px;font-weight:900;color:#F0F0F0;line-height:1.05;letter-spacing:-0.5px;">Interaction<br>Designer_</div>
+          <div style="font-size:7px;color:#28c840;margin-top:4px;">↳ motion · ux · 3d · games</div>
+        </div>
+
+        <!-- Divider -->
+        <div style="font-size:7px;color:#333;letter-spacing:0.5px;margin-bottom:8px;">────────────────────────</div>
+
+        <!-- Colorful tiles pop dramatically on dark -->
+        <div style="display:grid;grid-template-columns:1.8fr 1fr;gap:5px;flex:1;">
+          <div style="background:linear-gradient(135deg,#7B2FF7,#C62A88);border-radius:6px;padding:9px;display:flex;flex-direction:column;justify-content:space-between;">
+            <div style="font-size:6px;color:rgba(255,255,255,0.55);letter-spacing:1px;">[01] UI/UX</div>
+            <div>
+              <div style="font-size:10px;color:white;font-weight:900;">रीView</div>
+              <div style="font-size:6px;color:rgba(255,255,255,0.55);">cricket assistant ↗</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="background:#FFB800;border-radius:6px;padding:7px;flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+              <div style="font-size:6px;color:rgba(0,0,0,0.5);letter-spacing:1px;">[02] 3D</div>
+              <div style="font-size:9px;font-weight:900;">CSK ↗</div>
+            </div>
+            <div style="background:#1F2937;border:1px solid #28c840;border-radius:6px;padding:7px;flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+              <div style="font-size:6px;color:#28c840;letter-spacing:1px;">[03] brand</div>
+              <div style="font-size:8px;color:#28c840;font-weight:900;">Mood ↗</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Dark Terminal</h3>
+      <p>Full commitment — near-black bg, scanlines, green prompt accents, terminal window chrome. Colorful tiles hit harder against the dark.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Dark but warmer — VS Code / Linear / Warp style -->
+  <div class="card" data-choice="modern-dark" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111318; padding:0; height:300px; position:relative; overflow:hidden; font-family:'Courier New',monospace;">
+      <div style="position:relative;padding:16px;height:100%;display:flex;flex-direction:column;box-sizing:border-box;">
+
+        <!-- Linear/Warp-style minimal top nav -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #222;">
+          <div style="font-size:12px;font-weight:900;color:#F0F0F0;letter-spacing:-0.5px;font-family:sans-serif;">जोडी<span style="color:#7B2FF7;">.</span></div>
+          <div style="display:flex;gap:12px;font-size:7px;color:#555;letter-spacing:1.5px;text-transform:uppercase;">
+            <span>work</span><span>about</span><span style="color:#7B2FF7;">hire ↗</span>
+          </div>
+        </div>
+
+        <!-- Modern dark hero — mix of sans + mono -->
+        <div style="margin-bottom:12px;">
+          <div style="font-size:7px;color:#555;margin-bottom:4px;letter-spacing:1px;">INTERACTION DESIGNER · IIT BOMBAY</div>
+          <div style="font-size:20px;font-weight:900;color:#F8F8F8;line-height:1.05;letter-spacing:-1px;font-family:sans-serif;">Jishnu<br>Diwakar</div>
+          <div style="display:inline-flex;align-items:center;gap:6px;margin-top:5px;background:#1e2029;border:1px solid #2a2d3a;border-radius:4px;padding:3px 7px;">
+            <div style="width:5px;height:5px;border-radius:50%;background:#28c840;"></div>
+            <span style="font-size:6px;color:#888;letter-spacing:1px;">available for work</span>
+          </div>
+        </div>
+
+        <!-- Bento grid — modern dark palette -->
+        <div style="display:grid;grid-template-columns:1.8fr 1fr;gap:5px;flex:1;">
+          <div style="background:linear-gradient(135deg,#7B2FF7,#C62A88);border-radius:8px;padding:10px;display:flex;flex-direction:column;justify-content:space-between;">
+            <div style="font-size:6px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;">UI/UX · 3 weeks</div>
+            <div>
+              <div style="font-size:11px;color:white;font-weight:900;font-family:sans-serif;letter-spacing:-0.3px;">रीView</div>
+              <div style="font-size:6px;color:rgba(255,255,255,0.5);">cricket assistant app ↗</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="background:#FFB800;border-radius:8px;padding:8px;flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+              <div style="font-size:6px;color:rgba(0,0,0,0.45);letter-spacing:1px;">3D · CLIENT</div>
+              <div style="font-size:9px;font-weight:900;font-family:sans-serif;">CSK ↗</div>
+            </div>
+            <div style="background:#1e2029;border:1px solid #2a2d3a;border-radius:8px;padding:8px;flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+              <div style="font-size:6px;color:#555;letter-spacing:1px;">BRAND</div>
+              <div style="font-size:8px;color:#C0B4FF;font-weight:900;font-family:sans-serif;">Mood ↗</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Modern Dark (Linear/Warp)</h3>
+      <p>Dark but refined — warmer blacks, no scanlines. The aesthetic of Linear, Warp, or Vercel. CLI vocabulary without the retro.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:20px;font-size:13px;">All three keep your colorful bento tiles. The difference is the surrounding world — warm grid, retro terminal, or modern dark.</p>

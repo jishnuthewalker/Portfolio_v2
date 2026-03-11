@@ -1,0 +1,206 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;900&display=swap');
+
+  .rf-wrap {
+    background: #F7F4EE;
+    background-image: linear-gradient(#e0ddd6 1px, transparent 1px), linear-gradient(90deg, #e0ddd6 1px, transparent 1px);
+    background-size: 20px 20px;
+    padding: 28px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #1a1a1a;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .rf-chrome {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .rf-dot { width: 9px; height: 9px; border-radius: 50%; }
+  .rf-path { font-size: 9px; color: #aaa; margin-left: 8px; letter-spacing: 0.5px; }
+  .rf-avail { margin-left: auto; font-size: 9px; color: #28c840; }
+
+  .rf-logo-box {
+    margin-bottom: 20px;
+    color: #1a1a1a;
+    font-size: 10.5px;
+    line-height: 1.6;
+  }
+  .rf-logo-box .corner { color: #7B2FF7; }
+  .rf-logo-box .dim { color: #aaa; }
+  .rf-logo-jodi { font-size: 14px; font-weight: 900; color: #7B2FF7; font-family: 'JetBrains Mono', monospace; vertical-align: middle; }
+  .rf-logo-sep { color: #ccc; }
+  .rf-skill-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+
+  /* Big hero type — NOT monospace, heavy display */
+  .rf-hero {
+    margin: 24px 0 20px;
+    border-left: 3px solid #7B2FF7;
+    padding-left: 16px;
+  }
+  .rf-prompt { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #888; margin-bottom: 6px; }
+  .rf-prompt .cmd { color: #7B2FF7; }
+  .rf-big-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -3px;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+  }
+  .rf-big-title em {
+    font-style: normal;
+    color: #7B2FF7;
+  }
+  .rf-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #888;
+  }
+  .rf-subtitle .tag { color: #FFB800; }
+
+  /* Projects section */
+  .rf-section-header {
+    font-size: 10px;
+    color: #888;
+    margin: 24px 0 12px;
+  }
+  .rf-section-header .prompt-arrow { color: #28c840; }
+
+  .rf-grid-main { display: grid; grid-template-columns: 1.75fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .rf-grid-bottom { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
+
+  .rf-tile {
+    border: 1px solid #d0cdc6;
+    border-radius: 4px;
+    padding: 12px;
+    background: #FAF8F3;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    position: relative;
+  }
+  .rf-tile:hover { border-color: #7B2FF7; background: rgba(123,47,247,0.03); }
+
+  .rf-tile-top { color: #ccc; font-size: 9px; margin-bottom: 8px; line-height: 1.3; }
+  .rf-tile-title { font-family: 'Inter', sans-serif; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 2px; }
+  .rf-tile-desc { font-size: 9px; color: #888; margin-bottom: 6px; }
+  .rf-tile-meta { font-size: 8.5px; color: #bbb; }
+  .rf-tile-bottom { color: #ccc; font-size: 9px; margin-top: 8px; line-height: 1; }
+
+  /* Color accents per project */
+  .rf-tile-title.purple { color: #7B2FF7; font-size: 18px; }
+  .rf-tile-title.yellow { color: #D4940A; font-size: 15px; }
+  .rf-tile-title.green  { color: #1a9e3f; font-size: 15px; }
+  .rf-tile-title.sm     { color: #1a1a1a; font-size: 12px; }
+  .rf-tile-title.pink   { color: #C62A88; font-size: 12px; }
+
+  .rf-bg-purple { background: rgba(123,47,247,0.04); border-color: rgba(123,47,247,0.2); }
+  .rf-bg-yellow { background: rgba(255,184,0,0.04); border-color: rgba(212,148,10,0.2); }
+  .rf-bg-green  { background: rgba(40,200,64,0.04); border-color: rgba(40,200,64,0.2); }
+
+  .rf-arrow { float: right; font-size: 11px; color: #ccc; }
+</style>
+
+<div class="rf-wrap">
+
+  <!-- Terminal chrome -->
+  <div class="rf-chrome">
+    <div class="rf-dot" style="background:#ff5f57;"></div>
+    <div class="rf-dot" style="background:#febc2e;"></div>
+    <div class="rf-dot" style="background:#28c840;"></div>
+    <span class="rf-path">~/jishnu/portfolio — zsh</span>
+    <span class="rf-avail">● open to work</span>
+  </div>
+
+  <!-- जोडी logo box -->
+  <div class="rf-logo-box">
+    <div>┌────────────────────────────────────────────┐</div>
+    <div>│&nbsp;&nbsp;<span class="rf-logo-jodi">जोडी</span>&nbsp;&nbsp;<span class="rf-logo-sep">·</span>&nbsp;&nbsp;<span style="color:#888;">jishnu diwakar</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│</div>
+    <div>│&nbsp;&nbsp;<span class="dim">interaction design · iit bombay · mumbai</span>&nbsp;&nbsp;&nbsp;│</div>
+    <div>├────────────────────────────────────────────┤</div>
+    <div>│&nbsp;&nbsp;<span class="rf-skill-dot" style="background:#7B2FF7;"></span><span style="color:#7B2FF7;">ui/ux</span>&nbsp;&nbsp;<span class="rf-skill-dot" style="background:#FFB800;"></span><span style="color:#D4940A;">motion</span>&nbsp;&nbsp;<span class="rf-skill-dot" style="background:#28c840;"></span><span style="color:#1a9e3f;">3d&nbsp;+&nbsp;vr</span>&nbsp;&nbsp;<span class="rf-skill-dot" style="background:#C62A88;"></span><span style="color:#C62A88;">games</span>&nbsp;&nbsp;&nbsp;&nbsp;│</div>
+    <div>└────────────────────────────────────────────┘</div>
+  </div>
+
+  <!-- BIG HERO TYPE — the "Interaction Designer" moment -->
+  <div class="rf-hero">
+    <div class="rf-prompt"><span class="cmd">❯</span> ./introduce.sh</div>
+    <div class="rf-big-title">INTER-<br>ACTION<br><em>DESIGN</em></div>
+    <div class="rf-subtitle">
+      <span class="tag">↳</span> crafting experiences that just <em style="color:#1a1a1a;font-style:normal;font-weight:700;">feel right</em>
+    </div>
+  </div>
+
+  <!-- Projects -->
+  <div class="rf-section-header">
+    <span class="prompt-arrow">❯</span> ls ./projects --sort=featured
+  </div>
+
+  <div class="rf-grid-main">
+
+    <!-- Featured tile — रीView -->
+    <div class="rf-tile rf-bg-purple">
+      <div class="rf-tile-top">┌─ [01] ui/ux · 3 weeks ──────────────────────────────┐</div>
+      <div class="rf-tile-title purple">रीView<span class="rf-arrow">↗</span></div>
+      <div class="rf-tile-desc">Cricket Assistant App — conflict resolution &amp; interactive scoring for semi-pro players and umpires.</div>
+      <div class="rf-tile-meta">academic · research · rapid prototyping</div>
+      <div class="rf-tile-bottom">└──────────────────────────────────────────────────────┘</div>
+    </div>
+
+    <!-- Right column -->
+    <div style="display:flex;flex-direction:column;gap:10px;">
+
+      <div class="rf-tile rf-bg-yellow">
+        <div class="rf-tile-top">┌─ [02] 3d · client ──────┐</div>
+        <div class="rf-tile-title yellow">CSK Fanzone<span class="rf-arrow">↗</span></div>
+        <div class="rf-tile-desc" style="font-size:8.5px;">Interactive 3D platform for Chennai Super Kings.</div>
+        <div class="rf-tile-meta">game design · 3d interaction</div>
+        <div class="rf-tile-bottom">└────────────────────────┘</div>
+      </div>
+
+      <div class="rf-tile rf-bg-green">
+        <div class="rf-tile-top">┌─ [03] branding ─────────┐</div>
+        <div class="rf-tile-title green">Mood Indigo<span class="rf-arrow">↗</span></div>
+        <div class="rf-tile-desc" style="font-size:8.5px;">Brand identity for IIT Bombay's cultural fest.</div>
+        <div class="rf-tile-meta">design system · visual identity</div>
+        <div class="rf-tile-bottom">└────────────────────────┘</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom row -->
+  <div class="rf-grid-bottom">
+    <div class="rf-tile">
+      <div class="rf-tile-top">┌─ [04] ux ──┐</div>
+      <div class="rf-tile-title sm">BookMyShow<span class="rf-arrow">↗</span></div>
+      <div class="rf-tile-meta" style="margin-top:4px;">heuristic redesign</div>
+      <div class="rf-tile-bottom">└────────────┘</div>
+    </div>
+    <div class="rf-tile">
+      <div class="rf-tile-top">┌─ [05] vr ──┐</div>
+      <div class="rf-tile-title sm">Multus<span class="rf-arrow">↗</span></div>
+      <div class="rf-tile-meta" style="margin-top:4px;">vr menus · 6dof</div>
+      <div class="rf-tile-bottom">└────────────┘</div>
+    </div>
+    <div class="rf-tile">
+      <div class="rf-tile-top">┌─ [06] game ┐</div>
+      <div class="rf-tile-title sm pink">Seven Sands<span class="rf-arrow">↗</span></div>
+      <div class="rf-tile-meta" style="margin-top:4px;">board game design</div>
+      <div class="rf-tile-bottom">└────────────┘</div>
+    </div>
+    <div class="rf-tile">
+      <div class="rf-tile-top">┌─ [07] hci ─┐</div>
+      <div class="rf-tile-title sm">GrooveGlove<span class="rf-arrow">↗</span></div>
+      <div class="rf-tile-meta" style="margin-top:4px;">gesture · hci</div>
+      <div class="rf-tile-bottom">└────────────┘</div>
+    </div>
+  </div>
+
+</div>

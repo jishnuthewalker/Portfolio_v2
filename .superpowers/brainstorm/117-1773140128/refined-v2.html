@@ -1,0 +1,298 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700;900&display=swap');
+
+  * { box-sizing: border-box; }
+
+  .rf {
+    background: #F7F4EE;
+    background-image: linear-gradient(#e0ddd6 1px, transparent 1px), linear-gradient(90deg, #e0ddd6 1px, transparent 1px);
+    background-size: 20px 20px;
+    padding: 28px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #1a1a1a;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  /* ── Chrome ── */
+  .rf-chrome {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 22px;
+  }
+  .dot { width: 9px; height: 9px; border-radius: 50%; }
+  .rf-chrome span { font-size: 9px; color: #aaa; margin-left: 8px; }
+  .rf-chrome .avail { margin-left: auto; color: #28c840; font-size: 9px; }
+
+  /* ── Unified hero block ── */
+  .rf-hero-box {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 22px;
+    overflow: hidden;
+  }
+
+  .rf-hero-box-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    border-bottom: 1px solid #e0ddd6;
+    font-size: 9px;
+    color: #aaa;
+  }
+  .rf-hero-box-top .jedi { color: #7B2FF7; font-size: 12px; font-weight: 700; letter-spacing: 1px; }
+  .rf-hero-box-top .links { display: flex; gap: 16px; }
+  .rf-hero-box-top .links a { color: #aaa; text-decoration: none; }
+  .rf-hero-box-top .links a:hover { color: #7B2FF7; }
+  .rf-hero-box-top .hire { color: #7B2FF7; border: 1px solid rgba(123,47,247,0.4); padding: 2px 8px; border-radius: 2px; font-size: 8.5px; }
+
+  .rf-hero-body {
+    padding: 22px 24px 20px;
+  }
+
+  /* The name — BIGGEST element */
+  .rf-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 58px;
+    font-weight: 900;
+    letter-spacing: -4px;
+    line-height: 0.88;
+    color: #1a1a1a;
+    margin-bottom: 14px;
+  }
+
+  /* Role — clearly secondary, monospace */
+  .rf-role-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .rf-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: #7B2FF7;
+    letter-spacing: 0.3px;
+  }
+  .rf-role-sep { color: #ccc; font-size: 10px; }
+  .rf-location { font-size: 9.5px; color: #999; }
+
+  /* Skills row */
+  .rf-skills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .rf-skill {
+    font-size: 8.5px;
+    border: 1px solid #d0cdc6;
+    padding: 2px 8px;
+    border-radius: 2px;
+    color: #666;
+    letter-spacing: 0.3px;
+  }
+
+  /* Box-draw footer of hero */
+  .rf-hero-footer {
+    border-top: 1px solid #e8e5de;
+    padding: 10px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 9px;
+    color: #bbb;
+  }
+  .rf-hero-footer .prompt { color: #28c840; }
+  .rf-hero-footer .cta {
+    margin-left: auto;
+    font-size: 9px;
+    color: #7B2FF7;
+    border: 1px solid rgba(123,47,247,0.35);
+    padding: 3px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  /* ── Projects ── */
+  .rf-projects-header {
+    font-size: 9.5px;
+    color: #888;
+    margin-bottom: 12px;
+  }
+  .rf-projects-header .arrow { color: #28c840; }
+
+  .rf-grid-main { display: grid; grid-template-columns: 1.8fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .rf-grid-bottom { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+
+  .rf-tile {
+    border: 1px solid #d0cdc6;
+    border-radius: 4px;
+    padding: 13px 14px;
+    background: #FAF8F3;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    position: relative;
+  }
+  .rf-tile:hover { border-color: #7B2FF7; }
+
+  .rf-tile-label { font-size: 8.5px; color: #ccc; margin-bottom: 8px; letter-spacing: 0.3px; }
+  .rf-tile-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+    line-height: 1.1;
+  }
+  .rf-tile-desc { font-size: 8.5px; color: #888; line-height: 1.45; margin-bottom: 8px; }
+  .rf-tile-tags { font-size: 8px; color: #bbb; }
+  .rf-tile-arrow { position: absolute; top: 13px; right: 14px; font-size: 10px; color: #ccc; }
+
+  /* Color per tile */
+  .t-purple { color: #7B2FF7; font-size: 20px; }
+  .t-purple-bg { background: rgba(123,47,247,0.03); border-color: rgba(123,47,247,0.18); }
+  .t-yellow { color: #C08000; font-size: 15px; }
+  .t-yellow-bg { background: rgba(255,184,0,0.03); border-color: rgba(192,128,0,0.2); }
+  .t-green  { color: #1a9e3f; font-size: 15px; }
+  .t-green-bg  { background: rgba(26,158,63,0.03); border-color: rgba(26,158,63,0.18); }
+  .t-sm { color: #1a1a1a; font-size: 12px; }
+  .t-pink { color: #C62A88; font-size: 12px; }
+
+  .rf-tile-box-top { font-size: 8.5px; color: #ddd; margin-bottom: 8px; line-height: 1; }
+  .rf-tile-box-bot { font-size: 8.5px; color: #ddd; margin-top: 8px; line-height: 1; }
+</style>
+
+<div class="rf">
+
+  <!-- Terminal chrome -->
+  <div class="rf-chrome">
+    <div class="dot" style="background:#ff5f57;"></div>
+    <div class="dot" style="background:#febc2e;"></div>
+    <div class="dot" style="background:#28c840;"></div>
+    <span>~/jishnu/portfolio — zsh</span>
+    <span class="avail">● open to work</span>
+  </div>
+
+  <!-- Unified hero box — name is king -->
+  <div class="rf-hero-box">
+
+    <!-- Box title bar — जेदी mark + nav -->
+    <div class="rf-hero-box-top">
+      <span class="jedi">जेदी</span>
+      <div class="links">
+        <a href="#">work</a>
+        <a href="#">about</a>
+        <a href="#">resume</a>
+        <a href="#">blog</a>
+        <span class="hire">hire me ↗</span>
+      </div>
+    </div>
+
+    <div class="rf-hero-body">
+
+      <!-- [1] NAME — largest -->
+      <div class="rf-name">JISHNU<br>DIWAKAR</div>
+
+      <!-- [2] Role — clearly secondary -->
+      <div class="rf-role-line">
+        <span class="rf-role">Interaction Designer</span>
+        <span class="rf-role-sep">·</span>
+        <span class="rf-location">IIT Bombay · Mumbai</span>
+      </div>
+
+      <!-- [3] Skills — tertiary -->
+      <div class="rf-skills">
+        <span class="rf-skill">■ ui/ux</span>
+        <span class="rf-skill">■ motion</span>
+        <span class="rf-skill">■ 3d + vr</span>
+        <span class="rf-skill">■ game design</span>
+        <span class="rf-skill">■ branding</span>
+      </div>
+
+      <!-- Footer / prompt -->
+      <div class="rf-hero-footer">
+        <span class="prompt">❯</span>
+        <span>crafting experiences that just feel right</span>
+        <span class="cta">get in touch ↗</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Projects section -->
+  <div class="rf-projects-header">
+    <span class="arrow">❯</span> ls ./projects --sort=featured
+  </div>
+
+  <!-- Featured row -->
+  <div class="rf-grid-main">
+
+    <div class="rf-tile t-purple-bg">
+      <div class="rf-tile-arrow">↗</div>
+      <div class="rf-tile-box-top">┌─ [01] ui/ux · 3 weeks ─────────────────────────────┐</div>
+      <div class="rf-tile-title t-purple">रीView</div>
+      <div class="rf-tile-desc">Cricket Assistant App — conflict resolution &amp; interactive scoring for semi-pro players and umpires.</div>
+      <div class="rf-tile-tags">academic · research · rapid prototyping</div>
+      <div class="rf-tile-box-bot">└──────────────────────────────────────────────────────┘</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div class="rf-tile t-yellow-bg">
+        <div class="rf-tile-arrow">↗</div>
+        <div class="rf-tile-box-top">┌─ [02] 3d · client ────────┐</div>
+        <div class="rf-tile-title t-yellow">CSK Fanzone</div>
+        <div class="rf-tile-desc" style="font-size:8px;">Interactive 3D platform for Chennai Super Kings.</div>
+        <div class="rf-tile-tags">game design · 3d interaction</div>
+        <div class="rf-tile-box-bot">└───────────────────────────┘</div>
+      </div>
+      <div class="rf-tile t-green-bg">
+        <div class="rf-tile-arrow">↗</div>
+        <div class="rf-tile-box-top">┌─ [03] branding · 2 months ┐</div>
+        <div class="rf-tile-title t-green">Mood Indigo</div>
+        <div class="rf-tile-desc" style="font-size:8px;">Brand identity for IIT Bombay's cultural fest.</div>
+        <div class="rf-tile-tags">identity · design system</div>
+        <div class="rf-tile-box-bot">└───────────────────────────┘</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Secondary row -->
+  <div class="rf-grid-bottom">
+    <div class="rf-tile">
+      <div class="rf-tile-arrow">↗</div>
+      <div class="rf-tile-box-top">┌─ [04] ux ──┐</div>
+      <div class="rf-tile-title t-sm">BookMyShow</div>
+      <div class="rf-tile-tags" style="margin-top:5px;">heuristic redesign</div>
+      <div class="rf-tile-box-bot">└────────────┘</div>
+    </div>
+    <div class="rf-tile">
+      <div class="rf-tile-arrow">↗</div>
+      <div class="rf-tile-box-top">┌─ [05] vr ──┐</div>
+      <div class="rf-tile-title t-sm">Multus</div>
+      <div class="rf-tile-tags" style="margin-top:5px;">vr menus · 6dof</div>
+      <div class="rf-tile-box-bot">└────────────┘</div>
+    </div>
+    <div class="rf-tile">
+      <div class="rf-tile-arrow">↗</div>
+      <div class="rf-tile-box-top">┌─ [06] game ┐</div>
+      <div class="rf-tile-title t-pink">Seven Sands</div>
+      <div class="rf-tile-tags" style="margin-top:5px;">strategy · thematic</div>
+      <div class="rf-tile-box-bot">└────────────┘</div>
+    </div>
+    <div class="rf-tile">
+      <div class="rf-tile-arrow">↗</div>
+      <div class="rf-tile-box-top">┌─ [07] hci ─┐</div>
+      <div class="rf-tile-title t-sm">GrooveGlove</div>
+      <div class="rf-tile-tags" style="margin-top:5px;">gesture · hci</div>
+      <div class="rf-tile-box-bot">└────────────┘</div>
+    </div>
+  </div>
+
+</div>

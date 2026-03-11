@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Micro-interaction Ideas</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@900&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #1a1a1a;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 32px;
+    color: #f0f0f0;
+  }
+
+  h1 { font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 900; color: #f0f0f0; margin-bottom: 6px; letter-spacing: -1px; }
+  .intro { font-size: 10px; color: #666; margin-bottom: 32px; line-height: 1.6; }
+  .intro span { color: #7B2FF7; }
+
+  .section { margin-bottom: 40px; }
+  .section-label {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: #444; margin-bottom: 14px; padding-bottom: 8px;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .section-label span { color: #7B2FF7; }
+
+  /* ── 1. TEXT SCRAMBLE ── */
+  .scramble-demo {
+    background: #F7F4EE;
+    background-image: linear-gradient(#e0ddd6 1px,transparent 1px), linear-gradient(90deg,#e0ddd6 1px,transparent 1px);
+    background-size: 20px 20px;
+    border-radius: 6px;
+    padding: 22px 24px;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 320px;
+  }
+  .scramble-tile {
+    border: 1px solid #d0cdc6;
+    border-radius: 4px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    background: #FAF8F3;
+    position: relative;
+  }
+  .scramble-tile:hover { border-color: #7B2FF7; background: rgba(123,47,247,0.04); }
+  .scramble-tile .box-top { font-size: 8px; color: #ddd; margin-bottom: 6px; line-height: 1; }
+  .scramble-tile .tile-title {
+    font-family: 'Inter', sans-serif; font-weight: 900;
+    font-size: 18px; color: #7B2FF7; letter-spacing: -0.5px;
+    cursor: pointer;
+  }
+  .scramble-tile .tile-meta { font-size: 8px; color: #bbb; margin-top: 4px; }
+  .scramble-tile .arrow { position: absolute; top: 12px; right: 12px; font-size: 11px; color: #ccc; transition: transform 0.2s, color 0.2s; }
+  .scramble-tile:hover .arrow { transform: translate(2px, -2px); color: #7B2FF7; }
+
+  /* ── 2. CURSOR BLINK ── */
+  .cursor-demo {
+    background: #F7F4EE;
+    background-image: linear-gradient(#e0ddd6 1px,transparent 1px), linear-gradient(90deg,#e0ddd6 1px,transparent 1px);
+    background-size: 20px 20px;
+    border-radius: 6px;
+    padding: 22px 24px;
+    border: 1px solid #ccc;
+  }
+  .big-name {
+    font-family: 'Inter', sans-serif; font-size: 48px; font-weight: 900;
+    letter-spacing: -3px; line-height: 0.9; color: #1a1a1a;
+  }
+  .cursor-blink {
+    display: inline-block;
+    width: 4px; height: 46px;
+    background: #7B2FF7;
+    vertical-align: bottom;
+    margin-left: 3px;
+    animation: blink 1.1s step-end infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  .role-line { font-size: 11px; color: #7B2FF7; font-weight: 700; margin-top: 8px; }
+  .prompt-line { font-size: 9px; color: #888; margin-top: 4px; }
+  .prompt-line .green { color: #28c840; }
+
+  /* ── 3. BOX BORDER DRAW on hover ── */
+  .box-draw-demo {
+    background: #F7F4EE;
+    background-image: linear-gradient(#e0ddd6 1px,transparent 1px), linear-gradient(90deg,#e0ddd6 1px,transparent 1px);
+    background-size: 20px 20px;
+    border-radius: 6px;
+    padding: 22px 24px;
+    display: inline-flex;
+    gap: 12px;
+  }
+  .bd-tile {
+    width: 140px;
+    padding: 12px;
+    background: #FAF8F3;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Animated border via pseudo-element SVG-like technique */
+  .bd-tile::before, .bd-tile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    transition: opacity 0.25s;
+  }
+  .bd-tile::before {
+    border: 1px solid #d0cdc6;
+    opacity: 1;
+  }
+  .bd-tile::after {
+    border: 1.5px solid #7B2FF7;
+    opacity: 0;
+    box-shadow: inset 0 0 12px rgba(123,47,247,0.05), 0 0 0 1px rgba(123,47,247,0.1);
+  }
+  .bd-tile:hover::before { opacity: 0; }
+  .bd-tile:hover::after { opacity: 1; }
+  .bd-tile:hover { background: rgba(123,47,247,0.03); }
+
+  .bd-tile .bd-label { font-size: 8px; color: #ccc; margin-bottom: 6px; }
+  .bd-tile .bd-title { font-family:'Inter',sans-serif; font-weight:900; font-size:13px; }
+  .bd-tile.purple .bd-title { color: #7B2FF7; }
+  .bd-tile.yellow .bd-title { color: #C08000; }
+  .bd-tile.green .bd-title { color: #1a9e3f; }
+  .bd-tile .bd-sub { font-size: 8px; color: #999; margin-top:4px; }
+
+  /* Status dot pulse */
+  .bd-tile .bd-status {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: #ccc; float: right; margin-top: 3px;
+    transition: background 0.2s;
+  }
+  .bd-tile:hover .bd-status { background: #28c840; animation: pulse 1s ease infinite; }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(40,200,64,0.4); }
+    50% { box-shadow: 0 0 0 5px rgba(40,200,64,0); }
+  }
+
+  /* ── 4. TYPEWRITER COMMAND ── */
+  .typewriter-demo {
+    background: #F7F4EE;
+    background-image: linear-gradient(#e0ddd6 1px,transparent 1px), linear-gradient(90deg,#e0ddd6 1px,transparent 1px);
+    background-size: 20px 20px;
+    border-radius: 6px;
+    padding: 22px 24px;
+    min-width: 380px;
+    color: #1a1a1a;
+  }
+  .tw-prompt { font-size: 10px; color: #888; margin-bottom: 12px; min-height: 16px; }
+  .tw-prompt .green { color: #28c840; }
+  .tw-prompt .purple { color: #7B2FF7; }
+  .tw-tiles { display: flex; flex-direction: column; gap: 7px; }
+  .tw-tile {
+    border: 1px solid #d0cdc6;
+    border-radius: 3px;
+    padding: 9px 11px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.25s, transform 0.25s;
+    background: #FAF8F3;
+  }
+  .tw-tile.visible { opacity: 1; transform: translateY(0); }
+  .tw-tile .tw-num { font-size: 8px; color: #ccc; width: 28px; flex-shrink: 0; }
+  .tw-tile .tw-name { font-family:'Inter',sans-serif; font-weight:900; font-size:12px; flex: 1; }
+  .tw-tile .tw-tag { font-size: 8px; color: #bbb; }
+  .tw-tile .tw-arr { font-size: 10px; color: #ccc; }
+  .tw-tile.c1 .tw-name { color: #7B2FF7; }
+  .tw-tile.c2 .tw-name { color: #C08000; }
+  .tw-tile.c3 .tw-name { color: #1a9e3f; }
+  .tw-btn {
+    margin-top: 12px; font-size: 9px; color: #7B2FF7;
+    border: 1px solid rgba(123,47,247,0.35); padding: 4px 10px;
+    border-radius: 2px; cursor: pointer; display: inline-block;
+    background: rgba(123,47,247,0.04);
+  }
+  .tw-btn:hover { background: rgba(123,47,247,0.08); }
+
+  /* ── 5. SKILL TAG FILTER ── */
+  .filter-demo {
+    background: #F7F4EE;
+    background-image: linear-gradient(#e0ddd6 1px,transparent 1px), linear-gradient(90deg,#e0ddd6 1px,transparent 1px);
+    background-size: 20px 20px;
+    border-radius: 6px;
+    padding: 22px 24px;
+    color: #1a1a1a;
+  }
+  .filter-label { font-size: 9px; color: #888; margin-bottom: 10px; }
+  .filter-tags { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 16px; }
+  .filter-tag {
+    font-size: 8.5px; border: 1px solid #d0cdc6;
+    padding: 3px 9px; border-radius: 2px; color: #888;
+    cursor: pointer; transition: all 0.15s; background: #FAF8F3;
+  }
+  .filter-tag:hover { border-color: #7B2FF7; color: #7B2FF7; background: rgba(123,47,247,0.04); }
+  .filter-tag.active { background: #7B2FF7; color: white; border-color: #7B2FF7; }
+  .filter-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .ft-tile {
+    border: 1px solid #d0cdc6; border-radius: 4px; padding: 10px;
+    background: #FAF8F3; transition: opacity 0.2s, filter 0.2s;
+    font-size: 9px;
+  }
+  .ft-tile.dimmed { opacity: 0.25; filter: grayscale(1); }
+  .ft-tile .ft-name { font-family:'Inter',sans-serif; font-weight:900; font-size:13px; margin-bottom:3px; }
+  .ft-tile .ft-cats { font-size: 7.5px; color: #aaa; }
+  .ft-tile.p .ft-name { color: #7B2FF7; }
+  .ft-tile.y .ft-name { color: #C08000; }
+  .ft-tile.g .ft-name { color: #1a9e3f; }
+
+  /* ── 6. SCRAMBLE on NAME hover ── */
+  .name-scramble-demo {
+    background: #F7F4EE;
+    background-image: linear-gradient(#e0ddd6 1px,transparent 1px), linear-gradient(90deg,#e0ddd6 1px,transparent 1px);
+    background-size: 20px 20px;
+    border-radius: 6px;
+    padding: 22px 24px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    user-select: none;
+  }
+  .name-scramble-demo .label { font-size: 9px; color: #888; margin-bottom: 10px; }
+  .scramble-name {
+    font-family: 'Inter', sans-serif; font-size: 48px; font-weight: 900;
+    letter-spacing: -3px; line-height: 0.9; color: #1a1a1a;
+    cursor: pointer;
+  }
+  .scramble-name .char { display: inline-block; transition: color 0.05s; }
+  .scramble-name .char.scrambling { color: #7B2FF7; }
+
+  .demo-grid { display: flex; flex-wrap: wrap; gap: 20px; }
+  .demo-item { }
+  .demo-item-label { font-size: 8.5px; color: #555; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; }
+  .demo-item-label span { color: #7B2FF7; }
+</style>
+</head>
+<body>
+
+<h1>Micro-interaction Ideas</h1>
+<p class="intro">All live — hover/click each demo. These are interactions designed around the <span>box-draw + monospace</span> aesthetic.</p>
+
+<div class="demo-grid">
+
+  <!-- 1. Cursor blink on name -->
+  <div class="demo-item">
+    <div class="demo-item-label"><span>[1]</span> Blinking cursor on name load</div>
+    <div class="cursor-demo">
+      <div class="big-name">JISHNU<span class="cursor-blink"></span><br>DIWAKAR</div>
+      <div class="role-line">Interaction Designer</div>
+      <div class="prompt-line"><span class="green">❯</span> crafting experiences that feel right</div>
+    </div>
+  </div>
+
+  <!-- 2. Scramble on name hover -->
+  <div class="demo-item">
+    <div class="demo-item-label"><span>[2]</span> Text scramble on name hover</div>
+    <div class="name-scramble-demo" id="scrambleNameDemo">
+      <div class="label">hover to scramble</div>
+      <div class="scramble-name" id="scrambleName">JISHNU<br>DIWAKAR</div>
+      <div class="role-line" style="font-size:11px;color:#7B2FF7;font-weight:700;font-family:'JetBrains Mono',monospace;margin-top:8px;">Interaction Designer</div>
+    </div>
+  </div>
+
+  <!-- 3. Tile hover: border swap + arrow -->
+  <div class="demo-item">
+    <div class="demo-item-label"><span>[3]</span> Tile hover — border glow + status dot</div>
+    <div class="box-draw-demo">
+      <div class="bd-tile purple">
+        <div class="bd-label">┌─ [01] ui/ux ────┐</div>
+        <div class="bd-title">रीView <span class="bd-status"></span></div>
+        <div class="bd-sub">cricket assistant</div>
+        <div class="bd-label" style="margin-top:6px;">└────────────────┘</div>
+      </div>
+      <div class="bd-tile yellow">
+        <div class="bd-label">┌─ [02] 3d ───────┐</div>
+        <div class="bd-title">CSK <span class="bd-status"></span></div>
+        <div class="bd-sub">3d fanzone</div>
+        <div class="bd-label" style="margin-top:6px;">└────────────────┘</div>
+      </div>
+      <div class="bd-tile green">
+        <div class="bd-label">┌─ [03] brand ────┐</div>
+        <div class="bd-title">Mood <span class="bd-status"></span></div>
+        <div class="bd-sub">brand identity</div>
+        <div class="bd-label" style="margin-top:6px;">└────────────────┘</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Title scramble on tile hover -->
+  <div class="demo-item">
+    <div class="demo-item-label"><span>[4]</span> Project title scramble on tile hover</div>
+    <div class="scramble-demo">
+      <div class="scramble-tile" data-title="रीView">
+        <div class="box-top">┌─ [01] ui/ux · 3 weeks ──────────────┐</div>
+        <div class="tile-title" data-target="रीView">रीView</div>
+        <div class="tile-meta">cricket assistant · research · rapid proto</div>
+        <div class="box-top" style="margin-top:6px;">└──────────────────────────────────────┘</div>
+        <span class="arrow">↗</span>
+      </div>
+      <div class="scramble-tile" data-title="CSK Fanzone">
+        <div class="box-top">┌─ [02] 3d · client ───────────────────┐</div>
+        <div class="tile-title" style="color:#C08000;" data-target="CSK Fanzone">CSK Fanzone</div>
+        <div class="tile-meta">interactive 3d · game design</div>
+        <div class="box-top" style="margin-top:6px;">└──────────────────────────────────────┘</div>
+        <span class="arrow">↗</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Typewriter project reveal -->
+  <div class="demo-item">
+    <div class="demo-item-label"><span>[5]</span> Typewriter command → tiles cascade in</div>
+    <div class="typewriter-demo">
+      <div class="tw-prompt" id="twPrompt"><span class="green">❯</span> <span id="twText"></span><span id="twCursor" style="animation:blink 1s step-end infinite;color:#7B2FF7;">█</span></div>
+      <div class="tw-tiles">
+        <div class="tw-tile c1" id="tw1"><span class="tw-num">[01]</span><span class="tw-name">रीView</span><span class="tw-tag">ui/ux</span><span class="tw-arr">↗</span></div>
+        <div class="tw-tile c2" id="tw2"><span class="tw-num">[02]</span><span class="tw-name">CSK Fanzone</span><span class="tw-tag">3d</span><span class="tw-arr">↗</span></div>
+        <div class="tw-tile c3" id="tw3"><span class="tw-num">[03]</span><span class="tw-name">Mood Indigo</span><span class="tw-tag">brand</span><span class="tw-arr">↗</span></div>
+        <div class="tw-tile" id="tw4"><span class="tw-num">[04]</span><span class="tw-name">BookMyShow</span><span class="tw-tag">ux</span><span class="tw-arr">↗</span></div>
+      </div>
+      <span class="tw-btn" onclick="runTypewriter()">↻ replay</span>
+    </div>
+  </div>
+
+  <!-- 6. Skill filter -->
+  <div class="demo-item">
+    <div class="demo-item-label"><span>[6]</span> Skill tag filter — highlights matching projects</div>
+    <div class="filter-demo">
+      <div class="filter-label"><span style="color:#28c840;">❯</span> filter by skill</div>
+      <div class="filter-tags">
+        <div class="filter-tag" onclick="filterProjects('all', this)">■ all</div>
+        <div class="filter-tag" onclick="filterProjects('ux', this)">■ ui/ux</div>
+        <div class="filter-tag" onclick="filterProjects('3d', this)">■ 3d+vr</div>
+        <div class="filter-tag" onclick="filterProjects('brand', this)">■ branding</div>
+        <div class="filter-tag" onclick="filterProjects('game', this)">■ games</div>
+      </div>
+      <div class="filter-tiles">
+        <div class="ft-tile p" data-cats="ux"><div class="ft-name">रीView</div><div class="ft-cats">ui/ux · research</div></div>
+        <div class="ft-tile y" data-cats="3d game"><div class="ft-name">CSK</div><div class="ft-cats">3d · game design</div></div>
+        <div class="ft-tile g" data-cats="brand"><div class="ft-name">Mood Indigo</div><div class="ft-cats">branding · identity</div></div>
+        <div class="ft-tile" data-cats="ux"><div class="ft-name">BookMyShow</div><div class="ft-cats">ux redesign</div></div>
+        <div class="ft-tile" data-cats="3d"><div class="ft-name">Multus</div><div class="ft-cats">vr · 6dof</div></div>
+        <div class="ft-tile" data-cats="game"><div class="ft-name">7 Sands</div><div class="ft-cats">board game</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── TEXT SCRAMBLE utility ──
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!?';
+function scramble(el, target, duration = 600) {
+  let start = null;
+  const original = target;
+  function frame(ts) {
+    if (!start) start = ts;
+    const progress = Math.min((ts - start) / duration, 1);
+    const revealedCount = Math.floor(progress * original.length);
+    let result = '';
+    for (let i = 0; i < original.length; i++) {
+      if (original[i] === ' ' || original[i] === '\n') { result += original[i]; continue; }
+      if (i < revealedCount) result += original[i];
+      else result += CHARS[Math.floor(Math.random() * CHARS.length)];
+    }
+    el.textContent = result;
+    if (progress < 1) requestAnimationFrame(frame);
+    else el.textContent = original;
+  }
+  requestAnimationFrame(frame);
+}
+
+// Scramble on project tile hover
+document.querySelectorAll('.scramble-tile').forEach(tile => {
+  const titleEl = tile.querySelector('.tile-title');
+  const target = titleEl.dataset.target;
+  let running = false;
+  tile.addEventListener('mouseenter', () => {
+    if (!running) { running = true; scramble(titleEl, target, 500); setTimeout(()=>running=false, 600); }
+  });
+});
+
+// Scramble on name hover
+const nameDemo = document.getElementById('scrambleNameDemo');
+const nameEl = document.getElementById('scrambleName');
+const NAME_TARGET = 'JISHNU\nDIWAKAR';
+let nameRunning = false;
+nameDemo.addEventListener('mouseenter', () => {
+  if (!nameRunning) {
+    nameRunning = true;
+    scramble(nameEl, NAME_TARGET, 700);
+    setTimeout(()=>nameRunning=false, 800);
+  }
+});
+
+// ── TYPEWRITER ──
+function runTypewriter() {
+  const text = 'ls ./projects --sort=featured';
+  const el = document.getElementById('twText');
+  const cursor = document.getElementById('twCursor');
+  ['tw1','tw2','tw3','tw4'].forEach(id => document.getElementById(id).classList.remove('visible'));
+  el.textContent = '';
+  let i = 0;
+  cursor.style.display = 'inline';
+  function type() {
+    if (i < text.length) {
+      el.textContent += text[i++];
+      setTimeout(type, 38 + Math.random() * 30);
+    } else {
+      cursor.style.display = 'none';
+      // cascade tiles in
+      ['tw1','tw2','tw3','tw4'].forEach((id, idx) => {
+        setTimeout(() => document.getElementById(id).classList.add('visible'), 200 + idx * 120);
+      });
+    }
+  }
+  type();
+}
+// Auto-run on load
+setTimeout(runTypewriter, 600);
+
+// ── SKILL FILTER ──
+function filterProjects(skill, tagEl) {
+  document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+  tagEl.classList.add('active');
+  document.querySelectorAll('.ft-tile').forEach(tile => {
+    const cats = tile.dataset.cats || '';
+    if (skill === 'all' || cats.includes(skill)) tile.classList.remove('dimmed');
+    else tile.classList.add('dimmed');
+  });
+}
+</script>
+</body>
+</html>

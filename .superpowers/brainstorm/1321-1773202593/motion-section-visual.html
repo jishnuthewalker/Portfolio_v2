@@ -1,0 +1,180 @@
+<h2>Where does the Motion Showcase live?</h2>
+<p class="subtitle">Scroll down to see all three options — click one to select</p>
+
+<style>
+  .mock-portfolio {
+    font-family: 'Courier New', monospace;
+    background: #F7F4EE;
+    border: 1px solid #d0cdc6;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 0;
+  }
+  .mock-row { display: flex; gap: 5px; margin-bottom: 5px; }
+  .mock-block { background: #e8e3f0; border-radius: 2px; border: 1px solid #d4cce8; }
+  .mock-block.accent { background: #ede9fb; border-color: #c4a8e8; }
+  .mock-block.dim { background: #f0eee8; border-color: #ddd; opacity: 0.5; }
+  .mock-label { font-size: 7px; color: #9580c0; text-align: center; padding-top: 4px; line-height: 1; font-family: 'Courier New', monospace; }
+  .mock-label.dim { color: #bbb; }
+  .mock-terminal { font-size: 8px; color: #888; margin-bottom: 6px; font-family: 'Courier New', monospace; line-height: 1.4; }
+  .mock-terminal .prompt { color: #28c840; }
+  .mock-video { background: #1a1a1a; border-radius: 2px; display: flex; align-items: center; justify-content: center; }
+  .mock-video-label { font-size: 7px; color: #666; font-family: 'Courier New', monospace; }
+  .mock-overlay { position: absolute; inset: 0; background: rgba(250,248,243,0.96); border-radius: 4px; padding: 10px; }
+  .mock-wrap { position: relative; }
+  .mock-hero { height: 48px; background: #FAF8F3; border: 1px solid #d0cdc6; border-radius: 2px; margin-bottom: 5px; display: flex; align-items: center; padding: 0 8px; }
+  .mock-name { width: 60px; height: 12px; background: #5b21b6; border-radius: 1px; }
+  .mock-footer { height: 14px; background: #f0ede8; border: 1px solid #d0cdc6; border-radius: 2px; margin-top: 5px; }
+  .section-label { font-size: 9px; color: #7c3aed; font-family: 'Courier New', monospace; margin-bottom: 4px; font-weight: bold; }
+</style>
+
+<div class="cards">
+
+  <!-- A: Between Projects & Footer -->
+  <div class="card" data-choice="between" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:14px;background:#f9f6ff;">
+      <div class="mock-portfolio">
+        <!-- hero -->
+        <div class="mock-hero">
+          <div class="mock-name"></div>
+          <div style="margin-left:auto;display:flex;gap:4px;">
+            <div style="width:18px;height:6px;background:#c4a8e8;border-radius:1px;"></div>
+            <div style="width:18px;height:6px;background:#c4a8e8;border-radius:1px;"></div>
+            <div style="width:18px;height:6px;background:#c4a8e8;border-radius:1px;"></div>
+          </div>
+        </div>
+        <!-- projects section -->
+        <div class="mock-terminal"><span class="prompt">❯</span> ls ./projects</div>
+        <div class="mock-row">
+          <div class="mock-block" style="flex:1.8;height:40px;"></div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+            <div class="mock-block" style="flex:1;height:18px;"></div>
+            <div class="mock-block" style="flex:1;height:18px;"></div>
+          </div>
+        </div>
+        <div class="mock-row" style="margin-bottom:8px;">
+          <div class="mock-block" style="flex:1;height:16px;"></div>
+          <div class="mock-block" style="flex:1;height:16px;"></div>
+          <div class="mock-block" style="flex:1;height:16px;"></div>
+          <div class="mock-block" style="flex:1;height:16px;"></div>
+        </div>
+        <!-- motion section — highlighted -->
+        <div style="border-top:1.5px solid #c4a8e8;padding-top:6px;margin-bottom:5px;">
+          <div class="mock-terminal"><span class="prompt">❯</span> <span style="color:#7c3aed;">ls ./motion --type=reel</span></div>
+          <div class="mock-row">
+            <div class="mock-video" style="flex:1;height:20px;"><div class="mock-video-label">▶</div></div>
+            <div class="mock-video" style="flex:1;height:20px;"><div class="mock-video-label">▶</div></div>
+            <div class="mock-video" style="flex:1;height:20px;"><div class="mock-video-label">▶</div></div>
+          </div>
+          <div class="mock-row">
+            <div class="mock-video" style="flex:1;height:20px;"><div class="mock-video-label">▶</div></div>
+            <div class="mock-video" style="flex:1;height:20px;"><div class="mock-video-label">▶</div></div>
+            <div class="mock-video" style="flex:1;height:20px;"><div class="mock-video-label">▶</div></div>
+          </div>
+        </div>
+        <div class="mock-footer"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Section below projects</h3>
+      <p>Scroll down past the project tiles to reach the motion grid. Same terminal header style. Everything on one page.</p>
+    </div>
+  </div>
+
+  <!-- B: Filter activates motion tiles -->
+  <div class="card" data-choice="filter" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:14px;background:#f9f6ff;">
+      <div class="mock-portfolio">
+        <div class="mock-hero">
+          <div class="mock-name"></div>
+          <div style="margin-left:auto;display:flex;gap:4px;">
+            <div style="width:18px;height:6px;background:#c4a8e8;border-radius:1px;"></div>
+            <div style="width:18px;height:6px;background:#c4a8e8;border-radius:1px;"></div>
+            <div style="width:18px;height:6px;background:#c4a8e8;border-radius:1px;"></div>
+          </div>
+        </div>
+        <!-- filter row — motion selected -->
+        <div class="mock-terminal"><span class="prompt">❯</span> ls ./projects</div>
+        <div style="display:flex;gap:3px;margin-bottom:6px;">
+          <div style="font-size:7px;border:1px solid #ddd;color:#bbb;padding:2px 5px;border-radius:2px;font-family:monospace;">ux</div>
+          <div style="font-size:7px;border:1px solid #5b21b6;color:white;background:#5b21b6;padding:2px 5px;border-radius:2px;font-family:monospace;">motion ✓</div>
+          <div style="font-size:7px;border:1px solid #ddd;color:#bbb;padding:2px 5px;border-radius:2px;font-family:monospace;">3d</div>
+          <div style="font-size:7px;border:1px solid #ddd;color:#bbb;padding:2px 5px;border-radius:2px;font-family:monospace;">game</div>
+        </div>
+        <!-- dimmed non-motion tiles + motion video tiles -->
+        <div class="mock-row">
+          <div class="mock-block dim" style="flex:1.8;height:40px;"></div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+            <div class="mock-block dim" style="flex:1;height:18px;"></div>
+            <div class="mock-block dim" style="flex:1;height:18px;"></div>
+          </div>
+        </div>
+        <div class="mock-row">
+          <div class="mock-video" style="flex:1;height:18px;border:1.5px solid #c4a8e8;"><div class="mock-video-label">▶</div></div>
+          <div class="mock-video" style="flex:1;height:18px;border:1.5px solid #c4a8e8;"><div class="mock-video-label">▶</div></div>
+          <div class="mock-video" style="flex:1;height:18px;border:1.5px solid #c4a8e8;"><div class="mock-video-label">▶</div></div>
+          <div class="mock-video" style="flex:1;height:18px;border:1.5px solid #c4a8e8;"><div class="mock-video-label">▶</div></div>
+        </div>
+        <div class="mock-footer" style="margin-top:5px;"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Motion filter reveals video tiles</h3>
+      <p>Clicking <strong>■ motion</strong> shows video tiles in the project grid. Other tiles dim. No new section needed.</p>
+    </div>
+  </div>
+
+  <!-- C: Modal overlay -->
+  <div class="card" data-choice="modal" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:14px;background:#f9f6ff;">
+      <div class="mock-portfolio mock-wrap">
+        <!-- blurred background portfolio -->
+        <div style="filter:blur(1px);opacity:0.35;">
+          <div class="mock-hero">
+            <div class="mock-name"></div>
+          </div>
+          <div class="mock-row" style="margin-bottom:4px;">
+            <div class="mock-block" style="flex:1.8;height:36px;"></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+              <div class="mock-block" style="flex:1;height:16px;"></div>
+              <div class="mock-block" style="flex:1;height:16px;"></div>
+            </div>
+          </div>
+          <div class="mock-row">
+            <div class="mock-block" style="flex:1;height:14px;"></div>
+            <div class="mock-block" style="flex:1;height:14px;"></div>
+            <div class="mock-block" style="flex:1;height:14px;"></div>
+            <div class="mock-block" style="flex:1;height:14px;"></div>
+          </div>
+        </div>
+        <!-- modal overlay -->
+        <div class="mock-overlay">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <div style="font-size:8px;color:#5b21b6;font-family:monospace;font-weight:bold;">motion showcase</div>
+            <div style="font-size:8px;color:#bbb;font-family:monospace;">✕ close</div>
+          </div>
+          <div class="mock-row">
+            <div class="mock-video" style="flex:1;height:22px;"><div class="mock-video-label">▶</div></div>
+            <div class="mock-video" style="flex:1;height:22px;"><div class="mock-video-label">▶</div></div>
+            <div class="mock-video" style="flex:1;height:22px;"><div class="mock-video-label">▶</div></div>
+          </div>
+          <div class="mock-row" style="margin-top:4px;">
+            <div class="mock-video" style="flex:1;height:22px;"><div class="mock-video-label">▶</div></div>
+            <div class="mock-video" style="flex:1;height:22px;"><div class="mock-video-label">▶</div></div>
+            <div class="mock-video" style="flex:1;height:22px;"><div class="mock-video-label">▶</div></div>
+          </div>
+          <div class="mock-row" style="margin-top:4px;">
+            <div class="mock-video" style="flex:1;height:22px;"><div class="mock-video-label">▶</div></div>
+            <div class="mock-video" style="flex:1;height:22px;"><div class="mock-video-label">▶</div></div>
+            <div class="mock-video" style="flex:1;height:22px;"><div class="mock-video-label">▶</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Full overlay / modal</h3>
+      <p>Clicking <strong>motion</strong> in the nav opens a full overlay with the video grid. Portfolio blurs behind it. Keeps the main layout clean.</p>
+    </div>
+  </div>
+
+</div>

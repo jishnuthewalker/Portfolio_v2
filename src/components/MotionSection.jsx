@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import Masonry from 'react-masonry-css'
+import { MasonryGrid } from './MasonryGrid'
 import { MOTION_VIDEOS } from '../data/motion'
-
-const BREAKPOINTS = {
-  default: 3,
-  640: 2,
-}
 
 export function MotionSection() {
   const [typedCmd, setTypedCmd] = useState('')
@@ -53,27 +48,7 @@ export function MotionSection() {
         animate={visible ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <Masonry
-          breakpointCols={BREAKPOINTS}
-          className="motion-masonry-grid"
-          columnClassName="motion-masonry-col"
-        >
-          {MOTION_VIDEOS.map(video => (
-            <iframe
-              key={video.id}
-              src={video.embedUrl}
-              title={video.title}
-              className="w-full rounded-[2px]"
-              style={{
-                border: '1px solid var(--ana-1-border)',
-                aspectRatio: '16/9',
-                display: 'block',
-              }}
-              allowFullScreen
-              loading="lazy"
-            />
-          ))}
-        </Masonry>
+        <MasonryGrid items={MOTION_VIDEOS} />
       </motion.div>
     </section>
   )

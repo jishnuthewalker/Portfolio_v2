@@ -1,0 +1,178 @@
+<h2>Box-draw as a full design system</h2>
+<p class="subtitle">The terminal box style extended to project tiles. Two takes — one keeps color fills inside the boxes, one lets color live only in text and accents.</p>
+
+<div class="split" style="gap:24px; margin-top:28px; align-items:start;">
+
+  <!-- Option A: Colored fills inside boxes -->
+  <div class="mockup" data-choice="boxdraw-colored" onclick="toggleSelect(this)" style="cursor:pointer; transition: box-shadow 0.15s;">
+    <div class="mockup-header">A — Color inside the boxes</div>
+    <div class="mockup-body" style="background:#F7F4EE; padding:18px; font-family:'Courier New',monospace; font-size:7.5px; line-height:1.5;">
+
+      <!-- Background grid -->
+      <div style="position:relative;">
+        <div style="position:absolute;inset:0;background-image:linear-gradient(#e0ddd6 1px,transparent 1px),linear-gradient(90deg,#e0ddd6 1px,transparent 1px);background-size:18px 18px;opacity:0.5;pointer-events:none;"></div>
+
+        <div style="position:relative;">
+
+          <!-- Terminal chrome -->
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:12px;">
+            <div style="width:7px;height:7px;border-radius:50%;background:#ff5f57;"></div>
+            <div style="width:7px;height:7px;border-radius:50%;background:#febc2e;"></div>
+            <div style="width:7px;height:7px;border-radius:50%;background:#28c840;"></div>
+            <span style="color:#aaa;margin-left:6px;font-size:6.5px;letter-spacing:0.5px;">~/jishnu — portfolio v2</span>
+            <span style="margin-left:auto;color:#7B2FF7;font-size:6.5px;">● available</span>
+          </div>
+
+          <!-- Logo box -->
+          <div style="color:#1a1a1a;margin-bottom:10px;">
+            <div style="color:#7B2FF7;">┌─ जोडी ──────────────────────────┐</div>
+            <div>│ <strong>Jishnu Diwakar</strong> · Interaction Design │</div>
+            <div>│ IIT Bombay · Mumbai              │</div>
+            <div>│ ux · motion · 3d · games · brand │</div>
+            <div style="color:#7B2FF7;">└──────────────────────────────────┘</div>
+          </div>
+
+          <!-- Prompt -->
+          <div style="color:#888;margin-bottom:8px;"><span style="color:#28c840;">❯</span> ls ./projects --color</div>
+
+          <!-- Project tiles — boxes with colored fills -->
+          <div style="display:grid;grid-template-columns:1.7fr 1fr;gap:7px;">
+
+            <!-- Big tile -->
+            <div style="background:linear-gradient(135deg,#7B2FF7,#C62A88);border-radius:3px;padding:10px;color:white;">
+              <div style="opacity:0.6;margin-bottom:4px;">┌─ [01] UI/UX ────────────────┐</div>
+              <div style="font-size:11px;font-weight:900;letter-spacing:-0.3px;margin-bottom:2px;">रीView</div>
+              <div style="opacity:0.7;font-size:7px;">Cricket Assistant App</div>
+              <div style="opacity:0.5;margin-top:6px;font-size:6.5px;">3 wks · Research · Rapid Proto</div>
+              <div style="opacity:0.6;margin-top:4px;">└─────────────────────────────┘</div>
+            </div>
+
+            <!-- Right column -->
+            <div style="display:flex;flex-direction:column;gap:7px;">
+              <div style="background:#FFB800;border-radius:3px;padding:9px;flex:1;">
+                <div style="opacity:0.5;margin-bottom:3px;">┌─ [02] 3D ──────┐</div>
+                <div style="font-size:9px;font-weight:900;">CSK Fanzone</div>
+                <div style="opacity:0.6;font-size:6.5px;">Interactive 3D</div>
+                <div style="opacity:0.5;margin-top:4px;">└────────────────┘</div>
+              </div>
+              <div style="background:#1a1a1a;border-radius:3px;padding:9px;flex:1;color:white;">
+                <div style="opacity:0.4;margin-bottom:3px;color:#28c840;">┌─ [03] Brand ───┐</div>
+                <div style="font-size:9px;font-weight:900;">Mood Indigo</div>
+                <div style="opacity:0.5;font-size:6.5px;">Brand Identity</div>
+                <div style="opacity:0.4;margin-top:4px;color:#28c840;">└────────────────┘</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom row -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:7px;">
+            <div style="background:#e8e3d8;border-radius:3px;padding:8px;color:#1a1a1a;">
+              <div style="opacity:0.5;margin-bottom:2px;">┌─ [04] VR ──┐</div>
+              <div style="font-size:8px;font-weight:900;">Multus</div>
+              <div style="opacity:0.5;margin-top:3px;">└────────────┘</div>
+            </div>
+            <div style="background:#e8e3d8;border-radius:3px;padding:8px;color:#1a1a1a;">
+              <div style="opacity:0.5;margin-bottom:2px;">┌─ [05] Game ┐</div>
+              <div style="font-size:8px;font-weight:900;">7 Sands</div>
+              <div style="opacity:0.5;margin-top:3px;">└────────────┘</div>
+            </div>
+            <div style="background:#e8e3d8;border-radius:3px;padding:8px;color:#1a1a1a;">
+              <div style="opacity:0.5;margin-bottom:2px;">┌─ [06] HCI ─┐</div>
+              <div style="font-size:8px;font-weight:900;">GrooveGlove</div>
+              <div style="opacity:0.5;margin-top:3px;">└────────────┘</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option B: Monochrome boxes, color in text only -->
+  <div class="mockup" data-choice="boxdraw-mono" onclick="toggleSelect(this)" style="cursor:pointer; transition: box-shadow 0.15s;">
+    <div class="mockup-header">B — Color as text accent only</div>
+    <div class="mockup-body" style="background:#F7F4EE; padding:18px; font-family:'Courier New',monospace; font-size:7.5px; line-height:1.5;">
+
+      <div style="position:relative;">
+        <div style="position:absolute;inset:0;background-image:linear-gradient(#e0ddd6 1px,transparent 1px),linear-gradient(90deg,#e0ddd6 1px,transparent 1px);background-size:18px 18px;opacity:0.5;pointer-events:none;"></div>
+
+        <div style="position:relative;">
+
+          <!-- Terminal chrome -->
+          <div style="display:flex;align-items:center;gap:5px;margin-bottom:12px;">
+            <div style="width:7px;height:7px;border-radius:50%;background:#ff5f57;"></div>
+            <div style="width:7px;height:7px;border-radius:50%;background:#febc2e;"></div>
+            <div style="width:7px;height:7px;border-radius:50%;background:#28c840;"></div>
+            <span style="color:#aaa;margin-left:6px;font-size:6.5px;letter-spacing:0.5px;">~/jishnu — portfolio v2</span>
+            <span style="margin-left:auto;color:#28c840;font-size:6.5px;">● available</span>
+          </div>
+
+          <!-- Logo box — more elaborate ASCII -->
+          <div style="color:#1a1a1a;margin-bottom:10px;">
+            <div>┌────────────────────────────────────┐</div>
+            <div>│  <span style="color:#7B2FF7;font-size:9.5px;font-weight:900;vertical-align:middle;">जोडी</span>  <span style="color:#888;">·  jishnu diwakar</span>           │</div>
+            <div>│  <span style="color:#aaa;">interaction design · iit bombay</span>    │</div>
+            <div>├────────────────────────────────────┤</div>
+            <div>│  <span style="color:#7B2FF7;">■</span> ux  <span style="color:#FFB800;">■</span> motion  <span style="color:#28c840;">■</span> 3d  <span style="color:#C62A88;">■</span> games      │</div>
+            <div>└────────────────────────────────────┘</div>
+          </div>
+
+          <!-- Prompt -->
+          <div style="color:#888;margin-bottom:8px;"><span style="color:#28c840;">❯</span> ls ./projects</div>
+
+          <!-- Monochrome boxes — color in title text -->
+          <div style="display:grid;grid-template-columns:1.7fr 1fr;gap:7px;">
+
+            <div style="border:1px solid #ccc;border-radius:3px;padding:10px;background:rgba(123,47,247,0.04);">
+              <div style="color:#aaa;margin-bottom:5px;">┌─ [01] ui/ux ─────────────────┐</div>
+              <div style="font-size:12px;font-weight:900;color:#7B2FF7;letter-spacing:-0.3px;margin-bottom:1px;">रीView</div>
+              <div style="color:#888;font-size:7px;">Cricket Assistant App</div>
+              <div style="color:#aaa;font-size:6.5px;margin-top:5px;">3 wks · research · rapid proto ↗</div>
+              <div style="color:#aaa;margin-top:5px;">└──────────────────────────────┘</div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:7px;">
+              <div style="border:1px solid #ccc;border-radius:3px;padding:9px;flex:1;background:rgba(255,184,0,0.05);">
+                <div style="color:#aaa;margin-bottom:3px;">┌─ [02] 3d ──────┐</div>
+                <div style="font-size:9px;font-weight:900;color:#FFB800;">CSK</div>
+                <div style="color:#aaa;font-size:6.5px;">Interactive 3D ↗</div>
+                <div style="color:#aaa;margin-top:4px;">└────────────────┘</div>
+              </div>
+              <div style="border:1px solid #ccc;border-radius:3px;padding:9px;flex:1;background:rgba(40,200,64,0.04);">
+                <div style="color:#aaa;margin-bottom:3px;">┌─ [03] brand ───┐</div>
+                <div style="font-size:9px;font-weight:900;color:#28c840;">Mood</div>
+                <div style="color:#aaa;font-size:6.5px;">Brand Identity ↗</div>
+                <div style="color:#aaa;margin-top:4px;">└────────────────┘</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom row -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:7px;">
+            <div style="border:1px solid #ccc;border-radius:3px;padding:8px;">
+              <div style="color:#aaa;margin-bottom:2px;">┌─ [04] vr ──┐</div>
+              <div style="font-size:8px;font-weight:900;color:#1a1a1a;">Multus</div>
+              <div style="color:#aaa;margin-top:3px;">└────────────┘</div>
+            </div>
+            <div style="border:1px solid #ccc;border-radius:3px;padding:8px;">
+              <div style="color:#aaa;margin-bottom:2px;">┌─ [05] game ┐</div>
+              <div style="font-size:8px;font-weight:900;color:#1a1a1a;">7 Sands</div>
+              <div style="color:#aaa;margin-top:3px;">└────────────┘</div>
+            </div>
+            <div style="border:1px solid #ccc;border-radius:3px;padding:8px;">
+              <div style="color:#aaa;margin-bottom:2px;">┌─ [06] hci ─┐</div>
+              <div style="font-size:8px;font-weight:900;color:#1a1a1a;">Groove</div>
+              <div style="color:#aaa;margin-top:3px;">└────────────┘</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:20px;font-size:13px;">Click either mockup to select it. You can also tell me to blend elements — e.g. colored fills on featured tiles only, mono boxes for the smaller ones.</p>

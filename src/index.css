@@ -71,7 +71,7 @@
   --terminal-green:  #28c840;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
 
@@ -113,24 +113,3 @@ body {
   }
 }
 
-/* Motion section — react-masonry-css stagger */
-.motion-masonry-grid {
-  display: flex;
-  gap: 10px;
-}
-
-.motion-masonry-col {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* Stagger columns 2 and 3 for visual cascade */
-.motion-masonry-col:nth-child(2) { margin-top: 40px; }
-.motion-masonry-col:nth-child(3) { margin-top: 80px; }
-
-@media (max-width: 640px) {
-  .motion-masonry-col:nth-child(2) { margin-top: 20px; }
-  .motion-masonry-col:nth-child(3) { display: none; }
-}

@@ -1,0 +1,146 @@
+<h2>What goes inside the case study modal?</h2>
+<p class="subtitle">Each mockup shows the rough layout of a project opened in the overlay</p>
+
+<div class="cards">
+
+  <!-- A: Minimal -->
+  <div class="card" data-choice="minimal" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:0;overflow:hidden;background:#f9f6ff;">
+      <div style="
+        font-family:'Courier New',monospace;
+        background:#FAF8F3;
+        padding:14px 14px 10px;
+        font-size:0;
+        line-height:0;
+      ">
+        <!-- close button -->
+        <div style="text-align:right;font-size:8px;color:#bbb;line-height:1;margin-bottom:8px;">✕ close</div>
+        <!-- title -->
+        <div style="height:20px;width:55%;background:#5b21b6;border-radius:2px;margin-bottom:6px;"></div>
+        <!-- subtitle / tags row -->
+        <div style="display:flex;gap:4px;margin-bottom:10px;">
+          <div style="height:10px;width:40px;background:#d4b8f0;border-radius:2px;"></div>
+          <div style="height:10px;width:50px;background:#d4b8f0;border-radius:2px;"></div>
+          <div style="height:10px;width:35px;background:#d4b8f0;border-radius:2px;"></div>
+        </div>
+        <!-- hero image -->
+        <div style="height:70px;background:#ede9fb;border-radius:2px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;">
+          <div style="font-size:8px;color:#9580c0;line-height:1;">hero image</div>
+        </div>
+        <!-- body text lines -->
+        <div style="height:7px;background:#e2ddf0;border-radius:2px;width:95%;margin-bottom:4px;"></div>
+        <div style="height:7px;background:#e2ddf0;border-radius:2px;width:80%;margin-bottom:4px;"></div>
+        <div style="height:7px;background:#e2ddf0;border-radius:2px;width:88%;margin-bottom:4px;"></div>
+        <div style="height:7px;background:#e2ddf0;border-radius:2px;width:65%;"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Minimal</h3>
+      <p>Title, tags, one hero image, 2–3 paragraphs. Fast to write, focused. Good if images do the heavy lifting.</p>
+    </div>
+  </div>
+
+  <!-- B: Structured Case Study -->
+  <div class="card" data-choice="structured" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:0;overflow:hidden;background:#f9f6ff;">
+      <div style="
+        font-family:'Courier New',monospace;
+        background:#FAF8F3;
+        padding:14px 14px 10px;
+        font-size:0;
+        line-height:0;
+      ">
+        <div style="text-align:right;font-size:8px;color:#bbb;line-height:1;margin-bottom:8px;">✕ close</div>
+        <!-- title -->
+        <div style="height:18px;width:50%;background:#5b21b6;border-radius:2px;margin-bottom:8px;"></div>
+        <!-- metadata row: 3 chips -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:10px;">
+          <div style="background:#ede9fb;border-radius:2px;padding:5px;">
+            <div style="height:5px;background:#c4a8e8;border-radius:2px;width:60%;margin-bottom:3px;"></div>
+            <div style="height:7px;background:#9580c0;border-radius:2px;width:80%;"></div>
+          </div>
+          <div style="background:#ede9fb;border-radius:2px;padding:5px;">
+            <div style="height:5px;background:#c4a8e8;border-radius:2px;width:60%;margin-bottom:3px;"></div>
+            <div style="height:7px;background:#9580c0;border-radius:2px;width:70%;"></div>
+          </div>
+          <div style="background:#ede9fb;border-radius:2px;padding:5px;">
+            <div style="height:5px;background:#c4a8e8;border-radius:2px;width:60%;margin-bottom:3px;"></div>
+            <div style="height:7px;background:#9580c0;border-radius:2px;width:75%;"></div>
+          </div>
+        </div>
+        <!-- section: problem -->
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;">
+          <div style="width:6px;height:6px;background:#7c3aed;border-radius:1px;flex-shrink:0;"></div>
+          <div style="height:7px;width:50px;background:#7c3aed;border-radius:2px;"></div>
+        </div>
+        <div style="height:6px;background:#e2ddf0;border-radius:2px;width:90%;margin-bottom:3px;"></div>
+        <div style="height:6px;background:#e2ddf0;border-radius:2px;width:70%;margin-bottom:8px;"></div>
+        <!-- section: process -->
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;">
+          <div style="width:6px;height:6px;background:#7c3aed;border-radius:1px;flex-shrink:0;"></div>
+          <div style="height:7px;width:45px;background:#7c3aed;border-radius:2px;"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px;">
+          <div style="height:28px;background:#ede9fb;border-radius:2px;"></div>
+          <div style="height:28px;background:#ede9fb;border-radius:2px;"></div>
+        </div>
+        <!-- section: outcome -->
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;">
+          <div style="width:6px;height:6px;background:#7c3aed;border-radius:1px;flex-shrink:0;"></div>
+          <div style="height:7px;width:52px;background:#7c3aed;border-radius:2px;"></div>
+        </div>
+        <div style="height:6px;background:#e2ddf0;border-radius:2px;width:85%;"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Structured Case Study ✦ recommended</h3>
+      <p>Metadata row + sections: Problem → Process → Outcome. Standard UX format. Gives you a template to fill rather than a blank page.</p>
+    </div>
+  </div>
+
+  <!-- C: Scroll Story -->
+  <div class="card" data-choice="scrollstory" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:0;overflow:hidden;background:#f9f6ff;">
+      <div style="
+        font-family:'Courier New',monospace;
+        background:#FAF8F3;
+        padding:14px 14px 10px;
+        font-size:0;
+        line-height:0;
+      ">
+        <div style="text-align:right;font-size:8px;color:#bbb;line-height:1;margin-bottom:8px;">✕ close</div>
+        <!-- big title -->
+        <div style="height:22px;width:65%;background:#5b21b6;border-radius:2px;margin-bottom:4px;"></div>
+        <div style="height:8px;width:40%;background:#c4a8e8;border-radius:2px;margin-bottom:8px;"></div>
+        <!-- wide hero -->
+        <div style="height:50px;background:#ede9fb;border-radius:2px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;">
+          <div style="font-size:8px;color:#9580c0;line-height:1;">full-width image</div>
+        </div>
+        <!-- text block left, image right -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px;">
+          <div>
+            <div style="height:6px;background:#e2ddf0;border-radius:2px;width:95%;margin-bottom:3px;"></div>
+            <div style="height:6px;background:#e2ddf0;border-radius:2px;width:80%;margin-bottom:3px;"></div>
+            <div style="height:6px;background:#e2ddf0;border-radius:2px;width:90%;margin-bottom:3px;"></div>
+            <div style="height:6px;background:#e2ddf0;border-radius:2px;width:70%;"></div>
+          </div>
+          <div style="height:36px;background:#ede9fb;border-radius:2px;"></div>
+        </div>
+        <!-- image left, text right -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+          <div style="height:36px;background:#ede9fb;border-radius:2px;"></div>
+          <div>
+            <div style="height:6px;background:#e2ddf0;border-radius:2px;width:90%;margin-bottom:3px;"></div>
+            <div style="height:6px;background:#e2ddf0;border-radius:2px;width:75%;margin-bottom:3px;"></div>
+            <div style="height:6px;background:#e2ddf0;border-radius:2px;width:85%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Scroll Story</h3>
+      <p>Long-form narrative, alternating wide images + text. Editorial and rich. Best for 1–2 showpiece projects — heavy to produce.</p>
+    </div>
+  </div>
+
+</div>

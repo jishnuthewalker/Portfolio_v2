@@ -45,7 +45,7 @@ export function ProjectTile({ project, dimmed = false, onOpen }) {
         '--tile-tag': c.tag,
         '--tile-title': c.title,
       }}
-      className="rounded-sm p-3.5 relative cursor-pointer"
+      className="rounded-sm p-3.5 relative cursor-pointer h-full flex flex-col"
       initial={{ borderColor: c.borderRest }}
       animate={{
         opacity: dimmed ? 0.2 : 1,

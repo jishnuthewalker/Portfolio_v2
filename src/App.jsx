@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { TerminalChrome }  from './components/TerminalChrome'
-import { HeroBox }         from './components/HeroBox'
-import { ProjectsSection } from './components/ProjectsSection'
-import { Footer }          from './components/Footer'
+import { TerminalChrome }   from './components/TerminalChrome'
+import { HeroBox }          from './components/HeroBox'
+import { ProjectsSection }  from './components/ProjectsSection'
+import { Footer }           from './components/Footer'
+import { ProjectModal }     from './components/ProjectModal'
 
 export default function App() {
   const [activeProjectId, setActiveProjectId] = useState(null)
@@ -15,6 +16,10 @@ export default function App() {
       <ProjectsSection onOpenProject={setActiveProjectId} />
       <div className="flex-1" />
       <Footer />
+      <ProjectModal
+        projectId={activeProjectId}
+        onClose={() => setActiveProjectId(null)}
+      />
     </main>
   )
 }

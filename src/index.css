@@ -56,6 +56,13 @@
   --ana-7-bg:     hsl(320, 36%, 93%);
   --ana-7-border: hsl(320, 38%, 80%);
 
+  --ana-8:        hsl(346, 48%, 56%);
+  --ana-8-dark:   hsl(346, 55%, 28%);
+  --ana-8-chrome: hsl(346, 28%, 64%);
+  --ana-8-tag:    hsl(346, 30%, 50%);
+  --ana-8-bg:     hsl(346, 36%, 93%);
+  --ana-8-border: hsl(346, 38%, 80%);
+
   --accent:          var(--ana-1-dark);
   --accent-tint-04:  hsl(277, 65%, 32%, 0.04);
   --accent-tint-08:  hsl(277, 65%, 32%, 0.08);

@@ -76,11 +76,21 @@ export const PROJECTS = [
     size: 'small',
     colorKey: 'ana-7',
   },
+  {
+    id: 'prosper',
+    num: '08',
+    category: 'game · 1 month',
+    title: 'Prosper',
+    desc: null,
+    tags: ['board game', 'educational', 'strategy'],
+    skills: ['game'],
+    size: 'small',
+    colorKey: 'ana-8',
+  },
 ]
 
 export const FILTERS = [
   { label: '■ ui/ux',       value: 'ux' },
-  { label: '■ motion',      value: 'motion' },
   { label: '■ 3d + vr',     value: '3d' },
   { label: '■ game design', value: 'game' },
   { label: '■ branding',    value: 'brand' },
@@ -94,4 +104,5 @@ export const COLOR_MAP = {
   'ana-5': { bg: 'var(--ana-5-bg)', border: 'var(--ana-5-border)', chrome: 'var(--ana-5-chrome)', tag: 'var(--ana-5-tag)', title: 'var(--ana-5-dark)', borderRest: 'hsl(307, 36%, 80%)', borderHover: 'hsl(307, 52%, 32%)' },
   'ana-6': { bg: 'var(--ana-6-bg)', border: 'var(--ana-6-border)', chrome: 'var(--ana-6-chrome)', tag: 'var(--ana-6-tag)', title: 'var(--ana-6-dark)', borderRest: 'hsl(333, 42%, 84%)', borderHover: 'hsl(333, 60%, 32%)' },
   'ana-7': { bg: 'var(--ana-7-bg)', border: 'var(--ana-7-border)', chrome: 'var(--ana-7-chrome)', tag: 'var(--ana-7-tag)', title: 'var(--ana-7-dark)', borderRest: 'hsl(320, 38%, 80%)', borderHover: 'hsl(320, 52%, 28%)' },
+  'ana-8': { bg: 'var(--ana-8-bg)', border: 'var(--ana-8-border)', chrome: 'var(--ana-8-chrome)', tag: 'var(--ana-8-tag)', title: 'var(--ana-8-dark)', borderRest: 'hsl(346, 38%, 80%)', borderHover: 'hsl(346, 55%, 28%)' },
 }

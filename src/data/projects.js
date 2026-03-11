@@ -9,6 +9,23 @@ export const PROJECTS = [
     skills: ['ux'],
     size: 'featured',
     colorKey: 'ana-1',
+    caseStudy: {
+      role: 'UX Researcher & Designer',
+      duration: '3 weeks',
+      type: 'Academic',
+      problem: {
+        text: 'Cricket at semi-professional levels suffers from frequent scoring disputes and umpiring errors. Players and umpires lack tools to resolve conflicts quickly and accurately during live matches.',
+        images: [],
+      },
+      process: {
+        text: 'Conducted user research with semi-pro players and umpires. Ran rapid prototyping sprints to explore conflict resolution flows and interactive scoring interfaces. Iterated on low and high-fidelity prototypes based on feedback.',
+        images: [],
+      },
+      outcome: {
+        text: 'Review — a Cricket Assistant App that provides real-time scoring, conflict resolution prompts, and umpire decision support. Designed for quick, one-handed use during live play.',
+        images: [],
+      },
+    },
   },
   {
     id: 'csk',
@@ -20,6 +37,14 @@ export const PROJECTS = [
     skills: ['3d', 'game'],
     size: 'half',
     colorKey: 'ana-2',
+    caseStudy: {
+      role: 'Designer',
+      duration: '— weeks',
+      type: '—',
+      problem: { text: 'Coming soon.', images: [] },
+      process: { text: 'Coming soon.', images: [] },
+      outcome: { text: 'Coming soon.', images: [] },
+    },
   },
   {
     id: 'mood-indigo',
@@ -31,6 +56,14 @@ export const PROJECTS = [
     skills: ['brand'],
     size: 'half',
     colorKey: 'ana-3',
+    caseStudy: {
+      role: 'Designer',
+      duration: '— weeks',
+      type: '—',
+      problem: { text: 'Coming soon.', images: [] },
+      process: { text: 'Coming soon.', images: [] },
+      outcome: { text: 'Coming soon.', images: [] },
+    },
   },
   {
     id: 'bookmyshow',
@@ -42,6 +75,23 @@ export const PROJECTS = [
     skills: ['ux'],
     size: 'small',
     colorKey: 'ana-4',
+    caseStudy: {
+      role: 'UX Designer',
+      duration: '2 weeks',
+      type: 'Academic · Heuristic Redesign',
+      problem: {
+        text: "BookMyShow's existing app has ergonomic issues — key actions are hard to reach, information hierarchy is cluttered, and the booking flow has unnecessary friction.",
+        images: [],
+      },
+      process: {
+        text: "Applied Nielsen's 10 usability heuristics to audit the existing app. Identified the top pain points and redesigned the core booking flow with improved thumb-zone targeting and cleaner visual hierarchy.",
+        images: [],
+      },
+      outcome: {
+        text: 'A redesigned BookMyShow experience with improved ergonomics, clearer information architecture, and a streamlined seat-selection and checkout flow.',
+        images: [],
+      },
+    },
   },
   {
     id: 'multus',
@@ -53,6 +103,14 @@ export const PROJECTS = [
     skills: ['3d'],
     size: 'small',
     colorKey: 'ana-5',
+    caseStudy: {
+      role: 'Designer',
+      duration: '— weeks',
+      type: '—',
+      problem: { text: 'Coming soon.', images: [] },
+      process: { text: 'Coming soon.', images: [] },
+      outcome: { text: 'Coming soon.', images: [] },
+    },
   },
   {
     id: 'seven-sands',
@@ -64,6 +122,14 @@ export const PROJECTS = [
     skills: ['game'],
     size: 'small',
     colorKey: 'ana-6',
+    caseStudy: {
+      role: 'Designer',
+      duration: '— weeks',
+      type: '—',
+      problem: { text: 'Coming soon.', images: [] },
+      process: { text: 'Coming soon.', images: [] },
+      outcome: { text: 'Coming soon.', images: [] },
+    },
   },
   {
     id: 'grooveglove',
@@ -75,6 +141,14 @@ export const PROJECTS = [
     skills: ['ux', '3d'],
     size: 'small',
     colorKey: 'ana-7',
+    caseStudy: {
+      role: 'Designer',
+      duration: '— weeks',
+      type: '—',
+      problem: { text: 'Coming soon.', images: [] },
+      process: { text: 'Coming soon.', images: [] },
+      outcome: { text: 'Coming soon.', images: [] },
+    },
   },
   {
     id: 'prosper',
@@ -86,6 +160,14 @@ export const PROJECTS = [
     skills: ['game'],
     size: 'small',
     colorKey: 'ana-8',
+    caseStudy: {
+      role: 'Designer',
+      duration: '— weeks',
+      type: '—',
+      problem: { text: 'Coming soon.', images: [] },
+      process: { text: 'Coming soon.', images: [] },
+      outcome: { text: 'Coming soon.', images: [] },
+    },
   },
 ]
 

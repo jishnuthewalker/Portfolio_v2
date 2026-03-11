@@ -16,7 +16,6 @@ export function ProjectModal({ projectId, onClose }) {
   return (
     <AnimatePresence>
       {isOpen && (
-        /* Backdrop */
         <motion.div
           key="backdrop"
           className="fixed inset-0 z-40"
@@ -29,7 +28,6 @@ export function ProjectModal({ projectId, onClose }) {
         />
       )}
       {isOpen && (
-        /* Modal panel */
         <motion.div
           key="panel"
           role="dialog"

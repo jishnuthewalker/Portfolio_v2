@@ -13,7 +13,7 @@ function makeBox(num, category, size) {
   return { top, bot }
 }
 
-export function ProjectTile({ project, dimmed = false }) {
+export function ProjectTile({ project, dimmed = false, onOpen }) {
   const c = COLOR_MAP[project.colorKey]
   const { top, bot } = makeBox(project.num, project.category, project.size)
   const titleSize = project.size === 'featured' ? '20px' : project.size === 'half' ? '15px' : '12px'
@@ -35,7 +35,8 @@ export function ProjectTile({ project, dimmed = false }) {
       role="button"
       tabIndex={0}
       aria-label={`View ${project.title} project`}
-      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { /* future: open project */ } }}
+      onClick={onOpen}
+      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') onOpen?.() }}
       style={{
         background: c.bg,
         borderWidth: '1px',

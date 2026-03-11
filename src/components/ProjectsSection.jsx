@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { PROJECTS, FILTERS } from '../data/projects'
 import { ProjectTile } from './ProjectTile'
 
-export function ProjectsSection() {
+export function ProjectsSection({ onOpenProject }) {
   const [activeFilter, setActiveFilter] = useState(null)
   const [typedCmd, setTypedCmd] = useState('')
   const [showCursor, setShowCursor] = useState(true)
@@ -113,7 +113,7 @@ export function ProjectsSection() {
             animate={tilesVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
             transition={{ duration: 0.35, delay: i * 0.07 }}
           >
-            <ProjectTile project={p} dimmed={isDimmed(p)} />
+            <ProjectTile project={p} dimmed={isDimmed(p)} onOpen={() => onOpenProject(p.id)} />
           </motion.div>
         ))}
         <div className="flex flex-col gap-2.5">
@@ -124,7 +124,7 @@ export function ProjectsSection() {
               animate={tilesVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
               transition={{ duration: 0.35, delay: (featured.length + i) * 0.07 }}
             >
-              <ProjectTile project={p} dimmed={isDimmed(p)} />
+              <ProjectTile project={p} dimmed={isDimmed(p)} onOpen={() => onOpenProject(p.id)} />
             </motion.div>
           ))}
         </div>
@@ -139,7 +139,7 @@ export function ProjectsSection() {
             animate={tilesVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
             transition={{ duration: 0.35, delay: (featured.length + half.length + i) * 0.07 }}
           >
-            <ProjectTile project={p} dimmed={isDimmed(p)} />
+            <ProjectTile project={p} dimmed={isDimmed(p)} onOpen={() => onOpenProject(p.id)} />
           </motion.div>
         ))}
       </div>

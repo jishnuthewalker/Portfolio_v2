@@ -73,6 +73,8 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+html { scroll-behavior: smooth; }
+
 body {
   background-color: #F7F4EE;
   background-image:
@@ -111,37 +113,24 @@ body {
   }
 }
 
-/* Motion section masonry grid — column-count fallback */
-.motion-masonry {
-  columns: 3;
-  column-gap: 10px;
+/* Motion section — react-masonry-css stagger */
+.motion-masonry-grid {
+  display: flex;
+  gap: 10px;
 }
 
-.motion-masonry-item {
-  break-inside: avoid;
-  margin-bottom: 10px;
+.motion-masonry-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/* Native CSS masonry where supported */
-@supports (grid-template-rows: masonry) {
-  .motion-masonry {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: masonry;
-    gap: 10px;
-    columns: unset;
-    column-gap: unset;
-  }
-
-  .motion-masonry-item {
-    break-inside: unset;
-    margin-bottom: 0;
-  }
-}
+/* Stagger columns 2 and 3 for visual cascade */
+.motion-masonry-col:nth-child(2) { margin-top: 40px; }
+.motion-masonry-col:nth-child(3) { margin-top: 80px; }
 
 @media (max-width: 640px) {
-  .motion-masonry { columns: 2; }
-  @supports (grid-template-rows: masonry) {
-    .motion-masonry { grid-template-columns: repeat(2, 1fr); columns: unset; }
-  }
+  .motion-masonry-col:nth-child(2) { margin-top: 20px; }
+  .motion-masonry-col:nth-child(3) { display: none; }
 }

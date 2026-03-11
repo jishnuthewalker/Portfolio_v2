@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import Masonry from 'react-masonry-css'
 import { MOTION_VIDEOS } from '../data/motion'
+
+const BREAKPOINTS = {
+  default: 3,
+  640: 2,
+}
 
 export function MotionSection() {
   const [typedCmd, setTypedCmd] = useState('')
@@ -43,14 +49,18 @@ export function MotionSection() {
       </div>
 
       <motion.div
-        className="motion-masonry"
         initial={{ opacity: 0 }}
         animate={visible ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.4 }}
       >
-        {MOTION_VIDEOS.map(video => (
-          <div key={video.id} className="motion-masonry-item">
+        <Masonry
+          breakpointCols={BREAKPOINTS}
+          className="motion-masonry-grid"
+          columnClassName="motion-masonry-col"
+        >
+          {MOTION_VIDEOS.map(video => (
             <iframe
+              key={video.id}
               src={video.embedUrl}
               title={video.title}
               className="w-full rounded-[2px]"
@@ -62,8 +72,8 @@ export function MotionSection() {
               allowFullScreen
               loading="lazy"
             />
-          </div>
-        ))}
+          ))}
+        </Masonry>
       </motion.div>
     </section>
   )

@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion'
 
 const LINKS = [
-  { label: 'linkedin',   href: 'https://linkedin.com/in/jishnu-diwakar-b02a37160' },
-  { label: 'behance',    href: 'https://behance.net/jishnuthewalker' },
-  { label: 'instagram',  href: '#' },
-  { label: 'resume ↗',  href: '#' },
+  { label: 'linkedin',  href: 'https://linkedin.com/in/jishnu-diwakar-b02a37160' },
+  { label: 'behance',   href: 'https://behance.net/jishnuthewalker' },
+  { label: 'instagram', href: 'https://instagram.com/jishnuthewalker/' },
+  { label: 'resume ↗', href: '#' },
 ]
 
 export function Footer() {

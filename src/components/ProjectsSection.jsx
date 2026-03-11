@@ -52,7 +52,7 @@ export function ProjectsSection() {
   const small = PROJECTS.filter(p => p.size === 'small')
 
   return (
-    <section>
+    <section id="projects">
       {/* Typewriter header */}
       <div className="text-[9.5px] text-[#888] mb-3 whitespace-nowrap overflow-hidden font-mono">
         <span style={{ color: 'var(--terminal-green)' }}>❯</span>{' '}

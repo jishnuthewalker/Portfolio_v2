@@ -2,10 +2,10 @@ import { useRef, useCallback, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useScramble } from '../hooks/useScramble'
 
-export function HeroBox() {
+export function HeroBox({ onAboutOpen }) {
   return (
     <div className="border border-[#d0cdc6] rounded-sm mb-6 overflow-hidden bg-[#FAF8F3]">
-      <HeroTitlebar />
+      <HeroTitlebar onAboutOpen={onAboutOpen} />
       <div className="px-7 pt-6 pb-5">
         <BigName />
         <RoleLine />
@@ -15,23 +15,43 @@ export function HeroBox() {
   )
 }
 
-function HeroTitlebar() {
+function HeroTitlebar({ onAboutOpen }) {
   return (
     <div className="flex items-center justify-between px-4 py-2 border-b border-[#d0cdc6] text-[9px]">
       <span className="text-[13px] font-bold tracking-wide font-mono" style={{ color: 'var(--accent)' }}>
         जेदी
       </span>
       <nav className="flex gap-4 items-center">
-        {['work', 'about', 'resume', 'blog'].map(item => (
-          <a
-            key={item}
-            href="#"
-            className="text-[#bbb] no-underline text-[8.5px] font-mono transition-colors duration-150 hover:text-[var(--accent)]"
-            style={{ '--hover-color': 'var(--accent)' }}
-          >
-            {item}
-          </a>
-        ))}
+        <a
+          href="#projects"
+          className="text-[#bbb] no-underline text-[8.5px] font-mono transition-colors duration-150 hover:text-[var(--accent)]"
+        >
+          work
+        </a>
+        <button
+          type="button"
+          onClick={onAboutOpen}
+          className="text-[#bbb] text-[8.5px] font-mono transition-colors duration-150 hover:text-[var(--accent)] bg-transparent border-0 cursor-pointer p-0"
+        >
+          about
+        </button>
+        <a
+          href="https://blog.jishnuthewalker.com"
+          target="_blank"
+          rel="noreferrer"
+          className="text-[#bbb] no-underline text-[8.5px] font-mono transition-colors duration-150 hover:text-[var(--accent)]"
+        >
+          blog
+        </a>
+        <a
+          href="#"
+          target="_blank"
+          rel="noreferrer"
+          className="text-[#bbb] no-underline text-[8.5px] font-mono transition-colors duration-150 hover:text-[var(--accent)]"
+          id="resume-link"
+        >
+          resume
+        </a>
         <a
           href="https://nudgenow.com"
           target="_blank"

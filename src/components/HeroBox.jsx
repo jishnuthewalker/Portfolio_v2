@@ -44,9 +44,10 @@ function HeroTitlebar({ onAboutOpen }) {
           blog
         </a>
         <a
-          href="#"
+          href="https://drive.google.com/file/d/1RIVWbv4fpKQe4n8QgOEw5IhPWOxXeInc/view?pli=1"
+          target="_blank"
+          rel="noreferrer"
           className="text-[#bbb] no-underline text-[8.5px] font-mono transition-colors duration-150 hover:text-[var(--accent)]"
-          id="resume-link"
         >
           resume
         </a>

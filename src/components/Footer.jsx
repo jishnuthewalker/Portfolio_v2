@@ -4,7 +4,7 @@ const LINKS = [
   { label: 'linkedin',  href: 'https://linkedin.com/in/jishnu-diwakar-b02a37160' },
   { label: 'behance',   href: 'https://behance.net/jishnuthewalker' },
   { label: 'instagram', href: 'https://instagram.com/jishnuthewalker/' },
-  { label: 'resume ↗', href: '#' },
+  { label: 'resume ↗', href: 'https://drive.google.com/file/d/1RIVWbv4fpKQe4n8QgOEw5IhPWOxXeInc/view?pli=1' },
 ]
 
 export function Footer() {

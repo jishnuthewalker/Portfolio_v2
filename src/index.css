@@ -110,3 +110,38 @@ body {
     padding: 16px;
   }
 }
+
+/* Motion section masonry grid — column-count fallback */
+.motion-masonry {
+  columns: 3;
+  column-gap: 10px;
+}
+
+.motion-masonry-item {
+  break-inside: avoid;
+  margin-bottom: 10px;
+}
+
+/* Native CSS masonry where supported */
+@supports (grid-template-rows: masonry) {
+  .motion-masonry {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: masonry;
+    gap: 10px;
+    columns: unset;
+    column-gap: unset;
+  }
+
+  .motion-masonry-item {
+    break-inside: unset;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .motion-masonry { columns: 2; }
+  @supports (grid-template-rows: masonry) {
+    .motion-masonry { grid-template-columns: repeat(2, 1fr); columns: unset; }
+  }
+}

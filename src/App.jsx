@@ -5,6 +5,7 @@ import { ProjectsSection }  from './components/ProjectsSection'
 import { Footer }           from './components/Footer'
 import { ProjectModal }     from './components/ProjectModal'
 import { AboutModal }       from './components/AboutModal'
+import { MotionSection }    from './components/MotionSection'
 
 export default function App() {
   const [activeProjectId, setActiveProjectId] = useState(null)
@@ -15,6 +16,7 @@ export default function App() {
       <TerminalChrome />
       <HeroBox onAboutOpen={() => setAboutOpen(true)} />
       <ProjectsSection onOpenProject={setActiveProjectId} />
+      <MotionSection />
       <div className="flex-1" />
       <Footer />
       <ProjectModal

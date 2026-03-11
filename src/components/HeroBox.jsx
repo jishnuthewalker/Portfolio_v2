@@ -45,8 +45,6 @@ function HeroTitlebar({ onAboutOpen }) {
         </a>
         <a
           href="#"
-          target="_blank"
-          rel="noreferrer"
           className="text-[#bbb] no-underline text-[8.5px] font-mono transition-colors duration-150 hover:text-[var(--accent)]"
           id="resume-link"
         >

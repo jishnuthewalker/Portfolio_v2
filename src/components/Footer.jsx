@@ -36,7 +36,6 @@ export function Footer() {
             href={href}
             {...(href !== '#' ? { target: '_blank', rel: 'noreferrer' } : {})}
             className="text-[#bbb] no-underline transition-colors duration-150"
-            style={{}}
             onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
             onMouseLeave={e => e.currentTarget.style.color = ''}
           >

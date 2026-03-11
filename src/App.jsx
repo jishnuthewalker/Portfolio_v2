@@ -4,6 +4,7 @@ import { HeroBox }          from './components/HeroBox'
 import { ProjectsSection }  from './components/ProjectsSection'
 import { Footer }           from './components/Footer'
 import { ProjectModal }     from './components/ProjectModal'
+import { AboutModal }       from './components/AboutModal'
 
 export default function App() {
   const [activeProjectId, setActiveProjectId] = useState(null)
@@ -20,6 +21,7 @@ export default function App() {
         projectId={activeProjectId}
         onClose={() => setActiveProjectId(null)}
       />
+      <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} />
     </main>
   )
 }

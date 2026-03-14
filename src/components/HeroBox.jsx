@@ -5,12 +5,11 @@ import { TerminalPrompt } from './TerminalPrompt'
 
 export function HeroBox({ onAboutOpen, onFilterChange, onOpenProject, onPaletteOpen }) {
   return (
-    <div className="border border-[#d0cdc6] rounded-sm mb-6 overflow-hidden bg-[#FAF8F3]">
+    <div className="border border-border rounded-sm mb-6 overflow-hidden bg-surface">
       <HeroTitlebar onAboutOpen={onAboutOpen} onPaletteOpen={onPaletteOpen} />
       <div className="px-7 pt-6 pb-5">
         <BigName />
         <RoleLine />
-        <HeroFooter />
       </div>
       <TerminalPrompt
         onFilterChange={onFilterChange}
@@ -23,21 +22,21 @@ export function HeroBox({ onAboutOpen, onFilterChange, onOpenProject, onPaletteO
 
 function HeroTitlebar({ onAboutOpen, onPaletteOpen }) {
   return (
-    <div className="flex items-center justify-between px-4 py-2 border-b border-[#d0cdc6] text-[11px]">
-      <span className="text-[15px] font-bold tracking-wide font-mono" style={{ color: 'var(--accent)' }}>
+    <div className="flex items-center justify-between px-4 py-2 border-b border-border text-base">
+      <span className="text-brand font-bold tracking-wide font-mono text-accent">
         जेदी
       </span>
       <nav className="flex gap-4 items-center">
         <a
           href="#projects"
-          className="text-[#bbb] no-underline text-[10px] font-mono transition-colors duration-150 hover:text-[var(--accent)]"
+          className="text-faint no-underline text-ui font-mono transition-colors duration-150 hover:text-accent"
         >
           work
         </a>
         <button
           type="button"
           onClick={onAboutOpen}
-          className="text-[#bbb] text-[10px] font-mono transition-colors duration-150 hover:text-[var(--accent)] bg-transparent border-0 cursor-pointer p-0"
+          className="text-faint text-ui font-mono transition-colors duration-150 hover:text-accent bg-transparent border-0 cursor-pointer p-0"
         >
           about
         </button>
@@ -45,7 +44,7 @@ function HeroTitlebar({ onAboutOpen, onPaletteOpen }) {
           href="https://blog.jishnuthewalker.com"
           target="_blank"
           rel="noreferrer"
-          className="text-[#bbb] no-underline text-[10px] font-mono transition-colors duration-150 hover:text-[var(--accent)]"
+          className="text-faint no-underline text-ui font-mono transition-colors duration-150 hover:text-accent"
         >
           blog
         </a>
@@ -53,39 +52,31 @@ function HeroTitlebar({ onAboutOpen, onPaletteOpen }) {
           href="https://drive.google.com/file/d/1RIVWbv4fpKQe4n8QgOEw5IhPWOxXeInc/view?pli=1"
           target="_blank"
           rel="noreferrer"
-          className="text-[#bbb] no-underline text-[10px] font-mono transition-colors duration-150 hover:text-[var(--accent)]"
+          className="text-faint no-underline text-ui font-mono transition-colors duration-150 hover:text-accent"
         >
           resume
         </a>
-        {/* ⌘K hint button — opens command palette */}
+        {/* ⌘K / Ctrl+K hint — opens command palette */}
         <button
           type="button"
           onClick={onPaletteOpen}
-          className="text-[9px] font-mono border rounded-[2px] px-1.5 py-0.5 cursor-pointer transition-all duration-150"
-          style={{ color: '#bbb', borderColor: '#e0ddd6' }}
-          onMouseEnter={e => {
-            e.currentTarget.style.color = 'var(--accent)'
-            e.currentTarget.style.borderColor = 'var(--accent-tint-35)'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.color = '#bbb'
-            e.currentTarget.style.borderColor = '#e0ddd6'
-          }}
+          className="flex items-center gap-0.5 bg-transparent border-0 cursor-pointer p-0 group"
           title="Open command palette"
         >
-          ⌘K
+          {[/Mac|iPhone|iPad/i.test(typeof navigator !== 'undefined' ? navigator.platform : '') ? '⌘' : 'Ctrl', 'K'].map((k, i) => (
+            <kbd
+              key={i}
+              className="text-sm font-mono px-1 py-0.5 rounded-[2px] leading-none bg-kbd-bg border border-border-lt text-faint group-hover:text-accent group-hover:border-accent-border-2 transition-colors duration-150"
+            >
+              {k}
+            </kbd>
+          ))}
         </button>
         <a
           href="https://nudgenow.com"
           target="_blank"
           rel="noreferrer"
-          className="text-[10px] font-mono px-2 py-0.5 rounded-[2px] transition-colors duration-150"
-          style={{
-            color: 'var(--accent)',
-            border: '1px solid var(--accent-tint-35)',
-          }}
-          onMouseEnter={e => e.currentTarget.style.background = 'var(--accent-tint-08)'}
-          onMouseLeave={e => e.currentTarget.style.background = ''}
+          className="text-ui font-mono px-2 py-0.5 rounded-[2px] text-accent border border-accent-border-2 transition-colors duration-150 hover:bg-accent-bg"
         >
           nudge ↗
         </a>
@@ -122,18 +113,17 @@ function BigName() {
 
   return (
     <div
-      className="font-display font-black leading-[0.88] tracking-[-4px] text-[#1a1a1a] mb-4 cursor-default select-none inline-flex items-end"
+      className="font-display font-black leading-[0.88] tracking-[-4px] text-ink mb-4 cursor-default select-none inline-flex items-end"
       style={{ fontSize: 'clamp(60px, 8vw, 90px)' }}
       onMouseEnter={handleMouseEnter}
     >
       <span ref={textRef}>JISHNU<br />DIWAKAR</span>
       <span
         ref={cursorRef}
-        className="inline-block ml-1 align-bottom"
+        className="inline-block ml-1 align-bottom bg-accent"
         style={{
           width: 'clamp(4px, 0.5vw, 6px)',
           height: 'clamp(36px, 5.1vw, 56px)',
-          background: 'var(--accent)',
           animation: 'blink 1.1s step-end infinite',
         }}
       />
@@ -149,11 +139,11 @@ function RoleLine() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.3 }}
     >
-      <span className="text-[14px] font-bold font-mono" style={{ color: 'var(--accent)' }}>
+      <span className="text-heading font-bold font-mono text-accent">
         Founding Designer
       </span>
-      <span className="text-[#ddd]">·</span>
-      <span className="text-[11px] text-[#888] font-mono">Nudge · IIT Bombay · Bangalore</span>
+      <span className="text-dim">·</span>
+      <span className="text-base text-muted font-mono">Nudge · IIT Bombay · Bangalore</span>
     </motion.div>
   )
 }
@@ -161,28 +151,16 @@ function RoleLine() {
 function HeroFooter() {
   return (
     <motion.div
-      className="border-t border-[#e0ddd6] pt-3 flex items-center gap-3 text-[11px] text-[#bbb] font-mono"
+      className="border-t border-border-lt pt-3 flex items-center gap-3 text-base text-faint font-mono"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4, delay: 0.45 }}
     >
-      <span style={{ color: 'var(--terminal-green)' }}>❯</span>
+      <span className="text-green">❯</span>
       <span>crafting experiences that just feel right</span>
       <a
         href="mailto:jishnu@hey.com"
-        className="ml-auto text-[11px] font-mono px-3 py-1 rounded-[2px] no-underline transition-all duration-150"
-        style={{
-          color: 'var(--accent)',
-          border: '1px solid var(--accent-tint-30)',
-        }}
-        onMouseEnter={e => {
-          e.currentTarget.style.background = 'var(--accent-tint-08)'
-          e.currentTarget.style.transform = 'translateX(2px)'
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.background = ''
-          e.currentTarget.style.transform = ''
-        }}
+        className="ml-auto text-base font-mono px-3 py-1 rounded-[2px] no-underline text-accent border border-accent-border transition-colors duration-150 hover:bg-accent-bg hover:translate-x-0.5"
       >
         let's chat ↗
       </a>

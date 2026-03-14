@@ -6,16 +6,23 @@ import { ProjectsSection }  from './components/ProjectsSection'
 import { Footer }           from './components/Footer'
 import { ProjectModal }     from './components/ProjectModal'
 import { AboutModal }       from './components/AboutModal'
+
 export default function App() {
   const [activeProjectId, setActiveProjectId] = useState(null)
   const [aboutOpen, setAboutOpen] = useState(false)
+  const [_paletteOpen, setPaletteOpen] = useState(false)
   const [activeFilter, setActiveFilter] = useState(null)
 
   return (
     <LayoutGroup>
     <main className="max-w-[1280px] mx-auto flex flex-col min-h-[calc(100vh_-_128px)]">
       <TerminalChrome />
-      <HeroBox onAboutOpen={() => setAboutOpen(true)} />
+      <HeroBox
+        onAboutOpen={() => setAboutOpen(true)}
+        onFilterChange={setActiveFilter}
+        onOpenProject={setActiveProjectId}
+        onPaletteOpen={() => setPaletteOpen(true)}
+      />
       <ProjectsSection
         onOpenProject={setActiveProjectId}
         activeFilter={activeFilter}

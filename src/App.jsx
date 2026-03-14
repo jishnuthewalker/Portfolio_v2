@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { LayoutGroup } from 'framer-motion'
-import { TerminalChrome }   from './components/TerminalChrome'
-import { HeroBox }          from './components/HeroBox'
-import { ProjectsSection }  from './components/ProjectsSection'
-import { Footer }           from './components/Footer'
-import { ProjectModal }     from './components/ProjectModal'
-import { AboutModal }       from './components/AboutModal'
-import { CommandPalette }   from './components/CommandPalette'
+import { TerminalChrome }       from './components/TerminalChrome'
+import { HeroBox }              from './components/HeroBox'
+import { ProjectsSection }      from './components/ProjectsSection'
+import { ExperimentsSection }   from './components/ExperimentsSection'
+import { Footer }               from './components/Footer'
+import { ProjectModal }         from './components/ProjectModal'
+import { AboutModal }           from './components/AboutModal'
+import { CommandPalette }       from './components/CommandPalette'
 
 export default function App() {
   const [activeProjectId, setActiveProjectId] = useState(null)
@@ -41,6 +42,7 @@ export default function App() {
         activeFilter={activeFilter}
         onFilterChange={setActiveFilter}
       />
+      <ExperimentsSection />
       <div className="flex-1" />
       <Footer />
       <ProjectModal

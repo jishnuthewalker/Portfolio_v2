@@ -10,21 +10,20 @@ const LINKS = [
 export function Footer() {
   return (
     <motion.footer
-      className="mt-8 pt-4 border-t border-[#d0cdc6] flex justify-between items-center text-[8.5px] text-[#bbb] font-mono"
+      className="mt-8 pt-4 border-t border-border flex justify-between items-center text-ui text-faint font-mono"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4, delay: 1.2 }}
     >
       <span>
         {'© 2026 Jishnu Diwakar · '}
-        <span style={{ color: 'var(--terminal-green)' }}>जेदी</span>
+        <span className="text-green">जेदी</span>
         {' · Founding Designer @ '}
         <a
           href="https://nudgenow.com"
           target="_blank"
           rel="noreferrer"
-          className="no-underline"
-          style={{ color: 'var(--terminal-green)' }}
+          className="no-underline text-green"
         >
           Nudge
         </a>
@@ -35,9 +34,7 @@ export function Footer() {
             key={label}
             href={href}
             {...(href !== '#' ? { target: '_blank', rel: 'noreferrer' } : {})}
-            className="text-[#bbb] no-underline transition-colors duration-150"
-            onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
-            onMouseLeave={e => e.currentTarget.style.color = ''}
+            className="text-faint no-underline transition-colors duration-150 hover:text-accent"
           >
             {label}
           </a>

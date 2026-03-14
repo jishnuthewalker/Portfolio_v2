@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { LayoutGroup } from 'framer-motion'
 import { TerminalChrome }   from './components/TerminalChrome'
 import { HeroBox }          from './components/HeroBox'
 import { ProjectsSection }  from './components/ProjectsSection'
@@ -8,12 +9,18 @@ import { AboutModal }       from './components/AboutModal'
 export default function App() {
   const [activeProjectId, setActiveProjectId] = useState(null)
   const [aboutOpen, setAboutOpen] = useState(false)
+  const [activeFilter, setActiveFilter] = useState(null)
 
   return (
-    <main className="max-w-4xl mx-auto flex flex-col min-h-[calc(100vh_-_68px)]">
+    <LayoutGroup>
+    <main className="max-w-[1280px] mx-auto flex flex-col min-h-[calc(100vh_-_128px)]">
       <TerminalChrome />
       <HeroBox onAboutOpen={() => setAboutOpen(true)} />
-      <ProjectsSection onOpenProject={setActiveProjectId} />
+      <ProjectsSection
+        onOpenProject={setActiveProjectId}
+        activeFilter={activeFilter}
+        onFilterChange={setActiveFilter}
+      />
       <div className="flex-1" />
       <Footer />
       <ProjectModal
@@ -22,5 +29,6 @@ export default function App() {
       />
       <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} />
     </main>
+    </LayoutGroup>
   )
 }

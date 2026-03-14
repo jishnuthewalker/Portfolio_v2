@@ -63,6 +63,35 @@
   --ana-8-bg:     hsl(346, 36%, 93%);
   --ana-8-border: hsl(346, 38%, 80%);
 
+  /* Future project slots — pre-provisioned, assign colorKey: 'ana-9' through 'ana-12' */
+  --ana-9:        hsl(355, 48%, 56%);
+  --ana-9-dark:   hsl(355, 55%, 28%);
+  --ana-9-chrome: hsl(355, 28%, 64%);
+  --ana-9-tag:    hsl(355, 30%, 50%);
+  --ana-9-bg:     hsl(355, 36%, 93%);
+  --ana-9-border: hsl(355, 38%, 80%);
+
+  --ana-10:        hsl(10, 45%, 52%);
+  --ana-10-dark:   hsl(10, 52%, 28%);
+  --ana-10-chrome: hsl(10, 26%, 62%);
+  --ana-10-tag:    hsl(10, 28%, 48%);
+  --ana-10-bg:     hsl(10, 33%, 93%);
+  --ana-10-border: hsl(10, 35%, 80%);
+
+  --ana-11:        hsl(25, 48%, 54%);
+  --ana-11-dark:   hsl(25, 55%, 28%);
+  --ana-11-chrome: hsl(25, 28%, 62%);
+  --ana-11-tag:    hsl(25, 30%, 48%);
+  --ana-11-bg:     hsl(25, 36%, 93%);
+  --ana-11-border: hsl(25, 38%, 80%);
+
+  --ana-12:        hsl(42, 45%, 52%);
+  --ana-12-dark:   hsl(42, 52%, 28%);
+  --ana-12-chrome: hsl(42, 26%, 60%);
+  --ana-12-tag:    hsl(42, 28%, 46%);
+  --ana-12-bg:     hsl(42, 33%, 93%);
+  --ana-12-border: hsl(42, 35%, 78%);
+
   --accent:          var(--ana-1-dark);
   --accent-tint-04:  hsl(277, 65%, 32%, 0.04);
   --accent-tint-08:  hsl(277, 65%, 32%, 0.08);
@@ -82,11 +111,11 @@ body {
     linear-gradient(90deg, #e0ddd6 1px, transparent 1px);
   background-size: 20px 20px;
   font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 13px;
+  font-size: 18px;
   line-height: 1.5;
   color: #1a1a1a;
   min-height: 100vh;
-  padding: 34px;
+  padding: 64px;
 }
 
 @keyframes statusPulse {
@@ -109,7 +138,32 @@ body {
 /* Responsive: collapse 4-col to 2-col on small screens */
 @media (max-width: 640px) {
   body {
-    padding: 16px;
+    padding: 24px;
   }
 }
 
+/* ── cmdk (CommandPalette) ──────────────────────────────────── */
+[cmdk-group-heading] {
+  font-size: 9px;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  color: #444;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 12px 16px 4px;
+}
+
+[cmdk-item] {
+  cursor: pointer;
+  outline: none;
+}
+
+[cmdk-item][aria-selected='true'],
+[cmdk-item]:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+[cmdk-input] {
+  /* Completely unstyled — Tailwind classes handle it */
+  all: unset;
+}

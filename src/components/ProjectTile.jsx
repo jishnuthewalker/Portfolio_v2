@@ -49,7 +49,7 @@ export function ProjectTile({ project, dimmed = false, onOpen }) {
         '--tile-tag': c.tag,
         '--tile-title': c.title,
       }}
-      className="rounded-sm p-7 relative cursor-pointer h-full flex flex-col"
+      className="rounded-sm p-4 sm:p-7 relative cursor-pointer h-full flex flex-col"
       initial={{ borderColor: c.borderRest }}
       animate={{
         opacity: dimmed ? 0.2 : 1,
@@ -73,7 +73,7 @@ export function ProjectTile({ project, dimmed = false, onOpen }) {
       </span>
 
       {/* box top */}
-      <div className="text-sm leading-none mb-2 font-mono" style={{ color: 'var(--tile-chrome)' }}>{top}</div>
+      <div className="text-sm leading-none mb-2 font-mono whitespace-nowrap overflow-hidden" style={{ color: 'var(--tile-chrome)' }}>{top}</div>
 
       {/* title */}
       <span
@@ -90,7 +90,7 @@ export function ProjectTile({ project, dimmed = false, onOpen }) {
       <div className="text-sm mt-1.5 font-mono" style={{ color: 'var(--tile-tag)' }}>
         {project.tags.join(' · ')}
       </div>
-      <div className="text-sm leading-none mt-2 font-mono" style={{ color: 'var(--tile-chrome)' }}>{bot}</div>
+      <div className="text-sm leading-none mt-2 font-mono whitespace-nowrap overflow-hidden" style={{ color: 'var(--tile-chrome)' }}>{bot}</div>
     </motion.div>
   )
 }

@@ -99,7 +99,7 @@ export function TerminalPrompt({ onFilterChange, onOpenProject, onOpenAbout }) {
           ['→', 'accept'],
           ['esc', 'blur'],
         ].map((group, gi) => (
-          <span key={gi} className="flex items-center gap-0.5 text-[14px] font-mono">
+          <span key={gi} className="flex items-center gap-0.5 text-sm font-mono">
             {group.slice(0, -1).map((k, ki) => (
               <kbd
                 key={ki}

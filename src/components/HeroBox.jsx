@@ -147,23 +147,3 @@ function RoleLine() {
     </motion.div>
   )
 }
-
-function HeroFooter() {
-  return (
-    <motion.div
-      className="border-t border-border-lt pt-3 flex items-center gap-3 text-base text-faint font-mono"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4, delay: 0.45 }}
-    >
-      <span className="text-green">❯</span>
-      <span>crafting experiences that just feel right</span>
-      <a
-        href="mailto:jishnu@hey.com"
-        className="ml-auto text-base font-mono px-3 py-1 rounded-[2px] no-underline text-accent border border-accent-border transition-colors duration-150 hover:bg-accent-bg hover:translate-x-0.5"
-      >
-        let's chat ↗
-      </a>
-    </motion.div>
-  )
-}

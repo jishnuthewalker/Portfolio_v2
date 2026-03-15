@@ -10,7 +10,7 @@ const LINKS = [
 export function Footer() {
   return (
     <motion.footer
-      className="mt-8 pt-4 border-t border-border flex justify-between items-center text-ui text-faint font-mono"
+      className="mt-8 pt-4 border-t border-border flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center text-ui text-faint font-mono"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4, delay: 1.2 }}

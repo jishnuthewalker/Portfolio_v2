@@ -177,7 +177,7 @@ body {
   line-height: 1.5;
   color: var(--color-ink);
   min-height: 100vh;
-  padding: 4rem;
+  padding: 1.5rem;
 }
 
 @keyframes statusPulse {
@@ -197,11 +197,12 @@ body {
   }
 }
 
-/* Responsive: collapse 4-col to 2-col on small screens */
-@media (max-width: 640px) {
-  body {
-    padding: 24px;
-  }
+@media (min-width: 640px) {
+  body { padding: 2.5rem; }
+}
+
+@media (min-width: 1024px) {
+  body { padding: 4rem; }
 }
 
 /* ── cmdk (CommandPalette) ──────────────────────────────────── */

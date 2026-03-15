@@ -25,7 +25,7 @@ export function TerminalPrompt({ onFilterChange, onOpenProject, onOpenAbout }) {
 
   return (
     <div
-      className="border-t border-border-lt px-7 py-3 font-mono text-ui cursor-text"
+      className="border-t border-border-lt px-4 sm:px-7 py-3 font-mono text-ui cursor-text"
       onClick={() => inputRef.current?.focus()}
     >
       {/* Command history */}
@@ -92,7 +92,7 @@ export function TerminalPrompt({ onFilterChange, onOpenProject, onOpenAbout }) {
       </div>
 
       {/* Hint bar */}
-      <div className="flex items-center gap-3 mt-1.5 select-none text-ghost">
+      <div className="hidden sm:flex items-center gap-3 mt-1.5 select-none text-ghost">
         {[
           ['↑', '↓', 'history'],
           ['tab', 'cycle'],

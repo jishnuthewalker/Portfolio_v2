@@ -38,9 +38,8 @@ export function AboutModal({ isOpen, onClose }) {
           role="dialog"
           aria-modal="true"
           aria-label="About Jishnu"
-          className="fixed inset-x-4 top-8 bottom-8 z-50 overflow-y-auto rounded-sm md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-full md:max-w-xl"
+          className="fixed inset-x-4 top-8 bottom-8 z-50 overflow-y-auto rounded-sm md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-full md:max-w-xl bg-surface"
           style={{
-            background: '#FAF8F3',
             border: '1px solid var(--ana-1-border)',
           }}
           initial={{ opacity: 0, y: 24 }}
@@ -63,16 +62,16 @@ export function AboutModal({ isOpen, onClose }) {
                   />
                 </div>
                 <div>
-                  <div className="text-[8px] font-mono mb-1" style={{ color: 'var(--ana-1-chrome)' }}>
+                  <div className="text-sm font-mono mb-1" style={{ color: 'var(--ana-1-chrome)' }}>
                     ┌─ about ──────────────
                   </div>
                   <h2
-                    className="font-display font-black leading-tight tracking-tight"
-                    style={{ color: 'var(--accent)', fontSize: 'clamp(22px, 4vw, 30px)' }}
+                    className="font-display font-black leading-tight tracking-tight text-accent"
+                    style={{ fontSize: 'clamp(2.4375rem, 6.75vw, 3.375rem)' }}
                   >
                     जेदी
                   </h2>
-                  <div className="text-[9px] font-mono mt-0.5" style={{ color: 'var(--ana-1-tag)' }}>
+                  <div className="text-base font-mono mt-0.5" style={{ color: 'var(--ana-1-tag)' }}>
                     Founding Designer @ Nudge · IIT Bombay · Bangalore
                   </div>
                 </div>
@@ -81,7 +80,7 @@ export function AboutModal({ isOpen, onClose }) {
                 type="button"
                 onClick={onClose}
                 aria-label="Close about modal"
-                className="text-[9px] font-mono text-[#bbb] hover:text-[#555] transition-colors duration-150 ml-4 mt-1 flex-shrink-0"
+                className="text-base font-mono text-faint hover:text-ink-3 transition-colors duration-150 ml-4 mt-1 flex-shrink-0"
               >
                 ✕ close
               </button>
@@ -89,7 +88,7 @@ export function AboutModal({ isOpen, onClose }) {
 
             <div className="space-y-3 mb-6">
               {BIO.map((para, i) => (
-                <p key={i} className="text-[11px] font-mono text-[#555] leading-relaxed">
+                <p key={i} className="text-base font-mono text-ink-3 leading-relaxed">
                   {para}
                 </p>
               ))}
@@ -99,7 +98,7 @@ export function AboutModal({ isOpen, onClose }) {
               className="border-t pt-4"
               style={{ borderColor: 'var(--ana-1-border)' }}
             >
-              <div className="text-[8px] font-mono mb-3" style={{ color: 'var(--ana-1-chrome)' }}>
+              <div className="text-sm font-mono mb-3" style={{ color: 'var(--ana-1-chrome)' }}>
                 ❯ find me on
               </div>
               <div className="flex flex-wrap gap-2">
@@ -109,13 +108,7 @@ export function AboutModal({ isOpen, onClose }) {
                     href={href}
                     target={href.startsWith('mailto') ? undefined : '_blank'}
                     rel="noreferrer"
-                    className="text-[8.5px] font-mono px-2.5 py-1 rounded-[2px] no-underline transition-all duration-150"
-                    style={{
-                      color: 'var(--accent)',
-                      border: '1px solid var(--accent-tint-30)',
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.background = 'var(--accent-tint-08)' }}
-                    onMouseLeave={e => { e.currentTarget.style.background = '' }}
+                    className="text-ui font-mono px-2.5 py-1 rounded-[2px] no-underline text-accent border border-accent-border transition-all duration-150 hover:bg-accent-bg hover:translate-x-0.5"
                   >
                     {label} ↗
                   </a>

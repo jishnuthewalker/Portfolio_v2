@@ -36,7 +36,6 @@ export function ProjectTile({ project, dimmed = false, onOpen }) {
 
   return (
     <motion.div
-      layoutId={project.id}
       role="button"
       tabIndex={0}
       aria-label={`View ${project.title} project`}

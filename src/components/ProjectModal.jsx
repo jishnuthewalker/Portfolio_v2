@@ -90,7 +90,7 @@ export function ProjectModal({ projectId, onClose }) {
           />
 
           {/* Centering wrapper */}
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-5 pointer-events-none">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 pointer-events-none">
             {/* Panel — scanline wipe entry */}
             <motion.div
               key="panel"
@@ -118,7 +118,7 @@ export function ProjectModal({ projectId, onClose }) {
               />
 
               {/* Scrollable content */}
-              <div className="overflow-y-auto max-h-[calc(100vh-2.5rem)]">
+              <div className="overflow-y-auto max-h-[calc(100vh-1.5rem)] sm:max-h-[calc(100vh-2.5rem)]">
                 <div className="p-5">
 
                   {/* Header */}
@@ -130,7 +130,7 @@ export function ProjectModal({ projectId, onClose }) {
                       <h2
                         ref={titleRef}
                         className="font-display font-black leading-tight tracking-tight"
-                        style={{ color: c.title, fontSize: 'clamp(2.625rem, 6.75vw, 3.9375rem)' }}
+                        style={{ color: c.title, fontSize: 'clamp(1.875rem, 6.75vw, 3.9375rem)' }}
                       >
                         {project.title}
                       </h2>

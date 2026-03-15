@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Portfolio Layout & Scale Explorer</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, sans-serif; background: #111; color: #e0e0e0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+header { padding: 10px 16px; background: #181818; border-bottom: 1px solid #252525; font-size: 11px; color: #666; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+header strong { color: #ccc; }
+.header-divider { color: #333; }
+
+.app { display: flex; flex: 1; overflow: hidden; }
+
+/* ── Controls panel ─────────────────────────────── */
+.controls { width: 268px; flex-shrink: 0; overflow-y: auto; background: #151515; border-right: 1px solid #222; padding: 12px; }
+.controls::-webkit-scrollbar { width: 4px; }
+.controls::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+.sec { font-size: 8px; font-family: monospace; text-transform: uppercase; letter-spacing: 0.12em; color: #444; margin: 16px 0 8px; }
+.sec:first-child { margin-top: 0; }
+
+/* Layout preset cards — 2×3 grid */
+.layout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.lcard { background: #1c1c1c; border: 1px solid #2a2a2a; border-radius: 4px; padding: 7px; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+.lcard:hover { border-color: #404040; background: #202020; }
+.lcard.active { border-color: #7c3aed; background: #1a1030; }
+.lcard-thumb { height: 38px; margin-bottom: 5px; border-radius: 2px; overflow: hidden; }
+.lcard-name { font-size: 8px; font-family: monospace; color: #888; }
+.lcard.active .lcard-name { color: #b090f0; }
+
+/* Scale preset pills */
+.scale-row { display: flex; gap: 4px; flex-wrap: wrap; }
+.spill { background: #1c1c1c; border: 1px solid #2a2a2a; border-radius: 3px; padding: 4px 8px; cursor: pointer; font-size: 8px; font-family: monospace; color: #777; transition: all 0.15s; white-space: nowrap; }
+.spill:hover { border-color: #404040; color: #bbb; }
+.spill.active { border-color: #7c3aed; background: #1a1030; color: #b090f0; }
+
+/* Sliders */
+.srow { display: flex; align-items: center; gap: 7px; margin-bottom: 7px; }
+.slabel { font-size: 8px; font-family: monospace; color: #555; width: 76px; flex-shrink: 0; }
+.sval { font-size: 8px; font-family: monospace; color: #8868d0; width: 36px; text-align: right; flex-shrink: 0; }
+input[type=range] { flex: 1; -webkit-appearance: none; height: 2px; background: #2e2e2e; border-radius: 1px; outline: none; cursor: pointer; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; border-radius: 50%; background: #7c3aed; cursor: pointer; transition: background 0.15s; }
+input[type=range]:hover::-webkit-slider-thumb { background: #9a60ff; }
+
+.divider { height: 1px; background: #222; margin: 4px 0 12px; }
+
+/* ── Right column ───────────────────────────────── */
+.right { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+.preview-area { flex: 1; overflow: hidden; background: #0d0d0d; display: flex; align-items: flex-start; justify-content: center; padding: 20px; position: relative; }
+.preview-badge { position: absolute; top: 8px; left: 10px; font-size: 8px; font-family: monospace; color: #2a2a2a; }
+
+#mock { transform-origin: top center; flex-shrink: 0; }
+
+/* ── Portfolio mock styles ──────────────────────── */
+.port-bg { background-color: #F7F4EE; background-image: linear-gradient(#e0ddd6 1px, transparent 1px), linear-gradient(90deg, #e0ddd6 1px, transparent 1px); background-size: 16px 16px; font-family: 'Courier New', monospace; }
+.tile { border-radius: 2px; border: 1px solid; display: flex; flex-direction: column; position: relative; cursor: pointer; }
+.tile:hover { opacity: 0.9; }
+.t-chrome { font-family: monospace; opacity: 0.7; line-height: 1.2; margin-bottom: 4px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.t-title { font-family: Arial, sans-serif; font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; }
+.t-tags { font-family: monospace; opacity: 0.55; margin-top: auto; padding-top: 6px; }
+.t-arrow { position: absolute; top: 8px; right: 8px; opacity: 0.5; }
+
+/* ── Prompt output ──────────────────────────────── */
+.prompt-bar { border-top: 1px solid #1e1e1e; background: #131313; padding: 10px 14px; flex-shrink: 0; display: flex; gap: 10px; align-items: flex-start; max-height: 130px; }
+#prompt { flex: 1; font-family: monospace; font-size: 10px; color: #999; line-height: 1.55; overflow-y: auto; max-height: 100px; white-space: pre-wrap; }
+#prompt::-webkit-scrollbar { width: 3px; }
+#prompt::-webkit-scrollbar-thumb { background: #2a2a2a; }
+.copy-btn { background: #222; border: 1px solid #333; border-radius: 3px; color: #777; cursor: pointer; font-size: 9px; font-family: monospace; padding: 5px 10px; flex-shrink: 0; transition: all 0.15s; }
+.copy-btn:hover { background: #2a2a2a; color: #bbb; border-color: #444; }
+.copy-btn.ok { border-color: #28c840; color: #28c840; }
+</style>
+</head>
+<body>
+
+<header>
+  <strong>Portfolio Layout & Scale Explorer</strong>
+  <span class="header-divider">·</span>
+  <span>Adjust controls → copy prompt</span>
+</header>
+
+<div class="app">
+  <div class="controls">
+
+    <div class="sec">Layout Preset</div>
+    <div class="layout-grid" id="lcards"></div>
+
+    <div class="sec">Fine-tune Layout</div>
+    <div class="srow">
+      <span class="slabel">Featured ratio</span>
+      <input type="range" id="sRatio" min="10" max="28" value="18" step="1">
+      <span class="sval" id="vRatio">1.8</span>
+    </div>
+    <div class="srow">
+      <span class="slabel">Gap</span>
+      <input type="range" id="sGap" min="2" max="24" value="10" step="1">
+      <span class="sval" id="vGap">10px</span>
+    </div>
+    <div class="srow">
+      <span class="slabel">Small grid cols</span>
+      <input type="range" id="sCols" min="2" max="5" value="4" step="1">
+      <span class="sval" id="vCols">4</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sec">Scale Preset</div>
+    <div class="scale-row" id="scards"></div>
+
+    <div class="sec">Fine-tune Scale</div>
+    <div class="srow">
+      <span class="slabel">Max width</span>
+      <input type="range" id="sWidth" min="640" max="1280" value="896" step="32">
+      <span class="sval" id="vWidth">896px</span>
+    </div>
+    <div class="srow">
+      <span class="slabel">Body font</span>
+      <input type="range" id="sFont" min="10" max="18" value="13" step="0.5">
+      <span class="sval" id="vFont">13px</span>
+    </div>
+    <div class="srow">
+      <span class="slabel">Outer padding</span>
+      <input type="range" id="sPad" min="12" max="64" value="34" step="2">
+      <span class="sval" id="vPad">34px</span>
+    </div>
+    <div class="srow">
+      <span class="slabel">Tile padding</span>
+      <input type="range" id="sTile" min="6" max="28" value="14" step="1">
+      <span class="sval" id="vTile">14px</span>
+    </div>
+
+  </div>
+
+  <div class="right">
+    <div class="preview-area">
+      <span class="preview-badge">PREVIEW</span>
+      <div id="mock"></div>
+    </div>
+    <div class="prompt-bar">
+      <pre id="prompt">Adjust controls to generate a prompt...</pre>
+      <button class="copy-btn" id="copyBtn" onclick="doCopy()">Copy Prompt</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Project tiles data ────────────────────────────────────────────────
+const TILES = [
+  { label:'रीView',      cat:'ui/ux · 3w',  size:'featured', tags:'research · rapid proto', c:{bg:'#F0EBF7',brd:'#C9B8E8',chr:'#B8A0D8',ttl:'#5C1F9C'} },
+  { label:'CSK Fanzone', cat:'3d · 2mo',    size:'half',     tags:'game · 3d interaction',  c:{bg:'#ECEAF5',brd:'#B8AEDE',chr:'#A090C8',ttl:'#3B2D7A'} },
+  { label:'Mood Indigo', cat:'brand · 2mo', size:'half',     tags:'identity · system',      c:{bg:'#EAE8F4',brd:'#B9B2DA',chr:'#A496CC',ttl:'#463A6C'} },
+  { label:'BookMyShow',  cat:'ux · 2w',     size:'small',    tags:'heuristic redesign',     c:{bg:'#EEE8F2',brd:'#C5AEDB',chr:'#B090C8',ttl:'#6B3A85'} },
+  { label:'Multus',      cat:'vr · 6w',     size:'small',    tags:'6dof · vr menus',        c:{bg:'#F2E8F0',brd:'#D4ADCE',chr:'#BE96BC',ttl:'#7A3573'} },
+  { label:'Seven Sands', cat:'game · 2w',   size:'small',    tags:'strategy · edu',         c:{bg:'#F5EAF0',brd:'#E0ADCB',chr:'#CC96B4',ttl:'#7A2B52'} },
+  { label:'GrooveGlove', cat:'hci · 4w',    size:'small',    tags:'gesture · wearable',     c:{bg:'#F3E8F0',brd:'#D9ADCE',chr:'#C296B8',ttl:'#6E2454'} },
+  { label:'Prosper',     cat:'game · 1mo',  size:'small',    tags:'strategy · sdg',         c:{bg:'#F2E9EC',brd:'#D9ADBA',chr:'#C296A2',ttl:'#702040'} },
+];
+const F  = TILES.filter(t=>t.size==='featured');
+const H  = TILES.filter(t=>t.size==='half');
+const SM = TILES.filter(t=>t.size==='small');
+
+// ── State ─────────────────────────────────────────────────────────────
+const DEF = { layout:'current', ratio:18, gap:10, cols:4, scale:'current', width:896, font:13, pad:34, tpad:14 };
+const S = {...DEF};
+
+// ── Layout presets ────────────────────────────────────────────────────
+const LAYOUTS = [
+  {
+    key: 'current',
+    name: 'Current',
+    desc: '1.8fr featured, stacked halves, 4-col smalls',
+    apply: ()=>{ S.ratio=18; S.gap=10; S.cols=4; },
+    thumb: ()=>`<div style="display:grid;grid-template-columns:1.8fr 1fr;gap:2px;height:38px">
+      <div style="background:#C9B8E8;border-radius:1px"></div>
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <div style="background:#B8AEDE;border-radius:1px;flex:1"></div>
+        <div style="background:#B9B2DA;border-radius:1px;flex:1"></div>
+      </div>
+    </div>`,
+  },
+  {
+    key: 'editorial',
+    name: 'Editorial',
+    desc: 'Featured full width, halves side-by-side, 3-col smalls',
+    apply: ()=>{ S.ratio=10; S.gap=10; S.cols=3; },
+    thumb: ()=>`<div style="display:flex;flex-direction:column;gap:2px;height:38px">
+      <div style="background:#C9B8E8;border-radius:1px;flex:2"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;flex:1">
+        <div style="background:#B8AEDE;border-radius:1px"></div>
+        <div style="background:#B9B2DA;border-radius:1px"></div>
+      </div>
+    </div>`,
+  },
+  {
+    key: 'mosaic',
+    name: 'Mosaic',
+    desc: 'Featured spans 2 rows, halves beside it, 4-col smalls',
+    apply: ()=>{ S.ratio=20; S.gap=8; S.cols=4; },
+    thumb: ()=>`<div style="display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:2px;height:38px">
+      <div style="background:#C9B8E8;grid-row:1/3;border-radius:1px"></div>
+      <div style="background:#B8AEDE;border-radius:1px"></div>
+      <div style="background:#B9B2DA;border-radius:1px"></div>
+    </div>`,
+  },
+  {
+    key: 'wide',
+    name: 'Wide',
+    desc: 'Dominant featured, halves compact right, 4-col smalls',
+    apply: ()=>{ S.ratio=24; S.gap=10; S.cols=4; },
+    thumb: ()=>`<div style="display:grid;grid-template-columns:2.4fr 1fr;gap:2px;height:38px">
+      <div style="background:#C9B8E8;border-radius:1px"></div>
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <div style="background:#B8AEDE;border-radius:1px;flex:1"></div>
+        <div style="background:#B9B2DA;border-radius:1px;flex:1"></div>
+      </div>
+    </div>`,
+  },
+  {
+    key: 'dense',
+    name: 'Dense',
+    desc: 'All tiles equal weight, 3-col uniform grid',
+    apply: ()=>{ S.ratio=10; S.gap=6; S.cols=3; },
+    thumb: ()=>`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;height:38px">
+      ${['#C9B8E8','#B8AEDE','#B9B2DA','#C5AEDB','#D4ADCE','#E0ADCB'].map(c=>`<div style="background:${c};border-radius:1px"></div>`).join('')}
+    </div>`,
+  },
+  {
+    key: 'magazine',
+    name: 'Magazine',
+    desc: 'Featured + first half side-by-side, second half banner, smalls 4-col',
+    apply: ()=>{ S.ratio=16; S.gap=10; S.cols=4; },
+    thumb: ()=>`<div style="display:flex;flex-direction:column;gap:2px;height:38px">
+      <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:2px;flex:2">
+        <div style="background:#C9B8E8;border-radius:1px"></div>
+        <div style="background:#B8AEDE;border-radius:1px"></div>
+      </div>
+      <div style="background:#B9B2DA;border-radius:1px;flex:1"></div>
+    </div>`,
+  },
+];
+
+// ── Scale presets ─────────────────────────────────────────────────────
+const SCALES = [
+  { key:'current',     name:'Current',     width:896,  font:13,  pad:34, tpad:14 },
+  { key:'compact',     name:'Compact',     width:768,  font:11,  pad:20, tpad:10 },
+  { key:'comfortable', name:'Comfortable', width:1024, font:14,  pad:40, tpad:16 },
+  { key:'spacious',    name:'Spacious',    width:1100, font:15,  pad:48, tpad:18 },
+  { key:'large',       name:'Large',       width:1200, font:16,  pad:52, tpad:20 },
+];
+
+// ── Build controls ────────────────────────────────────────────────────
+const lcards = document.getElementById('lcards');
+LAYOUTS.forEach(l => {
+  const d = document.createElement('div');
+  d.className = 'lcard' + (l.key===S.layout?' active':'');
+  d.dataset.key = l.key;
+  d.innerHTML = `<div class="lcard-thumb">${l.thumb()}</div><div class="lcard-name">${l.name}</div>`;
+  d.addEventListener('click', () => {
+    S.layout = l.key;
+    l.apply();
+    syncSliders();
+    document.querySelectorAll('.lcard').forEach(c=>c.classList.remove('active'));
+    d.classList.add('active');
+    all();
+  });
+  lcards.appendChild(d);
+});
+
+const scards = document.getElementById('scards');
+SCALES.forEach(sc => {
+  const b = document.createElement('button');
+  b.className = 'spill' + (sc.key===S.scale?' active':'');
+  b.dataset.key = sc.key;
+  b.textContent = sc.name;
+  b.addEventListener('click', () => {
+    S.scale = sc.key; S.width = sc.width; S.font = sc.font; S.pad = sc.pad; S.tpad = sc.tpad;
+    syncSliders();
+    document.querySelectorAll('.spill').forEach(b=>b.classList.remove('active'));
+    b.classList.add('active');
+    all();
+  });
+  scards.appendChild(b);
+});
+
+function syncSliders() {
+  setSlider('sRatio','vRatio',S.ratio, v=>(v/10).toFixed(1));
+  setSlider('sGap','vGap',S.gap, v=>v+'px');
+  setSlider('sCols','vCols',S.cols, v=>v);
+  setSlider('sWidth','vWidth',S.width, v=>v+'px');
+  setSlider('sFont','vFont',S.font, v=>v+'px');
+  setSlider('sPad','vPad',S.pad, v=>v+'px');
+  setSlider('sTile','vTile',S.tpad, v=>v+'px');
+}
+function setSlider(id, vid, val, fmt) {
+  document.getElementById(id).value = val;
+  document.getElementById(vid).textContent = fmt(val);
+}
+
+// Wire sliders
+function wireSlider(id, vid, key, fmt, isLayout) {
+  const el = document.getElementById(id);
+  el.addEventListener('input', () => {
+    const v = parseFloat(el.value);
+    S[key] = v;
+    document.getElementById(vid).textContent = fmt(v);
+    if (isLayout) {
+      document.querySelectorAll('.lcard').forEach(c=>c.classList.remove('active'));
+      S.layout = 'custom';
+    } else {
+      document.querySelectorAll('.spill').forEach(b=>b.classList.remove('active'));
+      S.scale = 'custom';
+    }
+    all();
+  });
+}
+wireSlider('sRatio','vRatio','ratio', v=>(v/10).toFixed(1), true);
+wireSlider('sGap',  'vGap',  'gap',   v=>v+'px', true);
+wireSlider('sCols', 'vCols', 'cols',  v=>v+'', true);
+wireSlider('sWidth','vWidth','width', v=>v+'px', false);
+wireSlider('sFont', 'vFont', 'font',  v=>v+'px', false);
+wireSlider('sPad',  'vPad',  'pad',   v=>v+'px', false);
+wireSlider('sTile', 'vTile', 'tpad',  v=>v+'px', false);
+
+// ── Tile renderer ─────────────────────────────────────────────────────
+function tile(t, minH) {
+  const fs = S.font;
+  const titleScale = t.size==='featured' ? 1.5 : t.size==='half' ? 1.15 : 0.92;
+  const titleSize = Math.round(fs * titleScale);
+  const chromeSize = Math.max(5, Math.round(fs * 0.6));
+  const tagSize = Math.max(5, Math.round(fs * 0.65));
+  return `<div class="tile" style="background:${t.c.bg};border-color:${t.c.brd};padding:${S.tpad}px;min-height:${minH}px;font-size:${fs}px">
+    <div class="t-chrome" style="color:${t.c.chr};font-size:${chromeSize}px">┌─ ${t.cat}</div>
+    <div class="t-title" style="color:${t.c.ttl};font-size:${titleSize}px">${t.label}</div>
+    <div class="t-tags" style="color:${t.c.chr};font-size:${tagSize}px">${t.tags}</div>
+    <span class="t-arrow" style="color:${t.c.chr};font-size:${chromeSize}px">↗</span>
+  </div>`;
+}
+
+// ── Preview renderer ──────────────────────────────────────────────────
+function render() {
+  const mock = document.getElementById('mock');
+  const area = document.querySelector('.preview-area');
+  const aw = area.clientWidth - 40;
+  const ah = area.clientHeight - 20;
+  const scale = Math.min(aw / S.width, ah / 520, 1);
+
+  mock.style.width = S.width + 'px';
+  mock.style.transform = `scale(${scale})`;
+
+  const g = S.gap;
+  const fr = (S.ratio / 10).toFixed(1);
+  const sc = S.cols;
+  const bp = S.pad;
+
+  // tile min heights
+  const featH = Math.max(110, Math.round(240 / scale * 0.3));
+  const halfH = Math.max(70,  Math.round(100 / scale * 0.25));
+  const smH   = Math.max(60,  Math.round(90  / scale * 0.25));
+
+  let html = `<div class="port-bg" style="padding:${bp}px">`;
+
+  if (S.layout === 'editorial') {
+    html += `<div style="margin-bottom:${g}px">${tile(F[0], featH)}</div>`;
+    html += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:${g}px;margin-bottom:${g}px">
+      ${H.map(t=>tile(t,halfH)).join('')}
+    </div>`;
+    html += `<div style="display:grid;grid-template-columns:repeat(${sc},1fr);gap:${g}px">
+      ${SM.map(t=>tile(t,smH)).join('')}
+    </div>`;
+
+  } else if (S.layout === 'mosaic') {
+    html += `<div style="display:grid;grid-template-columns:2fr 1fr;grid-template-rows:${halfH}px ${halfH}px;gap:${g}px;margin-bottom:${g}px">
+      <div style="grid-row:1/3">${tile(F[0], halfH*2+g)}</div>
+      ${H.map(t=>tile(t,halfH)).join('')}
+    </div>`;
+    html += `<div style="display:grid;grid-template-columns:repeat(${sc},1fr);gap:${g}px">
+      ${SM.map(t=>tile(t,smH)).join('')}
+    </div>`;
+
+  } else if (S.layout === 'dense') {
+    html += `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:${g}px">
+      ${TILES.map(t=>tile(t,smH+20)).join('')}
+    </div>`;
+
+  } else if (S.layout === 'wide') {
+    html += `<div style="display:grid;grid-template-columns:${fr}fr 1fr;gap:${g}px;margin-bottom:${g}px">
+      ${tile(F[0], featH)}
+      <div style="display:flex;flex-direction:column;gap:${g}px">
+        ${H.map(t=>tile(t,halfH)).join('')}
+      </div>
+    </div>`;
+    html += `<div style="display:grid;grid-template-columns:repeat(${sc},1fr);gap:${g}px">
+      ${SM.map(t=>tile(t,smH)).join('')}
+    </div>`;
+
+  } else if (S.layout === 'magazine') {
+    html += `<div style="display:grid;grid-template-columns:${fr}fr 1fr;gap:${g}px;margin-bottom:${g}px">
+      ${tile(F[0], featH)}
+      ${tile(H[0], featH)}
+    </div>`;
+    html += `<div style="margin-bottom:${g}px">${tile(H[1], halfH)}</div>`;
+    html += `<div style="display:grid;grid-template-columns:repeat(${sc},1fr);gap:${g}px">
+      ${SM.map(t=>tile(t,smH)).join('')}
+    </div>`;
+
+  } else {
+    // current / custom
+    html += `<div style="display:grid;grid-template-columns:${fr}fr 1fr;gap:${g}px;margin-bottom:${g}px">
+      ${tile(F[0], featH)}
+      <div style="display:flex;flex-direction:column;gap:${g}px">
+        ${H.map(t=>tile(t,halfH)).join('')}
+      </div>
+    </div>`;
+    html += `<div style="display:grid;grid-template-columns:repeat(${sc},1fr);gap:${g}px">
+      ${SM.map(t=>tile(t,smH)).join('')}
+    </div>`;
+  }
+
+  html += '</div>';
+  mock.innerHTML = html;
+}
+
+// ── Prompt builder ────────────────────────────────────────────────────
+function prompt() {
+  const fr = (S.ratio / 10).toFixed(1);
+  const layoutDesc = {
+    current:  `current bento (featured ${fr}fr left, halves stacked right, ${S.cols}-col smalls)`,
+    editorial:`editorial (featured full-width, halves side-by-side, ${S.cols}-col smalls)`,
+    mosaic:   `mosaic (featured spans 2 rows in a 2fr/1fr grid alongside stacked halves, ${S.cols}-col smalls)`,
+    wide:     `wide bento (featured at ${fr}fr dominates, halves compact-stacked right, ${S.cols}-col smalls)`,
+    dense:    `dense uniform grid (all 8 tiles equal, 3 columns, no featured distinction)`,
+    magazine: `magazine (featured + first half side-by-side at ${fr}fr/1fr, second half full-width banner, ${S.cols}-col smalls)`,
+    custom:   `custom layout (${fr}fr featured ratio, ${S.cols}-col smalls)`,
+  };
+
+  const scaleDesc = {
+    current:     'current scale (896px, 13px font, 34px padding)',
+    compact:     'compact scale (768px container, 11px font, 20px padding)',
+    comfortable: 'comfortable scale (1024px container, 14px font, 40px padding)',
+    spacious:    'spacious scale (1100px container, 15px font, 48px padding)',
+    large:       'large scale (1200px container, 16px font, 52px padding)',
+    custom:      'custom scale',
+  };
+
+  const lines = [];
+  lines.push(`Update the portfolio to use the ${layoutDesc[S.layout]} layout at ${scaleDesc[S.scale]}.`);
+  lines.push('');
+  lines.push('ProjectsSection.jsx changes:');
+
+  if (S.layout === 'editorial') {
+    lines.push(`  • Remove the featured-row grid. Render featured tile in its own full-width div.`);
+    lines.push(`  • Halves row: <div className="grid grid-cols-2 gap-[${g}px]">`);
+    lines.push(`  • Smalls row: <div className="grid grid-cols-${S.cols} gap-[${g}px]">`);
+  } else if (S.layout === 'mosaic') {
+    lines.push(`  • Featured row: CSS grid with grid-template-columns: 2fr 1fr`);
+    lines.push(`  • Featured tile wrapper: style={{ gridRow: '1 / 3' }}`);
+    lines.push(`  • Halves: individual cells in column 2 (remove the half-stack wrapper div)`);
+    lines.push(`  • Smalls row: grid grid-cols-${S.cols} gap-[${S.gap}px]`);
+  } else if (S.layout === 'dense') {
+    lines.push(`  • Collapse featured/half/small split — render all PROJECTS in one array.`);
+    lines.push(`  • Single grid: grid-template-columns: repeat(3, 1fr) with gap-[${S.gap}px]`);
+    lines.push(`  • All tile min-heights equal — remove size-based height logic.`);
+  } else if (S.layout === 'magazine') {
+    lines.push(`  • Top row: grid-cols-[${fr}fr_1fr] with featured + first half (CSK)`);
+    lines.push(`  • Middle: Mood Indigo as full-width banner tile`);
+    lines.push(`  • Smalls row: grid-cols-${S.cols} gap-[${S.gap}px]`);
+  } else {
+    lines.push(`  • Featured row: className="grid grid-cols-[${fr}fr_1fr] gap-[${S.gap}px]"`);
+    lines.push(`  • Smalls row:   className="grid grid-cols-${S.cols} gap-[${S.gap}px]"`);
+  }
+  lines.push(`  • Gap everywhere: ${S.gap}px (was gap-2.5 / 10px)`);
+
+  const g = S.gap;
+  lines.push('');
+  lines.push('Global scale changes (index.css + App.jsx):');
+  if (S.width !== DEF.width) lines.push(`  • Container: max-w-[${S.width}px] (was max-w-4xl / 896px) in App.jsx`);
+  if (S.font  !== DEF.font)  lines.push(`  • Body font: font-size: ${S.font}px (was 13px) in index.css body {}`);
+  if (S.pad   !== DEF.pad)   lines.push(`  • Body padding: padding: ${S.pad}px (was 34px) in index.css body {}`);
+  if (S.tpad  !== DEF.tpad)  lines.push(`  • Tile padding: p-[${S.tpad}px] (was p-3.5 / 14px) in ProjectTile.jsx`);
+  if (S.width===DEF.width && S.font===DEF.font && S.pad===DEF.pad && S.tpad===DEF.tpad) {
+    lines.push(`  • No scale changes from defaults.`);
+  }
+
+  document.getElementById('prompt').textContent = lines.join('\n');
+}
+
+function all() { render(); prompt(); }
+
+function doCopy() {
+  navigator.clipboard.writeText(document.getElementById('prompt').textContent).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!'; btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = 'Copy Prompt'; btn.classList.remove('ok'); }, 1500);
+  });
+}
+
+// ── Init ──────────────────────────────────────────────────────────────
+all();
+window.addEventListener('resize', render);
+</script>
+</body>
+</html>

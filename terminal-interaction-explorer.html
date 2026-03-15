@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Terminal Interaction Explorer — Portfolio</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0a0a0a;
+  color: #d4d4d4;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── TOP BAR ── */
+.top-bar {
+  height: 38px; padding: 0 16px;
+  border-bottom: 1px solid #1a1a1a;
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.bar-title { font-size: 11px; color: #444; margin-left: 6px; font-family: monospace; }
+
+/* ── WORKSPACE ── */
+.workspace { display: flex; flex: 1; min-height: 0; }
+
+/* ── CONTROLS ── */
+.controls {
+  width: 280px; flex-shrink: 0;
+  border-right: 1px solid #161616;
+  overflow-y: auto;
+  padding: 14px 12px 20px;
+  display: flex; flex-direction: column; gap: 18px;
+}
+.ctrl-label {
+  font-size: 9px; color: #333;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  margin-bottom: 8px; font-family: monospace;
+}
+.ctrl-sublabel { font-size: 9px; color: #2a2a2a; margin-bottom: 6px; font-family: monospace; }
+.ctrl-divider { height: 1px; background: #131313; }
+
+/* Radio option cards */
+.opt-list { display: flex; flex-direction: column; gap: 3px; }
+.opt {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 8px 10px; border: 1px solid #1a1a1a; border-radius: 3px;
+  cursor: pointer; transition: border-color 0.1s, background 0.1s;
+  user-select: none;
+}
+.opt:hover { border-color: #2a2a2a; }
+.opt.sel { border-color: hsl(277,50%,36%); background: hsl(277,52%,6%); }
+.opt input { display: none; }
+.opt-pip {
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 1px solid #2e2e2e; flex-shrink: 0; margin-top: 1px;
+  position: relative; transition: border-color 0.1s;
+}
+.opt.sel .opt-pip { border-color: hsl(277,52%,48%); }
+.opt-pip::after {
+  content: ''; position: absolute; inset: 3px;
+  border-radius: 50%; background: transparent; transition: background 0.1s;
+}
+.opt.sel .opt-pip::after { background: hsl(277,65%,62%); }
+.opt-body { flex: 1; min-width: 0; }
+.opt-name { font-size: 11px; font-family: monospace; color: #666; line-height: 1.2; }
+.opt.sel .opt-name { color: hsl(277,65%,74%); }
+.opt-desc { font-size: 9px; color: #2e2e2e; margin-top: 2px; line-height: 1.3; }
+.opt.sel .opt-desc { color: hsl(277,25%,38%); }
+.opt-badge {
+  font-size: 8px; font-family: monospace; color: #333;
+  border: 1px solid #252525; border-radius: 2px; padding: 1px 4px;
+  flex-shrink: 0; margin-top: 1px;
+}
+.opt.sel .opt-badge { color: hsl(277,45%,48%); border-color: hsl(277,40%,28%); }
+
+/* Toggles */
+.toggle-list { display: flex; flex-direction: column; gap: 3px; }
+.tog {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 10px; border: 1px solid #1a1a1a; border-radius: 3px;
+  cursor: pointer; transition: border-color 0.1s; user-select: none;
+}
+.tog:hover { border-color: #252525; }
+.tog.on { border-color: hsl(277,38%,26%); background: hsl(277,52%,5%); }
+.tog-name { font-size: 10px; font-family: monospace; color: #555; }
+.tog.on .tog-name { color: hsl(277,60%,70%); }
+.pill {
+  width: 28px; height: 14px; border-radius: 7px;
+  background: #1e1e1e; border: 1px solid #2a2a2a;
+  position: relative; flex-shrink: 0; transition: background 0.15s;
+}
+.tog.on .pill { background: hsl(277,52%,30%); border-color: hsl(277,52%,42%); }
+.pill::after {
+  content: ''; position: absolute; top: 2px; left: 2px;
+  width: 8px; height: 8px; border-radius: 50%; background: #444;
+  transition: left 0.15s, background 0.15s;
+}
+.tog.on .pill::after { left: 16px; background: hsl(277,70%,80%); }
+
+/* Replay */
+.replay-btn {
+  width: 100%; padding: 8px; background: transparent;
+  border: 1px solid #1e1e1e; border-radius: 3px;
+  color: #444; cursor: pointer; font-family: monospace; font-size: 11px;
+  transition: border-color 0.12s, color 0.12s;
+}
+.replay-btn:hover { border-color: hsl(277,42%,34%); color: hsl(277,60%,66%); }
+
+/* ── PREVIEW AREA ── */
+.preview-area { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.preview {
+  flex: 1;
+  background: #F7F4EE;
+  background-image: linear-gradient(#e0ddd6 1px, transparent 1px),
+                    linear-gradient(90deg, #e0ddd6 1px, transparent 1px);
+  background-size: 20px 20px;
+  overflow: auto;
+  position: relative;
+  padding: 28px;
+}
+
+/* ── PORTFOLIO REPLICA ── */
+.p-wrap { max-width: 680px; margin: 0 auto; }
+
+/* Terminal chrome bar */
+.p-termbar {
+  display: flex; align-items: center; gap: 5px; margin-bottom: 14px;
+}
+.p-termbar .p-dot { width: 9px; height: 9px; border-radius: 50%; }
+.p-termbar-title { font-size: 9px; color: #aaa; margin-left: 6px; font-family: monospace; }
+.p-termbar-status { margin-left: auto; font-size: 9px; color: #28c840; font-family: monospace; display: flex; align-items: center; gap: 5px; }
+.p-status-dot { width: 6px; height: 6px; border-radius: 50%; background: #28c840; }
+.p-termbar-btn {
+  margin-left: 8px; font-size: 8px; font-family: monospace;
+  color: hsl(277,65%,52%); border: 1px solid hsl(277,42%,72%);
+  background: hsl(277,52%,93%); border-radius: 2px; padding: 1px 6px;
+  cursor: pointer; transition: all 0.12s;
+}
+.p-termbar-btn:hover { background: hsl(277,52%,87%); }
+
+/* Hero box */
+.p-hero {
+  background: #FAF8F3;
+  border: 1px solid #d0cdc6;
+  border-radius: 2px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  position: relative;
+}
+.p-hero-titlebar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 12px; border-bottom: 1px solid #e8e5df;
+  font-family: monospace;
+}
+.p-logo { font-size: 12px; font-weight: 700; color: hsl(277,65%,32%); }
+.p-nav { display: flex; gap: 12px; font-size: 8px; color: #bbb; font-family: monospace; }
+.p-nav span { cursor: pointer; }
+.p-nav span:hover { color: hsl(277,65%,32%); }
+.p-hero-body { padding: 18px 22px 14px; }
+.p-name {
+  font-family: system-ui, sans-serif; font-weight: 900;
+  font-size: 48px; letter-spacing: -3px; line-height: 0.9;
+  color: #1a1a1a; margin-bottom: 10px; cursor: default;
+}
+.p-role { font-size: 11px; font-family: monospace; color: hsl(277,65%,32%); font-weight: 700; margin-bottom: 12px; }
+.p-footer {
+  border-top: 1px solid #e0ddd6; padding-top: 10px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 9px; font-family: monospace; color: #bbb;
+}
+.p-footer-cta {
+  margin-left: auto; font-size: 8.5px; font-family: monospace;
+  color: hsl(277,65%,32%); border: 1px solid hsl(277,65%,32%, 0.3);
+  padding: 3px 10px; border-radius: 2px; cursor: pointer;
+}
+
+/* Projects section */
+.p-section-header {
+  font-size: 9px; color: #888; font-family: monospace; margin-bottom: 8px;
+}
+.p-tiles { display: grid; grid-template-columns: 1.8fr 1fr; gap: 8px; margin-bottom: 8px; }
+.p-tile {
+  background: hsl(277,52%,93%);
+  border: 1px solid hsl(277,42%,80%);
+  border-radius: 2px; padding: 12px;
+  font-family: monospace; cursor: pointer;
+  transition: border-color 0.15s, opacity 0.2s, filter 0.2s;
+}
+.p-tile:hover { border-color: hsl(277,65%,32%); }
+.p-tile.dimmed { opacity: 0.2; filter: grayscale(1); }
+.p-tile-chrome { font-size: 7px; color: hsl(277,38%,70%); margin-bottom: 5px; }
+.p-tile-title { font-family: system-ui, sans-serif; font-weight: 900; font-size: 15px; color: hsl(277,65%,32%); letter-spacing: -0.5px; margin-bottom: 3px; }
+.p-tile-tags { font-size: 7px; color: hsl(277,33%,56%); }
+.p-small-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.p-stile { background: hsl(var(--h),52%,93%); border: 1px solid hsl(var(--h),42%,80%); border-radius: 2px; padding: 10px; font-family: monospace; cursor: pointer; transition: opacity 0.2s, filter 0.2s; }
+.p-stile.dimmed { opacity: 0.2; filter: grayscale(1); }
+.p-stile-chrome { font-size: 6.5px; color: hsl(var(--h),38%,68%); margin-bottom: 4px; }
+.p-stile-title { font-family: system-ui, sans-serif; font-weight: 900; font-size: 11px; color: hsl(var(--h),65%,30%); letter-spacing: -0.3px; }
+
+/* Experiments section */
+.p-experiments {
+  margin-top: 12px;
+  display: none;
+}
+.p-experiments.visible { display: block; }
+.p-exp-header { font-size: 9px; color: #888; font-family: monospace; margin-bottom: 8px; }
+.p-exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.p-exp-card {
+  background: #1a1a1a; border: 1px solid #252525; border-radius: 2px;
+  padding: 12px; font-family: monospace; cursor: pointer;
+  transition: border-color 0.15s;
+}
+.p-exp-card:hover { border-color: hsl(277,52%,40%); }
+.p-exp-tag { font-size: 7px; color: #444; margin-bottom: 4px; }
+.p-exp-name { font-size: 12px; font-weight: 700; color: #d4d4d4; margin-bottom: 2px; }
+.p-exp-url { font-size: 8px; color: #555; }
+.p-exp-arrow { float: right; font-size: 10px; color: #444; }
+
+/* ── TERMINAL VARIANTS ── */
+
+/* A: Inline Expand (inside hero) */
+.term-inline {
+  border-top: 1px solid #e0ddd6;
+  padding: 8px 22px;
+  font-family: monospace;
+  display: none;
+}
+.term-inline.open { display: block; }
+.term-history { max-height: 96px; overflow-y: auto; margin-bottom: 6px; }
+.term-line { font-size: 9px; color: #666; line-height: 1.6; }
+.term-line.cmd { color: hsl(277,65%,42%); }
+.term-line.out { color: #777; white-space: pre; }
+.term-line.err { color: #cc4444; }
+.term-input-row { display: flex; align-items: center; gap: 6px; }
+.term-prompt-sym { font-size: 9px; color: #28c840; flex-shrink: 0; }
+.term-input {
+  flex: 1; background: transparent; border: none; outline: none;
+  font-family: monospace; font-size: 9px; color: hsl(277,65%,32%);
+  caret-color: hsl(277,65%,42%);
+}
+
+/* B: Command Palette (floating overlay over preview) */
+.term-palette {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(10,10,10,0.5); backdrop-filter: blur(6px);
+  z-index: 100; display: none; align-items: flex-start; justify-content: center;
+  padding-top: 80px;
+}
+.term-palette.open { display: flex; }
+.palette-box {
+  background: #141414; border: 1px solid #2e2e2e; border-radius: 6px;
+  width: 440px; box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  overflow: hidden;
+}
+.palette-input-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px; border-bottom: 1px solid #1e1e1e;
+}
+.palette-input {
+  flex: 1; background: transparent; border: none; outline: none;
+  font-family: monospace; font-size: 12px; color: #e0e0e0;
+  caret-color: hsl(277,65%,60%);
+}
+.palette-history { max-height: 200px; overflow-y: auto; }
+.palette-line { font-size: 11px; font-family: monospace; padding: 5px 16px; color: #555; }
+.palette-line.cmd { color: #888; }
+.palette-line.out { color: #666; white-space: pre; }
+.palette-line.err { color: #cc5555; }
+.palette-hint { font-size: 9px; color: #333; padding: 8px 16px; border-top: 1px solid #1a1a1a; }
+
+/* C: Floating Window (draggable) */
+.term-window {
+  position: absolute; top: 40px; right: 28px;
+  width: 360px; background: #141414;
+  border: 1px solid #2a2a2a; border-radius: 6px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  z-index: 100; display: none; flex-direction: column;
+  overflow: hidden;
+}
+.term-window.open { display: flex; }
+.term-window-bar {
+  background: #1a1a1a; padding: 7px 10px;
+  display: flex; align-items: center; gap: 5px;
+  cursor: grab; flex-shrink: 0; border-bottom: 1px solid #222;
+}
+.term-window-bar:active { cursor: grabbing; }
+.term-window-title { font-size: 9px; color: #555; font-family: monospace; margin-left: 6px; flex: 1; text-align: center; }
+.term-window-close { margin-left: auto; font-size: 8px; color: #555; cursor: pointer; background: none; border: none; font-family: monospace; }
+.term-window-close:hover { color: #ff5f57; }
+.term-window-body { padding: 10px 12px; flex: 1; display: flex; flex-direction: column; }
+.term-window-history { flex: 1; overflow-y: auto; max-height: 140px; margin-bottom: 6px; }
+.win-line { font-size: 9px; font-family: monospace; color: #555; line-height: 1.6; white-space: pre; }
+.win-line.cmd { color: hsl(277,60%,54%); }
+.win-line.out { color: #666; }
+.win-line.err { color: #cc4444; }
+.term-window-input-row { display: flex; align-items: center; gap: 6px; }
+.term-window-input {
+  flex: 1; background: transparent; border: none; outline: none;
+  font-family: monospace; font-size: 9px; color: hsl(277,65%,60%);
+}
+
+/* D: Bottom Drawer (Stripe-style) */
+.term-drawer {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: #111; border-top: 1px solid #222;
+  z-index: 100; transform: translateY(100%);
+  transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
+  display: flex; flex-direction: column;
+}
+.term-drawer.open { transform: translateY(0); }
+.term-drawer-bar {
+  display: flex; align-items: center; padding: 6px 14px;
+  border-bottom: 1px solid #1a1a1a; background: #0e0e0e;
+  cursor: pointer; flex-shrink: 0;
+}
+.term-drawer-title { font-size: 9px; color: #555; font-family: monospace; }
+.term-drawer-close { margin-left: auto; font-size: 8px; color: #444; cursor: pointer; background: none; border: none; font-family: monospace; }
+.term-drawer-body { padding: 8px 14px 10px; display: flex; flex-direction: column; gap: 6px; }
+.term-drawer-history { max-height: 80px; overflow-y: auto; }
+.drawer-line { font-size: 9px; font-family: monospace; color: #555; line-height: 1.6; white-space: pre; }
+.drawer-line.cmd { color: #28c840; }
+.drawer-line.out { color: #666; }
+.drawer-line.err { color: #cc4444; }
+.term-drawer-input-row { display: flex; align-items: center; gap: 6px; }
+.term-drawer-input { flex: 1; background: transparent; border: none; outline: none; font-family: monospace; font-size: 9px; color: #28c840; }
+
+/* E: Split View (always visible alongside) */
+.split-layout { display: grid; grid-template-columns: 1fr 240px; gap: 12px; }
+.term-split {
+  background: #0e0e0e; border: 1px solid #1e1e1e; border-radius: 2px;
+  display: flex; flex-direction: column; font-family: monospace;
+  overflow: hidden; height: fit-content; min-height: 200px; max-height: 400px;
+}
+.term-split-bar {
+  padding: 6px 10px; background: #141414;
+  border-bottom: 1px solid #1a1a1a; font-size: 8px; color: #444;
+  display: flex; align-items: center; gap: 5px;
+}
+.term-split-history { flex: 1; overflow-y: auto; padding: 8px 10px; max-height: 280px; }
+.split-line { font-size: 8.5px; color: #444; line-height: 1.6; white-space: pre; }
+.split-line.cmd { color: hsl(277,55%,50%); }
+.split-line.out { color: #555; }
+.split-line.err { color: #cc4444; }
+.term-split-input-row { padding: 6px 10px; border-top: 1px solid #1a1a1a; display: flex; align-items: center; gap: 5px; }
+.term-split-input { flex: 1; background: transparent; border: none; outline: none; font-family: monospace; font-size: 8.5px; color: hsl(277,65%,56%); }
+
+/* kbd hint */
+.kbd-hint {
+  font-size: 8px; font-family: monospace; color: #444;
+  background: #141414; border: 1px solid #222; border-radius: 2px;
+  padding: 2px 5px; cursor: pointer;
+}
+.kbd-hint:hover { color: #888; }
+
+/* ── PROMPT BAR ── */
+.prompt-bar {
+  flex-shrink: 0; padding: 10px 14px;
+  border-top: 1px solid #141414;
+  display: flex; gap: 10px; align-items: flex-start;
+  background: #080808; min-height: 56px;
+}
+.prompt-text { flex: 1; font-family: monospace; font-size: 10.5px; color: #4a4a4a; line-height: 1.55; white-space: pre-wrap; }
+.copy-btn {
+  padding: 5px 14px; background: transparent;
+  border: 1px solid #222; border-radius: 3px; color: #444;
+  cursor: pointer; font-family: monospace; font-size: 11px;
+  flex-shrink: 0; transition: all 0.12s; white-space: nowrap;
+}
+.copy-btn:hover { border-color: hsl(277,42%,34%); color: hsl(277,60%,66%); }
+.copy-btn.copied { border-color: #28c840 !important; color: #28c840 !important; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="dot" style="background:#ff5f57"></div>
+  <div class="dot" style="background:#febc2e"></div>
+  <div class="dot" style="background:#28c840"></div>
+  <span class="bar-title">terminal-interaction-explorer.html — portfolio</span>
+</div>
+
+<div class="workspace">
+  <!-- ── CONTROLS ── -->
+  <div class="controls">
+
+    <!-- Placement -->
+    <div>
+      <div class="ctrl-label">Terminal Placement</div>
+      <div class="opt-list" id="placementOpts">
+        <label class="opt" data-val="inline">
+          <input type="radio" name="placement" value="inline">
+          <span class="opt-pip"></span>
+          <span class="opt-body">
+            <div class="opt-name">Inline Expand</div>
+            <div class="opt-desc">Lives inside the hero card. The ❯ cursor becomes a real prompt. Expands on click.</div>
+          </span>
+          <span class="opt-badge">native</span>
+        </label>
+        <label class="opt sel" data-val="palette">
+          <input type="radio" name="placement" value="palette" checked>
+          <span class="opt-pip"></span>
+          <span class="opt-body">
+            <div class="opt-name">Command Palette</div>
+            <div class="opt-desc">Cmd+K floating overlay. Blur backdrop. Type to navigate. Linear/Raycast style.</div>
+          </span>
+          <span class="opt-badge">⌘K</span>
+        </label>
+        <label class="opt" data-val="window">
+          <input type="radio" name="placement" value="window">
+          <span class="opt-pip"></span>
+          <span class="opt-body">
+            <div class="opt-name">Floating Window</div>
+            <div class="opt-desc">Draggable terminal with macOS chrome. Opens via button in title bar.</div>
+          </span>
+          <span class="opt-badge">drag</span>
+        </label>
+        <label class="opt" data-val="drawer">
+          <input type="radio" name="placement" value="drawer">
+          <span class="opt-pip"></span>
+          <span class="opt-body">
+            <div class="opt-name">Console Drawer</div>
+            <div class="opt-desc">Slides up from bottom. Stripe Dev-style. Full scrollback history.</div>
+          </span>
+          <span class="opt-badge">↑ slide</span>
+        </label>
+        <label class="opt" data-val="split">
+          <input type="radio" name="placement" value="split">
+          <span class="opt-pip"></span>
+          <span class="opt-body">
+            <div class="opt-name">Split View</div>
+            <div class="opt-desc">Always visible terminal panel alongside content. PostHog-inspired.</div>
+          </span>
+          <span class="opt-badge">always on</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="ctrl-divider"></div>
+
+    <!-- Commands -->
+    <div>
+      <div class="ctrl-label">Available Commands</div>
+      <div class="toggle-list">
+        <div class="tog on" id="togNav" onclick="toggleCmd('nav')">
+          <span class="tog-name">navigate sections</span><div class="pill"></div>
+        </div>
+        <div class="tog on" id="togProjects" onclick="toggleCmd('projects')">
+          <span class="tog-name">control projects</span><div class="pill"></div>
+        </div>
+        <div class="tog on" id="togExp" onclick="toggleCmd('experiments')">
+          <span class="tog-name">experiments &amp; tools</span><div class="pill"></div>
+        </div>
+        <div class="tog" id="togEaster" onclick="toggleCmd('easter')">
+          <span class="tog-name">easter eggs</span><div class="pill"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ctrl-divider"></div>
+
+    <!-- Experiments section -->
+    <div>
+      <div class="ctrl-label">Experiments Section</div>
+      <div class="opt-list" id="expOpts">
+        <label class="opt" data-val="none">
+          <input type="radio" name="exp" value="none">
+          <span class="opt-pip"></span>
+          <span class="opt-body">
+            <div class="opt-name">Terminal-only</div>
+            <div class="opt-desc">Hidden from main page. Only discoverable via <code style="color:#555">ls ./experiments</code></div>
+          </span>
+        </label>
+        <label class="opt sel" data-val="cards">
+          <input type="radio" name="exp" value="cards" checked>
+          <span class="opt-pip"></span>
+          <span class="opt-body">
+            <div class="opt-name">Cards Section</div>
+            <div class="opt-desc">Grid of experiment cards below projects. Dark theme, links to subdomains.</div>
+          </span>
+        </label>
+        <label class="opt" data-val="hero">
+          <input type="radio" name="exp" value="hero">
+          <span class="opt-pip"></span>
+          <span class="opt-body">
+            <div class="opt-name">Hero Footer Links</div>
+            <div class="opt-desc">Small tool links inline in the hero card footer area.</div>
+          </span>
+        </label>
+        <label class="opt" data-val="mixed">
+          <input type="radio" name="exp" value="mixed">
+          <span class="opt-pip"></span>
+          <span class="opt-body">
+            <div class="opt-name">Mixed into Bento</div>
+            <div class="opt-desc">Experiment tiles live in the project grid with a different dark visual treatment.</div>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <button class="replay-btn" id="resetBtn">↺ reset terminal</button>
+  </div>
+
+  <!-- ── PREVIEW AREA ── -->
+  <div class="preview-area">
+    <div class="preview" id="preview">
+      <div class="p-wrap" id="pWrap">
+
+        <!-- Terminal chrome bar -->
+        <div class="p-termbar">
+          <div class="p-dot" style="background:#ff5f57"></div>
+          <div class="p-dot" style="background:#febc2e"></div>
+          <div class="p-dot" style="background:#28c840"></div>
+          <span class="p-termbar-title">~/jishnu/portfolio — zsh</span>
+          <span class="p-termbar-status">
+            <span class="p-status-dot"></span>
+            open to interesting things
+          </span>
+          <button class="p-termbar-btn" id="termBarBtn" onclick="termBarAction()" style="display:none">terminal ›</button>
+        </div>
+
+        <!-- Layout wrapper (normal or split) -->
+        <div id="layoutWrap">
+
+          <!-- Main content column -->
+          <div id="mainCol">
+
+            <!-- Hero box -->
+            <div class="p-hero" id="heroBox">
+              <div class="p-hero-titlebar">
+                <span class="p-logo">जेदी</span>
+                <nav class="p-nav">
+                  <span onclick="runCommand('cd projects')">work</span>
+                  <span onclick="runCommand('about')">about</span>
+                  <span>blog</span>
+                  <span>resume</span>
+                  <span onclick="showTerm()" style="color:hsl(277,65%,42%);border:1px solid hsl(277,42%,72%);padding:1px 6px;border-radius:2px;" id="kbdHintNav">⌘K</span>
+                </nav>
+              </div>
+              <div class="p-hero-body">
+                <div class="p-name" title="hover for scramble">JISHNU<br>DIWAKAR</div>
+                <div class="p-role">Founding Designer · Nudge · IIT Bombay · Bangalore</div>
+                <div class="p-footer">
+                  <span style="color:#28c840">❯</span>
+                  <span id="footerHint" style="cursor:pointer" onclick="footerClick()">crafting experiences that just feel right</span>
+                  <span class="p-footer-cta">let's chat ↗</span>
+                </div>
+                <!-- Inline terminal (placement A) -->
+                <div class="term-inline" id="termInline">
+                  <div class="term-history" id="histInline"></div>
+                  <div class="term-input-row">
+                    <span class="term-prompt-sym">❯</span>
+                    <input class="term-input" id="inputInline" placeholder="type a command…" autocomplete="off" spellcheck="false">
+                  </div>
+                </div>
+              </div>
+            </div><!-- /hero -->
+
+            <!-- Hero footer links (exp=hero) -->
+            <div id="expHeroLinks" style="display:none;margin-bottom:12px;padding:8px 0;border-bottom:1px solid #e0ddd6;font-family:monospace;font-size:9px;color:#aaa;">
+              <span style="color:#555">experiments → </span>
+              <a href="https://wiggle.jishnuthewalker.com" target="_blank" style="color:hsl(277,65%,42%);text-decoration:none;margin-right:12px">wiggle ↗</a>
+              <a href="https://sorting.jishnuthewalker.com" target="_blank" style="color:hsl(277,65%,42%);text-decoration:none;margin-right:12px">sorting ↗</a>
+              <span style="color:#999">+ more via terminal</span>
+            </div>
+
+            <!-- Projects -->
+            <div class="p-section-header" id="projectsSection">
+              <span style="color:#28c840">❯</span> ls ./projects --sort=featured
+            </div>
+            <div class="p-tiles" id="tilesGrid">
+              <div class="p-tile" data-skills="ux" onclick="runCommand('open review')">
+                <div class="p-tile-chrome">┌─ [01] ui/ux · 3 weeks ──────────────────────┐</div>
+                <div class="p-tile-title">रीView</div>
+                <div class="p-tile-tags">academic · research · rapid prototyping</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div class="p-tile" style="background:hsl(258,38%,93%);border-color:hsl(258,38%,78%)" data-skills="3d game">
+                  <div class="p-tile-chrome" style="color:hsl(258,32%,62%)">┌─ [02] 3d · client ──────┐</div>
+                  <div class="p-tile-title" style="color:hsl(258,72%,32%)">CSK Fanzone</div>
+                  <div class="p-tile-tags" style="color:hsl(258,30%,48%)">game design · 3d</div>
+                </div>
+                <div class="p-tile" style="background:hsl(264,33%,93%);border-color:hsl(264,33%,78%)" data-skills="brand">
+                  <div class="p-tile-chrome" style="color:hsl(264,28%,62%)">┌─ [03] branding ─────────┐</div>
+                  <div class="p-tile-title" style="color:hsl(264,45%,41%)">Mood Indigo</div>
+                  <div class="p-tile-tags" style="color:hsl(264,26%,48%)">identity · design system</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-small-tiles" id="smallTiles">
+              <div class="p-stile" style="--h:290" data-skills="ux"><div class="p-stile-chrome">┌─ [04] ux ─────</div><div class="p-stile-title">BookMyShow</div></div>
+              <div class="p-stile" style="--h:307" data-skills="3d"><div class="p-stile-chrome">┌─ [05] vr ─────</div><div class="p-stile-title">Multus</div></div>
+              <div class="p-stile" style="--h:333" data-skills="game"><div class="p-stile-chrome">┌─ [06] game ───</div><div class="p-stile-title">Seven Sands</div></div>
+              <div class="p-stile" style="--h:320" data-skills="ux 3d"><div class="p-stile-chrome">┌─ [07] hci ────</div><div class="p-stile-title">GrooveGlove</div></div>
+              <div class="p-stile" style="--h:346" data-skills="game"><div class="p-stile-chrome">┌─ [08] game ───</div><div class="p-stile-title">Prosper</div></div>
+            </div>
+
+            <!-- Experiments: mixed into bento -->
+            <div id="expMixed" style="display:none;margin-top:8px">
+              <div class="p-small-tiles">
+                <div class="p-exp-card"><div class="p-exp-tag">experiment</div><div class="p-exp-name">wiggle</div><div class="p-exp-url">wiggle.jishnuthewalker.com</div></div>
+                <div class="p-exp-card"><div class="p-exp-tag">experiment</div><div class="p-exp-name">sorting</div><div class="p-exp-url">sorting.jishnuthewalker.com</div></div>
+                <div class="p-exp-card"><div class="p-exp-tag">experiment</div><div class="p-exp-name">+ more</div><div class="p-exp-url">via terminal</div></div>
+              </div>
+            </div>
+
+            <!-- Experiments: cards section -->
+            <div class="p-experiments" id="expCards">
+              <div class="p-exp-header"><span style="color:#28c840">❯</span> ls ./experiments</div>
+              <div class="p-exp-grid">
+                <div class="p-exp-card" onclick="window.open('https://wiggle.jishnuthewalker.com')">
+                  <span class="p-exp-arrow">↗</span>
+                  <div class="p-exp-tag">[ tool · generative ]</div>
+                  <div class="p-exp-name">wiggle</div>
+                  <div class="p-exp-url">wiggle.jishnuthewalker.com</div>
+                </div>
+                <div class="p-exp-card" onclick="window.open('https://sorting.jishnuthewalker.com')">
+                  <span class="p-exp-arrow">↗</span>
+                  <div class="p-exp-tag">[ tool · algorithm ]</div>
+                  <div class="p-exp-name">sorting</div>
+                  <div class="p-exp-url">sorting.jishnuthewalker.com</div>
+                </div>
+                <div class="p-exp-card" style="border-style:dashed;cursor:default">
+                  <div class="p-exp-tag">[ + more ]</div>
+                  <div class="p-exp-name" style="color:#333">yours here</div>
+                  <div class="p-exp-url" style="color:#2a2a2a">add to experiments.js</div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /mainCol -->
+
+          <!-- Split terminal panel (placement E) -->
+          <div class="term-split" id="termSplit" style="display:none">
+            <div class="term-split-bar">
+              <div class="p-dot" style="width:7px;height:7px;background:#ff5f57"></div>
+              <div class="p-dot" style="width:7px;height:7px;background:#febc2e"></div>
+              <div class="p-dot" style="width:7px;height:7px;background:#28c840"></div>
+              <span style="margin-left:6px">~/jishnu</span>
+            </div>
+            <div class="term-split-history" id="histSplit"></div>
+            <div class="term-split-input-row">
+              <span style="font-size:8.5px;color:#28c840">❯</span>
+              <input class="term-split-input" id="inputSplit" placeholder="type help" autocomplete="off" spellcheck="false">
+            </div>
+          </div>
+
+        </div><!-- /layoutWrap -->
+
+      </div><!-- /p-wrap -->
+
+      <!-- Command Palette (placement B) -->
+      <div class="term-palette" id="termPalette" onclick="paletteBgClick(event)">
+        <div class="palette-box">
+          <div class="palette-input-row">
+            <span style="font-size:12px;color:#555;font-family:monospace">❯</span>
+            <input class="palette-input" id="inputPalette" placeholder="type a command  (esc to close)" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="palette-history" id="histPalette"></div>
+          <div class="palette-hint">try: help · ls · filter ux · cd experiments · open review · whoami</div>
+        </div>
+      </div>
+
+      <!-- Floating Window (placement C) -->
+      <div class="term-window" id="termWindow">
+        <div class="term-window-bar" id="winBar">
+          <div class="p-dot" style="width:8px;height:8px;background:#ff5f57"></div>
+          <div class="p-dot" style="width:8px;height:8px;background:#febc2e"></div>
+          <div class="p-dot" style="width:8px;height:8px;background:#28c840"></div>
+          <span class="term-window-title">~/jishnu/portfolio — zsh</span>
+          <button class="term-window-close" onclick="hideTerm()">✕</button>
+        </div>
+        <div class="term-window-body">
+          <div class="term-window-history" id="histWindow"></div>
+          <div class="term-window-input-row">
+            <span style="font-size:9px;color:#28c840;font-family:monospace">❯</span>
+            <input class="term-window-input" id="inputWindow" placeholder="type help" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+      </div>
+
+      <!-- Console Drawer (placement D) -->
+      <div class="term-drawer" id="termDrawer">
+        <div class="term-drawer-bar" onclick="hideTerm()">
+          <span class="term-drawer-title">❯ console — ~/jishnu/portfolio</span>
+          <button class="term-drawer-close">✕ close</button>
+        </div>
+        <div class="term-drawer-body">
+          <div class="term-drawer-history" id="histDrawer"></div>
+          <div class="term-drawer-input-row">
+            <span style="font-size:9px;color:#28c840;font-family:monospace">❯</span>
+            <input class="term-drawer-input" id="inputDrawer" placeholder="type help for commands" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /preview -->
+
+    <div class="prompt-bar">
+      <span class="prompt-text" id="promptText"></span>
+      <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">copy</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+const state = {
+  placement:   'palette',
+  experiments: 'cards',
+  commands: { nav: true, projects: true, experiments: true, easter: false },
+};
+
+// ═══════════════════════════════════════════════════════════════
+// COMMAND ENGINE
+// ═══════════════════════════════════════════════════════════════
+const PROJECTS_LIST = [
+  { id: 'review',      num:'01', title:'रीView',       skills:['ux'] },
+  { id: 'csk',         num:'02', title:'CSK Fanzone',  skills:['3d','game'] },
+  { id: 'mood-indigo', num:'03', title:'Mood Indigo',  skills:['brand'] },
+  { id: 'bookmyshow',  num:'04', title:'BookMyShow',   skills:['ux'] },
+  { id: 'multus',      num:'05', title:'Multus',       skills:['3d'] },
+  { id: 'seven-sands', num:'06', title:'Seven Sands',  skills:['game'] },
+  { id: 'grooveglove', num:'07', title:'GrooveGlove',  skills:['ux','3d'] },
+  { id: 'prosper',     num:'08', title:'Prosper',      skills:['game'] },
+];
+
+const EXPERIMENTS_LIST = [
+  { id:'wiggle',  url:'wiggle.jishnuthewalker.com',  desc:'generative wiggle art' },
+  { id:'sorting', url:'sorting.jishnuthewalker.com', desc:'sorting algorithm visualiser' },
+];
+
+function parseCommand(raw) {
+  const input = raw.trim().toLowerCase();
+  const c = state.commands;
+
+  if (!input) return null;
+
+  // help
+  if (input === 'help') {
+    const cmds = ['help                   — show this message', 'clear                  — clear history'];
+    if (c.nav)         cmds.push('about                  — open about modal', 'resume                 — open resume', 'cd <section>           — navigate to section');
+    if (c.projects)    cmds.push('ls [./projects]        — list all projects', 'open <id>              — open project (e.g. open review)', 'filter <skill>         — filter by skill (ux|3d|game|brand)', 'filter --clear         — remove filter');
+    if (c.experiments) cmds.push('ls ./experiments       — list tools & experiments', 'run <experiment>       — open experiment in new tab');
+    if (c.easter)      cmds.push('whoami                 — who is जेदी?', 'pwd                    — current location', 'date                   — today\'s date', 'echo <text>            — you know what this does');
+    return { type:'list', lines: cmds };
+  }
+
+  if (input === 'clear') return { type:'clear' };
+
+  // nav commands
+  if (c.nav) {
+    if (input === 'about') return { type:'action', text:'→ opening about modal…', action:'about' };
+    if (input === 'resume') return { type:'action', text:'→ opening resume PDF…', action:'resume' };
+    if (input === 'cd projects' || input === 'cd ./projects') {
+      document.getElementById('projectsSection')?.scrollIntoView({behavior:'smooth'});
+      return { type:'out', text:'  /projects' };
+    }
+    if (input === 'cd experiments' || input === 'cd ./experiments') {
+      if (state.experiments === 'none') {
+        document.getElementById('expCards').classList.add('visible');
+        return { type:'out', text:'  /experiments  ← revealed! (hidden from main page)' };
+      }
+      document.getElementById('expCards')?.scrollIntoView({behavior:'smooth'});
+      return { type:'out', text:'  /experiments' };
+    }
+    if (input === 'cd ..') return { type:'out', text:'  /' };
+  }
+
+  // project commands
+  if (c.projects) {
+    if (input === 'ls' || input === 'ls ./projects' || input === 'ls projects') {
+      const lines = PROJECTS_LIST.map(p => `  [${p.num}] ${p.title.padEnd(18)} ${p.skills.join(', ')}`);
+      return { type:'list', lines: ['', ...lines, ''] };
+    }
+    const openM = input.match(/^open\s+(.+)/);
+    if (openM) {
+      const q = openM[1].trim();
+      const p = PROJECTS_LIST.find(p => p.id === q || p.title.toLowerCase().includes(q));
+      if (p) return { type:'action', text:`→ opening ${p.title}…`, action:'open' };
+      return { type:'err', text:`  project "${q}" not found. try: ls ./projects` };
+    }
+    const filterM = input.match(/^filter\s+(.+)/);
+    if (filterM) {
+      const skill = filterM[1].trim();
+      if (skill === '--clear' || skill === 'clear') {
+        applyFilter(null);
+        return { type:'out', text:'  filter cleared' };
+      }
+      if (['ux','3d','game','brand'].includes(skill)) {
+        applyFilter(skill);
+        return { type:'out', text:`  showing: ${skill}  (filter --clear to reset)` };
+      }
+      return { type:'err', text:`  unknown skill "${skill}". options: ux · 3d · game · brand` };
+    }
+  }
+
+  // experiments
+  if (c.experiments) {
+    if (input === 'ls ./experiments' || input === 'ls experiments') {
+      const lines = EXPERIMENTS_LIST.map(e => `  ${e.id.padEnd(12)} ${e.url}  — ${e.desc}`);
+      return { type:'list', lines: ['', ...lines, '  run <name> to open →', ''] };
+    }
+    const runM = input.match(/^run\s+(.+)/);
+    if (runM) {
+      const id = runM[1].trim();
+      const ex = EXPERIMENTS_LIST.find(e => e.id === id);
+      if (ex) { window.open('https://' + ex.url, '_blank'); return { type:'action', text:`→ opening ${ex.url}…` }; }
+      return { type:'err', text:`  experiment "${id}" not found. try: ls ./experiments` };
+    }
+  }
+
+  // easter eggs
+  if (c.easter) {
+    if (input === 'whoami') return { type:'out', text:'  जेदी — Jishnu Diwakar, Founding Designer @ Nudge\n  IIT Bombay · Bangalore · making things that just feel right' };
+    if (input === 'pwd')    return { type:'out', text:'  ~/jishnu/portfolio' };
+    if (input === 'date')   return { type:'out', text:'  ' + new Date().toDateString() };
+    const echoM = input.match(/^echo\s+(.*)/);
+    if (echoM)              return { type:'out', text:'  ' + echoM[1] };
+    if (input === 'sudo rm -rf /' || input === 'rm -rf')
+      return { type:'err', text:'  nice try.' };
+    if (input === 'coffee' || input === 'brew install coffee')
+      return { type:'out', text:'  ☕ brewing… (jishnu@hey.com)' };
+    if (input === 'ls /')   return { type:'list', lines: ['  projects  experiments  about  resume  blog'] };
+  }
+
+  return { type:'err', text:`  command not found: ${raw.split(' ')[0]}  (try: help)` };
+}
+
+function applyFilter(skill) {
+  document.querySelectorAll('.p-tile, .p-stile').forEach(tile => {
+    if (!skill) { tile.classList.remove('dimmed'); return; }
+    const skills = (tile.dataset.skills || '').split(' ');
+    tile.classList.toggle('dimmed', !skills.includes(skill));
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TERMINAL ROUTING — send output to active terminal
+// ═══════════════════════════════════════════════════════════════
+function runCommand(raw, sourceInput) {
+  const result = parseCommand(raw);
+  appendToActiveHistory(raw, result);
+  if (result?.type === 'clear') clearActiveHistory();
+  if (sourceInput) sourceInput.value = '';
+}
+
+function getActiveHistEl() {
+  switch(state.placement) {
+    case 'inline':  return document.getElementById('histInline');
+    case 'palette': return document.getElementById('histPalette');
+    case 'window':  return document.getElementById('histWindow');
+    case 'drawer':  return document.getElementById('histDrawer');
+    case 'split':   return document.getElementById('histSplit');
+  }
+}
+function getLineClass(placement) {
+  if (placement === 'palette') return 'palette-line';
+  if (placement === 'window')  return 'win-line';
+  if (placement === 'drawer')  return 'drawer-line';
+  if (placement === 'split')   return 'split-line';
+  return 'term-line';
+}
+
+function appendToActiveHistory(cmd, result) {
+  const hist = getActiveHistEl();
+  if (!hist) return;
+  const cls = getLineClass(state.placement);
+
+  const cmdEl = document.createElement('div');
+  cmdEl.className = cls + ' cmd';
+  cmdEl.textContent = '❯ ' + cmd;
+  hist.appendChild(cmdEl);
+
+  if (result && result.type !== 'clear') {
+    if (result.type === 'list') {
+      result.lines.forEach(l => {
+        const el = document.createElement('div');
+        el.className = cls + ' out';
+        el.textContent = l;
+        hist.appendChild(el);
+      });
+    } else {
+      const el = document.createElement('div');
+      el.className = cls + (result.type === 'err' ? ' err' : ' out');
+      el.textContent = result.text;
+      hist.appendChild(el);
+    }
+  }
+
+  hist.scrollTop = hist.scrollHeight;
+}
+
+function clearActiveHistory() {
+  const hist = getActiveHistEl();
+  if (hist) hist.innerHTML = '';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SHOW / HIDE TERMINAL
+// ═══════════════════════════════════════════════════════════════
+function showTerm() {
+  switch(state.placement) {
+    case 'inline':
+      document.getElementById('termInline').classList.add('open');
+      setTimeout(() => document.getElementById('inputInline').focus(), 50);
+      break;
+    case 'palette':
+      document.getElementById('termPalette').classList.add('open');
+      setTimeout(() => document.getElementById('inputPalette').focus(), 50);
+      break;
+    case 'window':
+      document.getElementById('termWindow').classList.add('open');
+      setTimeout(() => document.getElementById('inputWindow').focus(), 50);
+      break;
+    case 'drawer':
+      document.getElementById('termDrawer').classList.add('open');
+      setTimeout(() => document.getElementById('inputDrawer').focus(), 50);
+      break;
+    case 'split':
+      setTimeout(() => document.getElementById('inputSplit').focus(), 50);
+      break;
+  }
+}
+
+function hideTerm() {
+  document.getElementById('termInline').classList.remove('open');
+  document.getElementById('termPalette').classList.remove('open');
+  document.getElementById('termWindow').classList.remove('open');
+  document.getElementById('termDrawer').classList.remove('open');
+}
+
+function paletteBgClick(e) {
+  if (e.target === document.getElementById('termPalette')) hideTerm();
+}
+
+function footerClick() {
+  if (state.placement === 'inline') showTerm();
+}
+
+function termBarAction() {
+  if (state.placement === 'window') showTerm();
+  if (state.placement === 'drawer') showTerm();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// KEYBOARD HANDLERS
+// ═══════════════════════════════════════════════════════════════
+function wireInput(inputId) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { runCommand(input.value, input); }
+    if (e.key === 'Escape') hideTerm();
+  });
+}
+wireInput('inputInline');
+wireInput('inputPalette');
+wireInput('inputWindow');
+wireInput('inputDrawer');
+wireInput('inputSplit');
+
+// Global keyboard shortcuts (within preview context)
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    if (state.placement === 'palette') {
+      const pal = document.getElementById('termPalette');
+      if (pal.classList.contains('open')) hideTerm();
+      else showTerm();
+    }
+  }
+  if (e.key === '`' && !e.metaKey && !e.ctrlKey) {
+    const tag = document.activeElement.tagName;
+    if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
+      if (['window','drawer','split'].includes(state.placement)) showTerm();
+    }
+  }
+  if (e.key === 'Escape') hideTerm();
+});
+
+// Draggable window
+(function() {
+  const win = document.getElementById('termWindow');
+  const bar = document.getElementById('winBar');
+  let dragging = false, ox = 0, oy = 0;
+  bar.addEventListener('mousedown', e => {
+    dragging = true;
+    ox = e.clientX - win.offsetLeft; oy = e.clientY - win.offsetTop;
+    win.style.right = 'unset';
+  });
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    win.style.left = (e.clientX - ox) + 'px';
+    win.style.top  = (e.clientY - oy) + 'px';
+  });
+  document.addEventListener('mouseup', () => { dragging = false; });
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// PLACEMENT CHANGE
+// ═══════════════════════════════════════════════════════════════
+function applyPlacement(val) {
+  hideTerm();
+  state.placement = val;
+
+  // Show/hide terminals
+  document.getElementById('termSplit').style.display   = val === 'split'   ? 'flex' : 'none';
+  document.getElementById('termBarBtn').style.display  = (val === 'window' || val === 'drawer') ? 'inline-block' : 'none';
+  document.getElementById('kbdHintNav').style.display  = val === 'palette' ? 'inline-block' : 'none';
+  document.getElementById('kbdHintNav').textContent    = val === 'palette' ? '⌘K' : '';
+
+  // Layout
+  const lw = document.getElementById('layoutWrap');
+  if (val === 'split') {
+    lw.className = 'split-layout';
+    lw.style.cssText = 'display:grid;grid-template-columns:1fr 240px;gap:12px;align-items:start;';
+  } else {
+    lw.className = '';
+    lw.style.cssText = '';
+  }
+
+  // Footer hint
+  document.getElementById('footerHint').style.textDecoration = val === 'inline' ? 'underline' : 'none';
+  document.getElementById('footerHint').style.color = val === 'inline' ? 'hsl(277,65%,42%)' : '';
+  document.getElementById('footerHint').title = val === 'inline' ? 'click to open terminal' : '';
+
+  // TermBar button label
+  if (val === 'window') document.getElementById('termBarBtn').textContent = 'terminal ›';
+  if (val === 'drawer') document.getElementById('termBarBtn').textContent = 'console ↑';
+
+  // Auto-open split
+  if (val === 'split') { seedHistory(); setTimeout(() => document.getElementById('inputSplit').focus(), 100); }
+
+  updatePrompt();
+}
+
+document.querySelectorAll('.opt[data-val]').forEach(opt => {
+  if (!opt.closest('#placementOpts') && !opt.closest('#expOpts')) return;
+  opt.addEventListener('click', () => {
+    const group = opt.closest('#placementOpts') ? 'placement' : 'exp';
+    const container = opt.closest(group === 'placement' ? '#placementOpts' : '#expOpts');
+    container.querySelectorAll('.opt').forEach(o => o.classList.remove('sel'));
+    opt.classList.add('sel');
+    if (group === 'placement') applyPlacement(opt.dataset.val);
+    else applyExperiments(opt.dataset.val);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════
+// EXPERIMENTS CHANGE
+// ═══════════════════════════════════════════════════════════════
+function applyExperiments(val) {
+  state.experiments = val;
+  document.getElementById('expCards').classList.toggle('visible', val === 'cards');
+  document.getElementById('expHeroLinks').style.display = val === 'hero' ? 'block' : 'none';
+  document.getElementById('expMixed').style.display     = val === 'mixed' ? 'block' : 'none';
+  // terminal-only: hide expCards (will be revealed via command)
+  if (val === 'none') document.getElementById('expCards').classList.remove('visible');
+  updatePrompt();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// COMMAND TOGGLES
+// ═══════════════════════════════════════════════════════════════
+function toggleCmd(key) {
+  state.commands[key] = !state.commands[key];
+  document.getElementById('tog' + key.charAt(0).toUpperCase() + key.slice(1)).classList.toggle('on', state.commands[key]);
+  updatePrompt();
+}
+
+document.getElementById('resetBtn').onclick = () => {
+  clearActiveHistory();
+  applyFilter(null);
+  if (state.experiments === 'none') document.getElementById('expCards').classList.remove('visible');
+  seedHistory();
+};
+
+// ═══════════════════════════════════════════════════════════════
+// SEED HISTORY (welcome message)
+// ═══════════════════════════════════════════════════════════════
+function seedHistory() {
+  clearActiveHistory();
+  const hist = getActiveHistEl();
+  if (!hist) return;
+  const cls = getLineClass(state.placement);
+  [
+    '  welcome to जेदी\'s portfolio terminal',
+    '  type "help" to see available commands',
+    '',
+  ].forEach(line => {
+    const el = document.createElement('div');
+    el.className = cls + ' out';
+    el.textContent = line;
+    hist.appendChild(el);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PROMPT
+// ═══════════════════════════════════════════════════════════════
+const PLACEMENT_LABELS = {
+  inline:  'Inline Expand — terminal expands within the HeroBox when the ❯ cursor is clicked',
+  palette: 'Command Palette — Cmd+K floating overlay with blur backdrop',
+  window:  'Floating Terminal Window — draggable macOS-style terminal, opens via "terminal ›" button in title bar',
+  drawer:  'Console Drawer — slides up from bottom (Stripe Dev style), opens via "console ↑" button',
+  split:   'Split View — always-visible terminal panel alongside content (PostHog-inspired)',
+};
+
+const EXP_LABELS = {
+  none:   'Experiments are terminal-only: hidden from the main page, revealed when user types "ls ./experiments" or "cd experiments"',
+  cards:  'Experiments section: dark card grid below projects, each card links to the subdomain experiment',
+  hero:   'Experiments appear as inline links in the hero footer: "experiments → wiggle ↗ sorting ↗ + more via terminal"',
+  mixed:  'Experiment tiles mixed into the project bento grid with a dark visual treatment to differentiate',
+};
+
+function updatePrompt() {
+  const cmds = Object.entries(state.commands).filter(([,v])=>v).map(([k])=>k);
+  const cmdDesc = {
+    nav: 'Navigation (about, resume, cd <section>)',
+    projects: 'Project control (ls, open <id>, filter <skill>)',
+    experiments: 'Experiments (ls ./experiments, run <name>)',
+    easter: 'Easter eggs (whoami, pwd, date, echo)',
+  };
+
+  const lines = [
+    `Placement: ${PLACEMENT_LABELS[state.placement]}`,
+    ``,
+    `Experiments: ${EXP_LABELS[state.experiments]}`,
+    ``,
+    `Commands enabled: ${cmds.map(k => cmdDesc[k]).join(' · ')}`,
+    ``,
+    `Trigger: ${getTriggerDesc()}`,
+  ];
+
+  document.getElementById('promptText').textContent = lines.join('\n');
+}
+
+function getTriggerDesc() {
+  switch(state.placement) {
+    case 'inline':  return 'Click the ❯ footer line in HeroBox. The terminal expands below it inline.';
+    case 'palette': return 'Cmd+K (or Ctrl+K) anywhere on the page. Close with Esc or click backdrop.';
+    case 'window':  return 'Click "terminal ›" button in the TerminalChrome title bar. Also toggleable with backtick (`).';
+    case 'drawer':  return 'Click "console ↑" button in the TerminalChrome title bar. Also toggleable with backtick (`).';
+    case 'split':   return 'Always visible alongside content. Auto-focused on load.';
+  }
+}
+
+function copyPrompt() {
+  navigator.clipboard.writeText(document.getElementById('promptText').textContent).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'copied!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+applyPlacement('palette');
+applyExperiments('cards');
+seedHistory();
+updatePrompt();
+
+// Auto-open palette for first impression
+setTimeout(() => {
+  if (state.placement === 'palette') showTerm();
+}, 400);
+</script>
+</body>
+</html>

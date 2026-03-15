@@ -35,7 +35,7 @@ export function MotionSection() {
 
   return (
     <section className="mt-8">
-      <div className="text-[9.5px] text-[#888] mb-3 whitespace-nowrap overflow-hidden font-mono">
+      <div className="text-[19px] text-[#888] mb-3 whitespace-nowrap overflow-hidden font-mono">
         <span style={{ color: 'var(--terminal-green)' }}>❯</span>{' '}
         <span>{typedCmd}</span>
         {showCursor && (

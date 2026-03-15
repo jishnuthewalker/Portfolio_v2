@@ -47,7 +47,7 @@ export function AboutModal({ isOpen, onClose }) {
           exit={{ opacity: 0, y: 12 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <div className="flex items-start justify-between mb-6">
               <div className="flex items-center gap-4">
                 <div

@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Modal Animation Explorer — Portfolio</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0a0a0a;
+  color: #d4d4d4;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 13px;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── TOP BAR ── */
+.top-bar {
+  height: 38px;
+  padding: 0 16px;
+  border-bottom: 1px solid #1a1a1a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.bar-title { font-size: 11px; color: #444; margin-left: 6px; font-family: monospace; }
+
+/* ── WORKSPACE ── */
+.workspace { display: flex; flex: 1; min-height: 0; }
+
+/* ── CONTROLS ── */
+.controls {
+  width: 272px;
+  flex-shrink: 0;
+  border-right: 1px solid #161616;
+  overflow-y: auto;
+  padding: 14px 12px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ctrl-section { margin-bottom: 20px; }
+.ctrl-label {
+  font-size: 9px;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 9px;
+  font-family: monospace;
+}
+.ctrl-divider {
+  height: 1px;
+  background: #161616;
+  margin: 16px 0;
+}
+
+/* ── RADIO ENTRY OPTIONS ── */
+.entry-options { display: flex; flex-direction: column; gap: 4px; }
+.entry-opt {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border: 1px solid #1a1a1a;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: border-color 0.1s, background 0.1s;
+  user-select: none;
+}
+.entry-opt:hover { border-color: #2a2a2a; }
+.entry-opt.selected {
+  border-color: hsl(277,52%,38%);
+  background: hsl(277,52%,6%);
+}
+.entry-opt input[type=radio] { display: none; }
+.radio-pip {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  border: 1px solid #333;
+  flex-shrink: 0;
+  position: relative;
+  transition: border-color 0.1s;
+}
+.entry-opt.selected .radio-pip { border-color: hsl(277,52%,50%); }
+.radio-pip::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: transparent;
+  transition: background 0.1s;
+}
+.entry-opt.selected .radio-pip::after { background: hsl(277,65%,60%); }
+.entry-icon { font-size: 12px; width: 16px; text-align: center; color: #555; flex-shrink: 0; font-family: monospace; }
+.entry-opt.selected .entry-icon { color: hsl(277,60%,70%); }
+.entry-name { font-size: 11px; font-family: monospace; color: #666; line-height: 1.2; }
+.entry-opt.selected .entry-name { color: hsl(277,65%,75%); }
+.entry-short { font-size: 9px; color: #333; margin-top: 1px; }
+.entry-opt.selected .entry-short { color: hsl(277,30%,42%); }
+
+/* ── TOGGLE SWITCHES ── */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border: 1px solid #1a1a1a;
+  border-radius: 3px;
+  margin-bottom: 4px;
+  transition: border-color 0.1s;
+  cursor: pointer;
+  user-select: none;
+}
+.toggle-row:hover { border-color: #2a2a2a; }
+.toggle-row.on { border-color: hsl(277,40%,28%); background: hsl(277,52%,5%); }
+.toggle-left { display: flex; align-items: center; gap: 8px; }
+.toggle-icon { font-size: 12px; width: 16px; text-align: center; color: #444; font-family: monospace; }
+.toggle-row.on .toggle-icon { color: hsl(277,60%,60%); }
+.toggle-name { font-size: 11px; font-family: monospace; color: #555; }
+.toggle-row.on .toggle-name { color: hsl(277,65%,72%); }
+.pill {
+  width: 30px; height: 16px;
+  border-radius: 8px;
+  background: #1e1e1e;
+  border: 1px solid #2a2a2a;
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+}
+.toggle-row.on .pill { background: hsl(277,55%,32%); border-color: hsl(277,55%,45%); }
+.pill::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #444;
+  transition: left 0.15s, background 0.15s;
+}
+.toggle-row.on .pill::after { left: 16px; background: hsl(277,70%,82%); }
+
+/* ── SLIDERS ── */
+.slider-group {
+  padding: 6px 2px 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: opacity 0.15s;
+  margin-bottom: 4px;
+}
+.slider-group.dim { opacity: 0.2; pointer-events: none; }
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+}
+.slider-lbl { font-size: 10px; color: #3a3a3a; width: 68px; flex-shrink: 0; font-family: monospace; }
+.slider-row input[type=range] { flex: 1; height: 2px; accent-color: hsl(277,65%,50%); cursor: pointer; }
+.slider-val { font-size: 10px; color: #484848; width: 36px; text-align: right; font-family: monospace; }
+
+/* ── REPLAY ── */
+.replay-btn {
+  width: 100%;
+  padding: 8px;
+  background: transparent;
+  border: 1px solid #1e1e1e;
+  border-radius: 3px;
+  color: #444;
+  cursor: pointer;
+  font-family: monospace;
+  font-size: 11px;
+  transition: border-color 0.12s, color 0.12s;
+  margin-top: 4px;
+}
+.replay-btn:hover { border-color: hsl(277,45%,36%); color: hsl(277,65%,68%); }
+
+/* ── PREVIEW AREA ── */
+.preview-area { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.preview {
+  flex: 1;
+  background: #F7F4EE;
+  background-image: linear-gradient(#e0ddd6 1px, transparent 1px), linear-gradient(90deg, #e0ddd6 1px, transparent 1px);
+  background-size: 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── PORTFOLIO TILE ── */
+.tile-wrap { text-align: center; }
+.portfolio-tile {
+  background: hsl(277,52%,93%);
+  border: 1px solid hsl(277,42%,80%);
+  border-radius: 2px;
+  padding: 16px;
+  width: 210px;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  position: relative;
+  text-align: left;
+  display: inline-block;
+  transition: border-color 0.2s;
+  user-select: none;
+}
+.portfolio-tile:hover { border-color: hsl(277,65%,32%); }
+.tile-arrow { position: absolute; top: 10px; right: 12px; font-size: 12px; color: hsl(277,38%,70%); transition: all 0.2s; }
+.portfolio-tile:hover .tile-arrow { color: hsl(277,65%,32%); transform: translate(2px,-2px); }
+.tile-chrome { font-size: 8px; color: hsl(277,38%,70%); margin-bottom: 7px; line-height: 1; }
+.tile-title { font-family: system-ui, sans-serif; font-weight: 900; font-size: 20px; color: hsl(277,65%,32%); letter-spacing: -1px; line-height: 1; margin-bottom: 5px; }
+.tile-desc { font-size: 8.5px; color: #888; margin-bottom: 5px; line-height: 1.5; }
+.tile-tags { font-size: 8px; color: hsl(277,33%,56%); }
+.tile-bot { font-size: 8px; color: hsl(277,38%,70%); margin-top: 9px; line-height: 1; }
+.click-hint { font-size: 10px; color: #999; margin-top: 11px; font-family: monospace; }
+
+/* ── MODAL BACKDROP ── */
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(26,26,26,0.55);
+  backdrop-filter: blur(4px);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.modal-backdrop.open { opacity: 1; pointer-events: all; }
+
+/* ── MODAL PANEL ── */
+.modal-panel {
+  background: hsl(277,52%,93%);
+  border: 1px solid hsl(277,65%,32%);
+  border-radius: 2px;
+  width: min(430px, calc(100% - 40px));
+  max-height: calc(100% - 40px);
+  position: relative;
+  overflow: hidden;
+  font-family: 'Courier New', monospace;
+}
+.modal-inner { padding: 20px; overflow-y: auto; max-height: calc(100vh - 120px); }
+.modal-chrome-line { font-size: 8.5px; color: hsl(277,38%,70%); margin-bottom: 4px; }
+.modal-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+.modal-title { font-family: system-ui, sans-serif; font-weight: 900; font-size: 30px; color: hsl(277,65%,32%); letter-spacing: -1.5px; line-height: 1; }
+.modal-close { font-size: 9px; color: #bbb; cursor: pointer; background: none; border: none; font-family: monospace; flex-shrink: 0; margin-left: 12px; margin-top: 4px; padding: 0; }
+.modal-close:hover { color: #555; }
+.meta-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.meta-chip { font-size: 8px; padding: 6px 10px; background: rgba(255,255,255,0.5); border: 1px solid hsl(277,42%,80%); border-radius: 2px; }
+.chip-label { color: hsl(277,38%,70%); margin-bottom: 2px; }
+.chip-value { color: hsl(277,65%,32%); font-size: 8.5px; }
+.modal-brief { font-size: 11px; color: #444; line-height: 1.7; margin-bottom: 14px; }
+.modal-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid hsl(277,42%,80%); padding-top: 10px; }
+.modal-tags { font-size: 8px; color: hsl(277,33%,56%); }
+.modal-link { font-size: 9px; color: hsl(277,65%,32%); text-decoration: none; }
+.modal-link:hover { opacity: 0.7; }
+.scan-head {
+  position: absolute; left: 0; top: 0;
+  width: 100%; height: 4px;
+  z-index: 5; pointer-events: none; display: none;
+}
+
+/* ── PROMPT BAR ── */
+.prompt-bar {
+  flex-shrink: 0;
+  padding: 10px 14px;
+  border-top: 1px solid #141414;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: #080808;
+  min-height: 52px;
+}
+.prompt-text { flex: 1; font-family: monospace; font-size: 10.5px; color: #4a4a4a; line-height: 1.55; white-space: pre-wrap; }
+.copy-btn {
+  padding: 5px 14px;
+  background: transparent;
+  border: 1px solid #222;
+  border-radius: 3px;
+  color: #444;
+  cursor: pointer;
+  font-family: monospace;
+  font-size: 11px;
+  flex-shrink: 0;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.copy-btn:hover { border-color: hsl(277,45%,38%); color: hsl(277,65%,70%); }
+.copy-btn.copied { border-color: #28c840 !important; color: #28c840 !important; }
+
+/* ── KEYFRAMES ── */
+@keyframes kFadeLift {
+  from { opacity: 0; transform: translateY(22px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes kScanWipe {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0% 0); }
+}
+@keyframes kScanHeadMove {
+  from { top: 0; opacity: 1; }
+  80%  { opacity: 1; }
+  to   { top: 100%; opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="dot" style="background:#ff5f57"></div>
+  <div class="dot" style="background:#febc2e"></div>
+  <div class="dot" style="background:#28c840"></div>
+  <span class="bar-title">modal-animation-explorer.html — portfolio</span>
+</div>
+
+<div class="workspace">
+
+  <!-- ── CONTROLS ── -->
+  <div class="controls">
+
+    <!-- ENTRY ANIMATION: radio group -->
+    <div class="ctrl-section">
+      <div class="ctrl-label">Entry Animation</div>
+      <div class="entry-options" id="entryOptions">
+        <label class="entry-opt" data-val="none">
+          <input type="radio" name="entry" value="none">
+          <span class="radio-pip"></span>
+          <span class="entry-icon">·</span>
+          <span><div class="entry-name">None</div><div class="entry-short">content appears instantly</div></span>
+        </label>
+        <label class="entry-opt" data-val="fade-lift">
+          <input type="radio" name="entry" value="fade-lift">
+          <span class="radio-pip"></span>
+          <span class="entry-icon">↑</span>
+          <span><div class="entry-name">Fade + Lift</div><div class="entry-short">slides up with spring curve</div></span>
+        </label>
+        <label class="entry-opt selected" data-val="border-draw">
+          <input type="radio" name="entry" value="border-draw" checked>
+          <span class="radio-pip"></span>
+          <span class="entry-icon">□</span>
+          <span><div class="entry-name">Border Draw</div><div class="entry-short">SVG stroke traces the frame</div></span>
+        </label>
+        <label class="entry-opt" data-val="scanline">
+          <input type="radio" name="entry" value="scanline">
+          <span class="radio-pip"></span>
+          <span class="entry-icon">≡</span>
+          <span><div class="entry-name">Scanline Wipe</div><div class="entry-short">CRT scan reveals top→bottom</div></span>
+        </label>
+      </div>
+
+      <!-- Entry timing (shown unless "none") -->
+      <div class="slider-group" id="entryTimingGroup" style="margin-top:8px">
+        <div class="slider-row">
+          <span class="slider-lbl">duration</span>
+          <input type="range" id="sDur" min="150" max="900" step="25" value="450">
+          <span class="slider-val" id="vDur">450ms</span>
+        </div>
+      </div>
+      <!-- Scanline-only: glow -->
+      <div class="slider-group dim" id="scanGlowGroup">
+        <div class="slider-row">
+          <span class="slider-lbl">glow</span>
+          <input type="range" id="sScanGlow" min="1" max="10" step="1" value="5">
+          <span class="slider-val" id="vScanGlow">5</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ctrl-divider"></div>
+
+    <!-- LAYER EFFECTS: independent toggles -->
+    <div class="ctrl-section">
+      <div class="ctrl-label">Layer Effects</div>
+
+      <!-- Glitch toggle -->
+      <div class="toggle-row on" id="toggleGlitch" onclick="toggleEffect('glitch')">
+        <div class="toggle-left">
+          <span class="toggle-icon">╳</span>
+          <span class="toggle-name">Glitch Flash</span>
+        </div>
+        <div class="pill"></div>
+      </div>
+      <div class="slider-group" id="glitchSliders" style="padding-left:4px">
+        <div class="slider-row">
+          <span class="slider-lbl">intensity</span>
+          <input type="range" id="sGlitchPx" min="1" max="10" step="1" value="5">
+          <span class="slider-val" id="vGlitchPx">5</span>
+        </div>
+        <div class="slider-row">
+          <span class="slider-lbl">duration</span>
+          <input type="range" id="sGlitchDur" min="100" max="600" step="25" value="320">
+          <span class="slider-val" id="vGlitchDur">320ms</span>
+        </div>
+      </div>
+
+      <!-- Decode toggle -->
+      <div class="toggle-row on" id="toggleDecode" onclick="toggleEffect('decode')" style="margin-top:4px">
+        <div class="toggle-left">
+          <span class="toggle-icon">?</span>
+          <span class="toggle-name">Text Decode</span>
+        </div>
+        <div class="pill"></div>
+      </div>
+      <div class="slider-group" id="decodeSliders" style="padding-left:4px">
+        <div class="slider-row">
+          <span class="slider-lbl">stagger</span>
+          <input type="range" id="sDecodeStagger" min="30" max="240" step="10" value="90">
+          <span class="slider-val" id="vDecodeStagger">90ms</span>
+        </div>
+        <div class="slider-row">
+          <span class="slider-lbl">speed</span>
+          <input type="range" id="sDecodeSpeed" min="1" max="10" step="1" value="5">
+          <span class="slider-val" id="vDecodeSpeed">5</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="replay-btn" id="replayBtn">↺ replay animation</button>
+  </div>
+
+  <!-- ── PREVIEW AREA ── -->
+  <div class="preview-area">
+    <div class="preview" id="preview">
+
+      <div class="tile-wrap">
+        <div class="portfolio-tile" id="tile" onclick="openModal()">
+          <span class="tile-arrow">↗</span>
+          <div class="tile-chrome">┌─ [01] ui/ux · 3 weeks ─────────────┐</div>
+          <div class="tile-title">रीView</div>
+          <div class="tile-desc">Cricket Assistant App — conflict resolution &amp; interactive scoring.</div>
+          <div class="tile-tags">academic · research · rapid prototyping</div>
+          <div class="tile-bot">└─────────────────────────────────────┘</div>
+        </div>
+        <div class="click-hint">click tile to preview</div>
+      </div>
+
+      <div class="modal-backdrop" id="backdrop" onclick="handleBackdropClick(event)">
+        <div class="modal-panel" id="modalPanel">
+          <div class="scan-head" id="scanHead"></div>
+          <div class="modal-inner" id="modalInner">
+            <div class="modal-chrome-line">┌─ [01] ui/ux · 3 weeks</div>
+            <div class="modal-header">
+              <div class="modal-title" id="modalTitle">रीView</div>
+              <button class="modal-close" onclick="closeModal()">✕ close</button>
+            </div>
+            <div class="meta-chips">
+              <div class="meta-chip"><div class="chip-label">ROLE</div><div class="chip-value" id="cRole">UX Researcher &amp; Designer</div></div>
+              <div class="meta-chip"><div class="chip-label">DURATION</div><div class="chip-value" id="cDuration">3 weeks</div></div>
+              <div class="meta-chip"><div class="chip-label">TYPE</div><div class="chip-value" id="cType">Academic · DE 318</div></div>
+            </div>
+            <p class="modal-brief">A mobile cricket assistant built for semi-pro gully cricket players and umpires. Grounded in contextual research with 29 users across Mumbai, Delhi, and Jaipur — translated into a multi-device app using AI-powered DRS, real-time scoring, and customisable local rules, all designed for one-handed use during live play.</p>
+            <div class="modal-footer">
+              <div class="modal-tags">academic · research · rapid prototyping</div>
+              <a class="modal-link" href="#">view on behance ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt-bar">
+      <span class="prompt-text" id="promptText"></span>
+      <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">copy</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// STATE — every control writes here, every render reads from here
+// ═══════════════════════════════════════════════════════════════
+const state = {
+  entry:         'border-draw',  // 'none' | 'fade-lift' | 'border-draw' | 'scanline'
+  entryDur:      450,
+  scanGlow:      5,
+  glitch:        true,
+  glitchPx:      5,
+  glitchDur:     320,
+  decode:        true,
+  decodeStagger: 90,
+  decodeSpeed:   5,
+};
+
+let isOpen = false;
+let activeRAFs = [];
+let activeSVG  = null;
+
+const CHIP_DATA = {
+  cRole:     'UX Researcher & Designer',
+  cDuration: '3 weeks',
+  cType:     'Academic · DE 318',
+};
+const SCRAMBLE = 'ABCDEFGHJKLMNPQRSTWXYZabcdefghjkmnpqrstuvwxyz0123456789#@!?%&*';
+
+// ═══════════════════════════════════════════════════════════════
+// WIRE ENTRY RADIO
+// ═══════════════════════════════════════════════════════════════
+document.querySelectorAll('.entry-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    state.entry = opt.dataset.val;
+    document.querySelectorAll('.entry-opt').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    syncEntryControls();
+    updatePrompt();
+    if (isOpen) { closeModal(); setTimeout(openModal, 260); }
+  });
+});
+
+function syncEntryControls() {
+  const hasEntry = state.entry !== 'none';
+  document.getElementById('entryTimingGroup').classList.toggle('dim', !hasEntry);
+  document.getElementById('scanGlowGroup').classList.toggle('dim', state.entry !== 'scanline');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// WIRE EFFECT TOGGLES
+// ═══════════════════════════════════════════════════════════════
+function toggleEffect(name) {
+  state[name] = !state[name];
+  const row = document.getElementById('toggle' + name.charAt(0).toUpperCase() + name.slice(1));
+  row.classList.toggle('on', state[name]);
+  document.getElementById(name + 'Sliders').classList.toggle('dim', !state[name]);
+  updatePrompt();
+  if (isOpen) { closeModal(); setTimeout(openModal, 260); }
+}
+
+// init slider dim states
+document.getElementById('glitchSliders').classList.toggle('dim', !state.glitch);
+document.getElementById('decodeSliders').classList.toggle('dim', !state.decode);
+
+// ═══════════════════════════════════════════════════════════════
+// WIRE SLIDERS
+// ═══════════════════════════════════════════════════════════════
+function wireSlider(id, valId, stateKey, suffix) {
+  const el = document.getElementById(id);
+  el.addEventListener('input', () => {
+    state[stateKey] = +el.value;
+    document.getElementById(valId).textContent = el.value + (suffix || '');
+    updatePrompt();
+  });
+}
+wireSlider('sDur',          'vDur',          'entryDur',      'ms');
+wireSlider('sScanGlow',     'vScanGlow',     'scanGlow',      '');
+wireSlider('sGlitchPx',     'vGlitchPx',     'glitchPx',      '');
+wireSlider('sGlitchDur',    'vGlitchDur',    'glitchDur',     'ms');
+wireSlider('sDecodeStagger','vDecodeStagger','decodeStagger', 'ms');
+wireSlider('sDecodeSpeed',  'vDecodeSpeed',  'decodeSpeed',   '');
+
+document.getElementById('replayBtn').onclick = () => {
+  if (isOpen) { closeModal(); setTimeout(openModal, 260); }
+  else openModal();
+};
+
+// ═══════════════════════════════════════════════════════════════
+// MODAL OPEN / CLOSE
+// ═══════════════════════════════════════════════════════════════
+function openModal() {
+  reset();
+  isOpen = true;
+  document.getElementById('backdrop').classList.add('open');
+  runAnim();
+}
+
+function closeModal() {
+  isOpen = false;
+  document.getElementById('backdrop').classList.remove('open');
+  reset();
+}
+
+function handleBackdropClick(e) {
+  if (e.target === document.getElementById('backdrop')) closeModal();
+}
+
+function reset() {
+  activeRAFs.forEach(cancelAnimationFrame);
+  activeRAFs = [];
+  if (activeSVG) { activeSVG.remove(); activeSVG = null; }
+
+  const panel = document.getElementById('modalPanel');
+  const inner = document.getElementById('modalInner');
+  const title = document.getElementById('modalTitle');
+  const scan  = document.getElementById('scanHead');
+
+  panel.style.cssText = '';
+  inner.style.cssText = '';
+  title.style.cssText = '';
+  scan.style.cssText  = 'display:none';
+  title.getAnimations().forEach(a => a.cancel());
+
+  Object.entries(CHIP_DATA).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ANIMATION RUNNER — composes entry + layer effects
+// ═══════════════════════════════════════════════════════════════
+function runAnim() {
+  const panel = document.getElementById('modalPanel');
+  const inner = document.getElementById('modalInner');
+
+  // How long until content is visible (needed to time layers)
+  let contentDelay = 0;
+
+  // ── ENTRY ─────────────────────────────────────────────────
+  if (state.entry === 'fade-lift') {
+    panel.style.animation = `kFadeLift ${state.entryDur}ms cubic-bezier(0.16,1,0.3,1) forwards`;
+    contentDelay = 0; // content visible from start
+
+  } else if (state.entry === 'border-draw') {
+    panel.style.border   = 'none';
+    inner.style.opacity  = '0';
+    contentDelay = state.entryDur + 20;
+
+    // Scramble chips early if decode is on (so they're already scrambled when content fades in)
+    if (state.decode) scrambleChips();
+
+    activeSVG = buildSVGBorder(panel, state.entryDur);
+
+    setTimeout(() => {
+      inner.style.transition = 'opacity 150ms ease';
+      inner.style.opacity    = '1';
+      applyLayers();
+    }, contentDelay);
+
+    return; // layers applied inside timeout
+
+  } else if (state.entry === 'scanline') {
+    const lum  = 40 + state.scanGlow * 5;
+    const scan = document.getElementById('scanHead');
+    scan.style.display    = 'block';
+    scan.style.background = `linear-gradient(transparent, hsl(277,65%,${lum}%), transparent)`;
+    scan.style.animation  = `kScanHeadMove ${state.entryDur}ms cubic-bezier(0.4,0,0.2,1) forwards`;
+    panel.style.animation = `kScanWipe ${state.entryDur}ms cubic-bezier(0.4,0,0.2,1) forwards`;
+    contentDelay = 0;
+
+  } else {
+    // none — content visible immediately
+    contentDelay = 0;
+  }
+
+  // ── LAYERS (for non-border-draw paths) ────────────────────
+  if (state.decode) scrambleChips();
+  setTimeout(applyLayers, contentDelay);
+}
+
+function applyLayers() {
+  if (state.glitch) doGlitch();
+  if (state.decode) doDecodeChips();
+}
+
+// ── GLITCH ───────────────────────────────────────────────────
+function doGlitch() {
+  const title = document.getElementById('modalTitle');
+  const px    = state.glitchPx * 0.9;
+  title.animate([
+    { textShadow: `${-px*6}px 0 rgba(255,0,60,.9), ${px*6}px 0 rgba(0,229,255,.9)`, letterSpacing: `${-px*0.3-1}px` },
+    { textShadow: `${px*3}px 0 rgba(255,0,60,.55), ${-px*3}px 0 rgba(0,229,255,.55)`, letterSpacing: '-0.5px', offset: 0.3 },
+    { textShadow: `${-px}px 0 rgba(255,0,60,.1), ${px}px 0 rgba(0,229,255,.1)`, offset: 0.65 },
+    { textShadow: 'none', letterSpacing: '-1.5px' },
+  ], { duration: state.glitchDur, easing: 'ease-out', fill: 'forwards' });
+}
+
+// ── DECODE ───────────────────────────────────────────────────
+function scrambleChips() {
+  Object.entries(CHIP_DATA).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = rndStr(val.length);
+  });
+}
+
+function doDecodeChips() {
+  const fieldDur = Math.max(250, (11 - state.decodeSpeed) * 80);
+  Object.entries(CHIP_DATA).forEach(([id, finalText], i) => {
+    setTimeout(() => decodeField(id, finalText, fieldDur), i * state.decodeStagger);
+  });
+}
+
+function decodeField(id, finalText, dur) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  let start = null;
+  const step = ts => {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / dur, 1);
+    const resolved = Math.floor(p * finalText.length);
+    let s = '';
+    for (let j = 0; j < finalText.length; j++)
+      s += j < resolved ? finalText[j] : SCRAMBLE[Math.floor(Math.random() * SCRAMBLE.length)];
+    el.textContent = s;
+    if (p < 1) { const r = requestAnimationFrame(step); activeRAFs.push(r); }
+    else el.textContent = finalText;
+  };
+  activeRAFs.push(requestAnimationFrame(step));
+}
+
+// ── SVG BORDER ───────────────────────────────────────────────
+function buildSVGBorder(panel, dur) {
+  const w = panel.offsetWidth, h = panel.offsetHeight;
+  const perim = Math.round(2 * (w + h));
+
+  const svg  = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3;overflow:visible;';
+
+  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('x','1'); rect.setAttribute('y','1');
+  rect.setAttribute('width', w-2); rect.setAttribute('height', h-2);
+  rect.setAttribute('fill','none');
+  rect.setAttribute('stroke','hsl(277,65%,32%)');
+  rect.setAttribute('stroke-width','1.5');
+  rect.style.strokeDasharray  = perim;
+  rect.style.strokeDashoffset = perim;
+  rect.style.transition = `stroke-dashoffset ${dur}ms linear`;
+
+  svg.appendChild(rect);
+  panel.style.position = 'relative';
+  panel.appendChild(svg);
+  requestAnimationFrame(() => requestAnimationFrame(() => { rect.style.strokeDashoffset = '0'; }));
+  return svg;
+}
+
+function rndStr(len) {
+  let s = '';
+  for (let i = 0; i < len; i++) s += SCRAMBLE[Math.floor(Math.random() * SCRAMBLE.length)];
+  return s;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PROMPT OUTPUT
+// ═══════════════════════════════════════════════════════════════
+function updatePrompt() {
+  const parts = [];
+
+  const entryLabels = { 'none':'none','fade-lift':'Fade+Lift','border-draw':'Border Draw','scanline':'Scanline Wipe' };
+  const activeEffects = [state.glitch && 'Glitch Flash', state.decode && 'Text Decode'].filter(Boolean);
+
+  // Entry
+  if (state.entry === 'none') {
+    parts.push('Entry: none — content appears instantly.');
+  } else if (state.entry === 'fade-lift') {
+    parts.push(`Entry: Fade+Lift — initial={{ opacity:0, y:22, scale:0.96 }} → animate={{ opacity:1, y:0, scale:1 }}, transition={{ duration:${state.entryDur/1000}, ease:[0.16,1,0.3,1] }}.`);
+  } else if (state.entry === 'border-draw') {
+    parts.push(`Entry: Border Draw — SVG stroke-dashoffset traces panel border over ${state.entryDur}ms linear. CSS border hidden while drawing. Modal content fades in after draw completes (150ms).`);
+  } else if (state.entry === 'scanline') {
+    parts.push(`Entry: Scanline Wipe — animate clip-path: inset(0 0 100% 0)→inset(0 0 0% 0) over ${state.entryDur}ms. Overlay div sweeps top→bottom with hsl(277,65%,${40+state.scanGlow*5}%) glow.`);
+  }
+
+  // Glitch
+  if (state.glitch) {
+    const px = Math.round(state.glitchPx * 5.4);
+    parts.push(`Glitch Flash: title.animate chromatic aberration ±${px}px (red/cyan text-shadow) over ${state.glitchDur}ms ease-out, settling to no shadow. Fires ${state.entry === 'border-draw' ? 'when content appears after border draw' : 'on open'}.`);
+  }
+
+  // Decode
+  if (state.decode) {
+    const fieldDur = Math.max(250, (11 - state.decodeSpeed) * 80);
+    parts.push(`Text Decode: scramble ROLE/DURATION/TYPE chip values immediately, then RAF-resolve each to real text (${fieldDur}ms/field), staggered ${state.decodeStagger}ms apart.`);
+  }
+
+  if (!state.glitch && !state.decode && state.entry === 'none') {
+    parts.push('No animations selected — modal appears with no transition.');
+  }
+
+  document.getElementById('promptText').textContent = parts.join('\n');
+}
+
+function copyPrompt() {
+  navigator.clipboard.writeText(document.getElementById('promptText').textContent).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+syncEntryControls();
+updatePrompt();
+</script>
+</body>
+</html>

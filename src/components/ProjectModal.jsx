@@ -119,7 +119,7 @@ export function ProjectModal({ projectId, onClose }) {
 
               {/* Scrollable content */}
               <div className="overflow-y-auto max-h-[calc(100vh-1.5rem)] sm:max-h-[calc(100vh-2.5rem)]">
-                <div className="p-5">
+                <div className="p-4 sm:p-5">
 
                   {/* Header */}
                   <div className="flex items-start justify-between mb-4">

@@ -56,12 +56,8 @@ export function CommandPalette({
           <div className="fixed inset-0 z-50 flex items-start justify-center pt-[20vh] pointer-events-none px-5">
             <motion.div
               key="palette-panel"
-              className="w-full max-w-[560px] pointer-events-auto overflow-hidden rounded-[4px]"
-              style={{
-                background: '#111',
-                border: '1px solid rgba(255,255,255,0.1)',
-                boxShadow: '0 32px 96px rgba(0,0,0,0.7)',
-              }}
+              className="w-full max-w-[560px] pointer-events-auto overflow-hidden rounded-[4px] bg-dark border border-dark-border-2"
+              style={{ boxShadow: '0 32px 96px rgba(0,0,0,0.7)' }}
               initial={{ opacity: 0, y: -10, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.97 }}
@@ -69,37 +65,24 @@ export function CommandPalette({
             >
               <Command>
                 {/* Search input row */}
-                <div
-                  className="flex items-center px-4 gap-3"
-                  style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}
-                >
-                  <span
-                    className="text-[11px] font-mono flex-shrink-0"
-                    style={{ color: 'var(--terminal-green)' }}
-                  >
+                <div className="flex items-center px-4 gap-3 border-b border-dark-divider">
+                  <span className="text-base font-mono flex-shrink-0 text-green">
                     ❯
                   </span>
                   <Command.Input
                     placeholder="type a command or search…"
-                    className="flex-1 bg-transparent border-0 outline-none text-[13px] font-mono text-white py-4"
+                    className="flex-1 bg-transparent border-0 outline-none text-xl font-mono text-white py-4 caret-green"
                     style={{
-                      caretColor: 'var(--terminal-green)',
                       WebkitAppearance: 'none',
                     }}
                   />
-                  <kbd
-                    className="text-[9px] font-mono rounded-[2px] px-1.5 py-0.5 flex-shrink-0"
-                    style={{
-                      color: '#444',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                    }}
-                  >
+                  <kbd className="text-sm font-mono rounded-[2px] px-1.5 py-0.5 flex-shrink-0 text-ink-2 border border-dark-border-2">
                     esc
                   </kbd>
                 </div>
 
                 <Command.List className="py-2 max-h-[340px] overflow-y-auto">
-                  <Command.Empty className="text-[11px] font-mono px-4 py-3" style={{ color: '#555' }}>
+                  <Command.Empty className="text-base font-mono px-4 py-3 text-ink-3">
                     no results.
                   </Command.Empty>
 
@@ -200,8 +183,7 @@ function PaletteItem({ children, onSelect }) {
   return (
     <Command.Item
       onSelect={onSelect}
-      className="flex items-center gap-2.5 px-4 py-2.5 text-[12px] font-mono cursor-pointer transition-colors duration-75"
-      style={{ color: '#aaa' }}
+      className="flex items-center gap-2.5 px-4 py-2.5 text-lg font-mono cursor-pointer transition-colors duration-75 text-subtle"
     >
       {children}
     </Command.Item>
@@ -210,7 +192,7 @@ function PaletteItem({ children, onSelect }) {
 
 function ItemIcon({ children }) {
   return (
-    <span className="text-[10px] w-4 flex-shrink-0" style={{ color: '#555' }}>
+    <span className="text-ui w-4 flex-shrink-0 text-ink-3">
       {children}
     </span>
   )
@@ -218,7 +200,7 @@ function ItemIcon({ children }) {
 
 function ItemNum({ children }) {
   return (
-    <span className="text-[9px] font-mono w-6 flex-shrink-0" style={{ color: '#555' }}>
+    <span className="text-sm font-mono w-6 flex-shrink-0 text-ink-3">
       {children}
     </span>
   )

@@ -126,7 +126,7 @@ export function ProjectsSection({ onOpenProject, activeFilter, onFilterChange })
       </div>
 
       {/* Bento Grid */}
-      <div className="grid grid-cols-3 gap-3 mb-3 grid-flow-row-dense">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3 grid-flow-row-dense">
         {small.map((p, i) => (
           <motion.div
             key={p.id}

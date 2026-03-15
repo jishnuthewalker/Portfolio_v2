@@ -49,15 +49,13 @@ export function ProjectsSection({ onOpenProject, activeFilter, onFilterChange })
   return (
     <section id="projects">
       {/* Typewriter header */}
-      <div className="text-[11px] text-[#888] mb-3 whitespace-nowrap overflow-hidden font-mono">
-        <span style={{ color: "var(--terminal-green)" }}>❯</span>{" "}
+      <div className="text-base font-mono mb-3 text-muted whitespace-nowrap overflow-hidden">
+        <span className="text-green">❯</span>{" "}
         <span>{typedCmd}</span>
         {showCursor && (
           <span
-            style={{
-              color: "hsl(277,65%,32%)",
-              animation: "blink 1s step-end infinite",
-            }}
+            className="text-accent"
+            style={{ animation: "blink 1s step-end infinite" }}
           >
             █
           </span>
@@ -76,31 +74,11 @@ export function ProjectsSection({ onOpenProject, activeFilter, onFilterChange })
             type="button"
             key={f.value}
             onClick={() => toggleFilter(f.value)}
-            className={[
-              "text-[10px] font-mono border px-2 py-0.5 rounded-[2px] cursor-pointer transition-all duration-150",
+            className={`text-ui font-mono px-2.5 py-1 rounded-[2px] border transition-all duration-150 cursor-pointer ${
               activeFilter === f.value
-                ? "text-white"
-                : "border-[#d0cdc6] text-[#888]",
-            ].join(" ")}
-            style={
-              activeFilter === f.value
-                ? { background: "var(--accent)", borderColor: "var(--accent)" }
-                : {}
-            }
-            onMouseEnter={(e) => {
-              if (activeFilter !== f.value) {
-                e.currentTarget.style.borderColor = "var(--accent)";
-                e.currentTarget.style.color = "var(--accent)";
-                e.currentTarget.style.background = "var(--accent-tint-04)";
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (activeFilter !== f.value) {
-                e.currentTarget.style.borderColor = "";
-                e.currentTarget.style.color = "";
-                e.currentTarget.style.background = "";
-              }
-            }}
+                ? "bg-accent border-accent text-white"
+                : "border-border text-muted hover:border-accent hover:text-accent hover:bg-accent-ghost"
+            }`}
           >
             {f.label}
           </button>
@@ -108,7 +86,7 @@ export function ProjectsSection({ onOpenProject, activeFilter, onFilterChange })
       </motion.div>
 
       {/* Featured row: large left + stacked right */}
-      <div className="grid gap-[12px] mb-[12px] grid-cols-1 sm:grid-cols-[2.0fr_1fr]">
+      <div className="grid gap-3 mb-3 grid-cols-1 sm:grid-cols-[2.0fr_1fr]">
         {featured.map((p, i) => (
           <motion.div
             key={p.id}
@@ -124,7 +102,7 @@ export function ProjectsSection({ onOpenProject, activeFilter, onFilterChange })
             />
           </motion.div>
         ))}
-        <div className="flex flex-col gap-[12px]">
+        <div className="flex flex-col gap-3">
           {half.map((p, i) => (
             <motion.div
               key={p.id}
@@ -148,7 +126,7 @@ export function ProjectsSection({ onOpenProject, activeFilter, onFilterChange })
       </div>
 
       {/* Bento Grid */}
-      <div className="grid grid-cols-3 gap-[12px] mb-[12px] grid-flow-row-dense">
+      <div className="grid grid-cols-3 gap-3 mb-3 grid-flow-row-dense">
         {small.map((p, i) => (
           <motion.div
             key={p.id}

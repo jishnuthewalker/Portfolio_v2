@@ -16,7 +16,11 @@ function makeBox(num, category, size) {
 export function ProjectTile({ project, dimmed = false, onOpen }) {
   const c = COLOR_MAP[project.colorKey]
   const { top, bot } = makeBox(project.num, project.category, project.size)
-  const titleSize = project.size === 'featured' ? '20px' : project.size === 'half' ? '15px' : '12px'
+  const titleSizeVar = {
+    featured: 'var(--text-tile-lg)',
+    half:     'var(--text-tile-md)',
+    small:    'var(--text-tile-sm)',
+  }[project.size] ?? 'var(--text-tile-sm)'
 
   const titleRef = useRef(null)
   const { scrambleWithColor } = useScramble()
@@ -32,6 +36,7 @@ export function ProjectTile({ project, dimmed = false, onOpen }) {
 
   return (
     <motion.div
+      layoutId={project.id}
       role="button"
       tabIndex={0}
       aria-label={`View ${project.title} project`}
@@ -45,7 +50,7 @@ export function ProjectTile({ project, dimmed = false, onOpen }) {
         '--tile-tag': c.tag,
         '--tile-title': c.title,
       }}
-      className="rounded-sm p-3.5 relative cursor-pointer h-full flex flex-col"
+      className="rounded-sm p-7 relative cursor-pointer h-full flex flex-col"
       initial={{ borderColor: c.borderRest }}
       animate={{
         opacity: dimmed ? 0.2 : 1,
@@ -59,7 +64,7 @@ export function ProjectTile({ project, dimmed = false, onOpen }) {
       {/* Arrow — translates on hover */}
       <span
         aria-hidden="true"
-        className="absolute top-3 right-3.5 text-[11px] font-mono transition-all duration-200"
+        className="absolute top-3 right-3.5 text-xl font-mono transition-all duration-200"
         style={{
           color: hovered ? c.title : 'var(--tile-chrome)',
           transform: hovered ? 'translate(2px, -2px)' : 'translate(0, 0)',
@@ -69,24 +74,24 @@ export function ProjectTile({ project, dimmed = false, onOpen }) {
       </span>
 
       {/* box top */}
-      <div className="text-[8px] leading-none mb-2 font-mono" style={{ color: 'var(--tile-chrome)' }}>{top}</div>
+      <div className="text-sm leading-none mb-2 font-mono" style={{ color: 'var(--tile-chrome)' }}>{top}</div>
 
       {/* title */}
       <span
         ref={titleRef}
         className="block font-display font-black tracking-tight leading-tight mb-1"
-        style={{ color: 'var(--tile-title)', fontSize: titleSize }}
+        style={{ color: 'var(--tile-title)', fontSize: titleSizeVar }}
       >
         {project.title}
       </span>
 
       {project.desc && (
-        <div className="text-[8.5px] text-[#888] leading-relaxed mb-1.5 font-mono">{project.desc}</div>
+        <div className="text-ui text-muted leading-relaxed mb-1.5 font-mono">{project.desc}</div>
       )}
-      <div className="text-[8px] mt-1.5 font-mono" style={{ color: 'var(--tile-tag)' }}>
+      <div className="text-sm mt-1.5 font-mono" style={{ color: 'var(--tile-tag)' }}>
         {project.tags.join(' · ')}
       </div>
-      <div className="text-[8px] leading-none mt-2 font-mono" style={{ color: 'var(--tile-chrome)' }}>{bot}</div>
+      <div className="text-sm leading-none mt-2 font-mono" style={{ color: 'var(--tile-chrome)' }}>{bot}</div>
     </motion.div>
   )
 }

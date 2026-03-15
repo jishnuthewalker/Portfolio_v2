@@ -7,7 +7,7 @@ export function HeroBox({ onAboutOpen, onFilterChange, onOpenProject, onPaletteO
   return (
     <div className="border border-border rounded-sm mb-6 overflow-hidden bg-surface">
       <HeroTitlebar onAboutOpen={onAboutOpen} onPaletteOpen={onPaletteOpen} />
-      <div className="px-7 pt-6 pb-5">
+      <div className="px-4 pt-5 pb-4 sm:px-7 sm:pt-6 sm:pb-5">
         <BigName />
         <RoleLine />
       </div>
@@ -26,7 +26,7 @@ function HeroTitlebar({ onAboutOpen, onPaletteOpen }) {
       <span className="text-brand font-bold tracking-wide font-mono text-accent">
         जेदी
       </span>
-      <nav className="flex gap-4 items-center">
+      <nav className="flex gap-2 sm:gap-4 items-center">
         <a
           href="#projects"
           className="text-faint no-underline text-ui font-mono transition-colors duration-150 hover:text-accent"
@@ -44,7 +44,7 @@ function HeroTitlebar({ onAboutOpen, onPaletteOpen }) {
           href="https://blog.jishnuthewalker.com"
           target="_blank"
           rel="noreferrer"
-          className="text-faint no-underline text-ui font-mono transition-colors duration-150 hover:text-accent"
+          className="hidden sm:inline text-faint no-underline text-ui font-mono transition-colors duration-150 hover:text-accent"
         >
           blog
         </a>
@@ -52,7 +52,7 @@ function HeroTitlebar({ onAboutOpen, onPaletteOpen }) {
           href="https://drive.google.com/file/d/1RIVWbv4fpKQe4n8QgOEw5IhPWOxXeInc/view?pli=1"
           target="_blank"
           rel="noreferrer"
-          className="text-faint no-underline text-ui font-mono transition-colors duration-150 hover:text-accent"
+          className="hidden sm:inline text-faint no-underline text-ui font-mono transition-colors duration-150 hover:text-accent"
         >
           resume
         </a>
@@ -60,7 +60,7 @@ function HeroTitlebar({ onAboutOpen, onPaletteOpen }) {
         <button
           type="button"
           onClick={onPaletteOpen}
-          className="flex items-center gap-0.5 bg-transparent border-0 cursor-pointer p-0 group"
+          className="hidden sm:flex items-center gap-0.5 bg-transparent border-0 cursor-pointer p-0 group"
           title="Open command palette"
         >
           {[/Mac|iPhone|iPad/i.test(typeof navigator !== 'undefined' ? navigator.platform : '') ? '⌘' : 'Ctrl', 'K'].map((k, i) => (
@@ -134,7 +134,7 @@ function BigName() {
 function RoleLine() {
   return (
     <motion.div
-      className="flex items-center gap-2.5 mb-3.5"
+      className="flex items-center flex-wrap gap-x-2.5 gap-y-1 mb-3.5"
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.3 }}
@@ -142,7 +142,7 @@ function RoleLine() {
       <span className="text-heading font-bold font-mono text-accent">
         Founding Designer
       </span>
-      <span className="text-dim">·</span>
+      <span className="text-dim hidden sm:inline">·</span>
       <span className="text-base text-muted font-mono">Nudge · IIT Bombay · Bangalore</span>
     </motion.div>
   )

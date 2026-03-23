@@ -2,6 +2,8 @@ import { useEffect, useCallback } from 'react'
 
 /**
  * Shared modal behaviour: Escape key close, body scroll lock.
+ * Uses a CSS class (not inline style) so it wins over Excalidraw's
+ * own body overflow manipulation via !important.
  * @param {boolean} isOpen
  * @param {() => void} onClose
  */
@@ -12,10 +14,10 @@ export function useModal(isOpen, onClose) {
 
   useEffect(() => {
     if (!isOpen) return
-    document.body.style.overflow = 'hidden'
+    document.body.classList.add('modal-open')
     document.addEventListener('keydown', handleKeyDown)
     return () => {
-      document.body.style.overflow = ''
+      document.body.classList.remove('modal-open')
       document.removeEventListener('keydown', handleKeyDown)
     }
   }, [isOpen, handleKeyDown])

@@ -2,10 +2,15 @@ import { useState } from 'react'
 import { Excalidraw } from '@excalidraw/excalidraw'
 import '@excalidraw/excalidraw/index.css'
 
+// Computed once at module load, not on every render.
+// Guards against SSR / non-browser environments.
+const isTouchDevice = typeof window !== 'undefined'
+  ? ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+  : false
+
 export function CanvasPlayground() {
   // On touch devices, Excalidraw's touch-action:none hijacks page scroll.
   // Only mount Excalidraw after the user deliberately taps into the section.
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
   const [activated, setActivated] = useState(!isTouchDevice)
 
   return (
@@ -36,7 +41,7 @@ export function CanvasPlayground() {
             className="h-full flex flex-col items-center justify-center cursor-pointer gap-3"
             onClick={() => setActivated(true)}
           >
-            <span className="text-2xl">✏️</span>
+            <span className="text-2xl" aria-hidden="true">✏️</span>
             <span className="text-muted text-sm font-mono">tap to draw</span>
           </div>
         )}

@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700;900&display=swap');
 @import "tailwindcss";
 
+/* Scroll lock for modals — uses !important to win over Excalidraw's inline overflow */
+body.modal-open {
+  overflow: hidden !important;
+}
+
 /* Tailwind v4 CSS-first theme — overrides --font-mono, adds --font-display */
 @theme {
   /* ── Fonts ───────────────────────────────────────────────────────────── */

@@ -21,10 +21,12 @@ export function CanvasOverlay({ isOpen, onClose }) {
   useModal(isOpen, onClose)
 
   // Fetch snapshot on first open; subsequent opens use the module-level cache.
+  // State is set only inside async callbacks to avoid setState-in-effect lint error.
   useEffect(() => {
     if (!isOpen) return
-    setError(null)
-    loadSnapshot().then(setSnapshot).catch(setError)
+    loadSnapshot()
+      .then(data => { setSnapshot(data); setError(null) })
+      .catch(err => setError(err))
   }, [isOpen])
 
   if (!isOpen) return null

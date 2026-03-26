@@ -24,7 +24,24 @@
       "Bash(git add:*)",
       "Bash(node:*)",
       "Bash(npm:*)",
-      "Bash(git:*)"
+      "Bash(git:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(cp -r /tmp/p5-sketches/sketches /d/my_stuff/developer/Developer/Developer/portfolio/public/p5/sketches)",
+      "Bash(cp -r /tmp/p5-sketches/assets /d/my_stuff/developer/Developer/Developer/portfolio/public/p5/assets)",
+      "Bash(cp -r /tmp/p5-sketches/src /d/my_stuff/developer/Developer/Developer/portfolio/public/p5/src)",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Read(//d/my_stuff/developer/Developer/Developer/portfolio/**)",
+      "Bash(done)",
+      "Bash(\"C:/Users/Jishnu Diwakar/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.5/skills/brainstorming/scripts/start-server.sh\" --project-dir \"D:/my_stuff/developer/Developer/Developer/portfolio\")",
+      "WebFetch(domain:tldraw.dev)",
+      "WebFetch(domain:bundlephobia.com)",
+      "WebSearch",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(node -e \":*)",
+      "Bash(npx eslint:*)"
     ]
   },
   "enabledPlugins": {

@@ -15,6 +15,9 @@ export function ProjectModal({ projectId, onClose }) {
   const isOpen  = !!project
   useModal(isOpen, onClose)
   const c = project ? COLOR_MAP[project.colorKey] : null
+  const imageSrc = project?.heroImage?.startsWith('/')
+    ? `${import.meta.env.BASE_URL}${project.heroImage.slice(1)}`
+    : project?.heroImage
 
   const titleRef    = useRef(null)
   const roleRef     = useRef(null)
@@ -24,10 +27,14 @@ export function ProjectModal({ projectId, onClose }) {
   useEffect(() => {
     if (!isOpen || !project) return
     const rafs = []
+    const titleEl = titleRef.current
+    const roleEl = roleRef.current
+    const durationEl = durationRef.current
+    const typeEl = typeRef.current
 
     // ── Glitch flash on title ──────────────────────────────
-    if (titleRef.current) {
-      titleRef.current.animate([
+    if (titleEl) {
+      titleEl.animate([
         { textShadow: '-27px 0 rgba(255,0,60,.9), 27px 0 rgba(0,229,255,.9)' },
         { textShadow: '13px 0 rgba(255,0,60,.55), -13px 0 rgba(0,229,255,.55)', offset: 0.3 },
         { textShadow: '-4px 0 rgba(255,0,60,.1), 4px 0 rgba(0,229,255,.1)',     offset: 0.65 },
@@ -66,10 +73,10 @@ export function ProjectModal({ projectId, onClose }) {
 
     return () => {
       rafs.forEach(cancelAnimationFrame)
-      titleRef.current?.getAnimations().forEach(a => a.cancel())
-      if (roleRef.current)     roleRef.current.textContent     = project.role     || ''
-      if (durationRef.current) durationRef.current.textContent = project.duration  || ''
-      if (typeRef.current)     typeRef.current.textContent     = project.type      || ''
+      titleEl?.getAnimations().forEach(a => a.cancel())
+      if (roleEl) roleEl.textContent = project.role || ''
+      if (durationEl) durationEl.textContent = project.duration || ''
+      if (typeEl) typeEl.textContent = project.type || ''
     }
   }, [isOpen, projectId]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -185,13 +192,13 @@ export function ProjectModal({ projectId, onClose }) {
                   )}
 
                   {/* Hero image */}
-                  {project.heroImage && (
+                  {imageSrc && (
                     <div
                       className="w-full rounded-[2px] overflow-hidden mb-4"
                       style={{ border: `1px solid ${c.borderRest}` }}
                     >
                       <img
-                        src={project.heroImage}
+                        src={imageSrc}
                         alt={`${project.title} preview`}
                         className="w-full block object-cover"
                         style={{ maxHeight: '300px', objectPosition: 'top' }}

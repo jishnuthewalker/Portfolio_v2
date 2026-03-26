@@ -1,4 +1,4 @@
-import { useRef, useCallback, useEffect } from 'react'
+﻿import { useRef, useCallback, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useScramble } from '../hooks/useScramble'
 import { TerminalPrompt } from './TerminalPrompt'
@@ -21,11 +21,15 @@ export function HeroBox({ onAboutOpen, onFilterChange, onOpenProject, onPaletteO
 }
 
 function HeroTitlebar({ onAboutOpen, onPaletteOpen }) {
+  const logoSrc = `${import.meta.env.BASE_URL}images/Logos/Logo%20%20Light%20Theme.svg`
+
   return (
     <div className="flex items-center justify-between px-4 py-2 border-b border-border text-base">
-      <span className="text-brand font-bold tracking-wide font-mono text-accent">
-        जेदी
-      </span>
+      <img
+        src={logoSrc}
+        alt="Jishnu logo"
+        className="h-7 w-auto"
+      />
       <nav className="flex gap-2 sm:gap-4 items-center">
         <a
           href="#projects"
@@ -56,14 +60,14 @@ function HeroTitlebar({ onAboutOpen, onPaletteOpen }) {
         >
           resume
         </a>
-        {/* ⌘K / Ctrl+K hint — opens command palette */}
+        {/* âŒ˜K / Ctrl+K hint â€” opens command palette */}
         <button
           type="button"
           onClick={onPaletteOpen}
           className="hidden sm:flex items-center gap-0.5 bg-transparent border-0 cursor-pointer p-0 group"
           title="Open command palette"
         >
-          {[/Mac|iPhone|iPad/i.test(typeof navigator !== 'undefined' ? navigator.platform : '') ? '⌘' : 'Ctrl', 'K'].map((k, i) => (
+          {[/Mac|iPhone|iPad/i.test(typeof navigator !== 'undefined' ? navigator.platform : '') ? 'âŒ˜' : 'Ctrl', 'K'].map((k, i) => (
             <kbd
               key={i}
               className="text-sm font-mono px-1 py-0.5 rounded-[2px] leading-none bg-kbd-bg border border-border-lt text-faint group-hover:text-accent group-hover:border-accent-border-2 transition-colors duration-150"
@@ -78,7 +82,7 @@ function HeroTitlebar({ onAboutOpen, onPaletteOpen }) {
           rel="noreferrer"
           className="text-ui font-mono px-2 py-0.5 rounded-[2px] text-accent border border-accent-border-2 transition-colors duration-150 hover:bg-accent-bg"
         >
-          nudge ↗
+          nudge â†—
         </a>
       </nav>
     </div>
@@ -134,16 +138,20 @@ function BigName() {
 function RoleLine() {
   return (
     <motion.div
-      className="flex items-center flex-wrap gap-x-2.5 gap-y-1 mb-3.5"
+      className="flex items-baseline flex-wrap gap-y-1 mb-3.5"
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.3 }}
     >
-      <span className="text-heading font-bold font-mono text-accent">
+      <span className="text-heading font-bold font-mono text-accent leading-none">
         Founding Designer
       </span>
-      <span className="text-dim hidden sm:inline">·</span>
-      <span className="text-base text-muted font-mono">Nudge · IIT Bombay · Bangalore</span>
+      <span className="text-muted hidden sm:inline px-2 leading-none">{'\u00B7'}</span>
+      <span className="text-base text-muted font-mono leading-none">Nudge</span>
+      <span className="text-muted hidden sm:inline px-2 leading-none">{'\u00B7'}</span>
+      <span className="text-base text-muted font-mono leading-none">IIT Bombay</span>
+      <span className="text-muted hidden sm:inline px-2 leading-none">{'\u00B7'}</span>
+      <span className="text-base text-muted font-mono leading-none">Bangalore</span>
     </motion.div>
   )
 }

@@ -14,6 +14,13 @@ export function ProjectsSection({ onOpenProject, activeFilter, onFilterChange })
     if (window.location.hash === '#projects') {
       setIsOpen(true)
     }
+    function handleHashChange() {
+      if (window.location.hash === '#projects') {
+        setIsOpen(true)
+      }
+    }
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
   }, [])
 
   // reset + re-trigger stagger every time section opens

@@ -41,7 +41,17 @@
       "WebSearch",
       "WebFetch(domain:www.npmjs.com)",
       "Bash(node -e \":*)",
-      "Bash(npx eslint:*)"
+      "Bash(npx eslint:*)",
+      "Bash(gh run:*)",
+      "Bash(curl -s \"https://api.github.com/repos/jishnuthewalker/Portfolio_v2/actions/runs?per_page=3\")",
+      "Bash(python3 -c \"import sys,json; runs=json.load\\(sys.stdin\\)[''''workflow_runs'''']; [print\\(r[''''id''''], r[''''status''''], r[''''conclusion''''], r[''''head_commit''''][''''message''''][:60]\\) for r in runs]\")",
+      "Bash(curl -s \"https://api.github.com/repos/jishnuthewalker/Portfolio_v2/actions/runs/23615886557/jobs\")",
+      "Bash(curl -s \"https://api.github.com/repos/jishnuthewalker/Portfolio_v2/actions/runs/23615886557/logs\" -L -o /tmp/logs.zip)",
+      "Bash(python3 -c \"import zipfile; z=zipfile.ZipFile\\(''/tmp/logs.zip''\\); [print\\(n\\) for n in z.namelist\\(\\)]\")",
+      "Bash(curl -s \"https://api.github.com/repos/jishnuthewalker/Portfolio_v2/actions/runs/23615886557/logs\" -L -o \"$TEMP/logs.zip\")",
+      "Bash(python3 -c \"import zipfile,os; z=zipfile.ZipFile\\(os.environ[''TEMP'']+''/logs.zip''\\); install_log=[n for n in z.namelist\\(\\) if ''Install'' in n]; print\\(install_log\\); print\\(z.read\\(install_log[0]\\).decode\\(''utf-8'', errors=''replace''\\)[-3000:]\\)\")",
+      "Bash(bash \"C:/Users/Jishnu Diwakar/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.6/skills/brainstorming/scripts/start-server.sh\" --project-dir \"D:/my_stuff/developer/Developer/Developer/portfolio\")",
+      "Bash(cat \"D:/my_stuff/developer/Developer/Developer/portfolio/.superpowers/brainstorm/\"*/state/server-info)"
     ]
   },
   "enabledPlugins": {
